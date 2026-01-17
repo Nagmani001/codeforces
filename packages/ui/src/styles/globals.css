@@ -2,7 +2,6 @@
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
-
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -118,27 +117,24 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  @keyframes fadeSlideIn {
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
     to {
-      opacity: 1;
-      filter: blur(0px);
-      transform: translateY(0px);
+      height: var(--radix-accordion-content-height);
     }
   }
 
-  @keyframes slideRightIn {
-    to {
-      opacity: 1;
-      filter: blur(0px);
-      transform: translateX(0px);
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
     }
-  }
-
-  @keyframes testimonialIn {
     to {
-      opacity: 1;
-      filter: blur(0px);
-      transform: translateY(0px) scale(1);
+      height: 0;
     }
   }
 }
@@ -147,7 +143,6 @@
   * {
     @apply border-border outline-ring/50;
   }
-
   body {
     @apply bg-background text-foreground;
   }

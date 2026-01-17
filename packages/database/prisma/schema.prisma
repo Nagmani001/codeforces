@@ -112,7 +112,7 @@ model Submission {
   code          String?
   language      Language       @default(CPP)
   status        ProblemStatus  @default(UNSOLVED) //  should this be in problems table 
-  // no since my problems table contain userId which is of admin , better way ? , ask kirat
+  // no since my problems table contain userId which is of admin , better way ? 
   resultVerdict ResultVerdict?
   problemId     String
   problem       Problems       @relation(fields: [problemId], references: [id])
