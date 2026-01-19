@@ -107,12 +107,17 @@ model Problems {
   submission       Submission[]
 }
 
+model ProblemTag {
+  id       String     @id @default(uuid())
+  title    String     @unique
+  problems Problems[]
+}
+
 model Submission {
   id            String         @id @default(uuid())
   code          String?
   language      Language       @default(CPP)
-  status        ProblemStatus  @default(UNSOLVED) //  should this be in problems table 
-  // no since my problems table contain userId which is of admin , better way ? 
+  status        ProblemStatus  @default(UNSOLVED)
   resultVerdict ResultVerdict?
   problemId     String
   problem       Problems       @relation(fields: [problemId], references: [id])
@@ -157,23 +162,6 @@ enum ProblemStatus {
   SOLVED
   ATTEMPTED
   UNSOLVED
-}
-
-enum ProblemTag {
-  ARRAY
-  BINARY_SEARCH
-  DIVIDE_AND_CONQUER
-  DYNAMIC_PROGRAMMING
-  GREEDY
-  HASH_TABLE
-  LINKED_LIST
-  MATH
-  RECURSION
-  SLIDING_WINDOW
-  SORTING
-  STRING
-  TRIE
-  TWO_POINTERS
 }
 
 enum Language {

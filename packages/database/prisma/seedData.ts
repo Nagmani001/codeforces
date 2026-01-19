@@ -1,0 +1,1764 @@
+export const problemTags = [
+  { title: "Array" },
+  { title: "Binary Search" },
+  { title: "Divide and Conquer" },
+  { title: "Dynamic Programming" },
+  { title: "Greedy" },
+  { title: "Hash Table" },
+  { title: "Linked List" },
+  { title: "Math" },
+  { title: "Recursion" },
+  { title: "Sliding Window" },
+  { title: "Sorting" },
+  { title: "String" },
+  { title: "Trie" },
+  { title: "Two Pointers" },
+];
+
+export type ProblemSeed = {
+  title: string;
+  description: string;
+  problemType: "EASY" | "MEDIUM" | "HARD";
+  cpuTimeLimit: number;
+  memoryTimeLimit: number;
+  tags: string[];
+  visibleTestCases: { input: string; output: string }[];
+  hiddenTestCases: { input: string; output: string }[];
+};
+
+export const problemsData: ProblemSeed[] = [
+  // ==================== EASY PROBLEMS (1-20) ====================
+  {
+    title: "Two Sum",
+    description: `# Two Sum
+
+Given an array of integers \`nums\` and an integer \`target\`, return indices of the two numbers such that they add up to \`target\`.
+
+You may assume that each input would have **exactly one solution**, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: nums = [3,3], target = 6
+Output: [0,1]
+\`\`\`
+
+## Constraints
+
+- \`2 <= nums.length <= 10^4\`
+- \`-10^9 <= nums[i] <= 10^9\`
+- \`-10^9 <= target <= 10^9\`
+- Only one valid answer exists.`,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Hash Table"],
+    visibleTestCases: [
+      { input: "[2,7,11,15]\n9", output: "[0,1]" },
+      { input: "[3,2,4]\n6", output: "[1,2]" },
+      { input: "[3,3]\n6", output: "[0,1]" },
+    ],
+    hiddenTestCases: [
+      { input: "[1,2,3,4,5]\n9", output: "[3,4]" },
+      { input: "[0,4,3,0]\n0", output: "[0,3]" },
+      { input: "[-1,-2,-3,-4,-5]\n-8", output: "[2,4]" },
+      { input: "[1,5,1,5]\n10", output: "[1,3]" },
+      { input: "[2,5,5,11]\n10", output: "[1,2]" },
+      { input: "[1,2]\n3", output: "[0,1]" },
+      { input: "[100,200,300,400]\n700", output: "[2,3]" },
+      { input: "[1,1,1,1,1,4,1,1,1,1,5]\n9", output: "[5,10]" },
+    ],
+  },
+  {
+    title: "Palindrome Number",
+    description: `# Palindrome Number
+
+Given an integer \`x\`, return \`true\` if \`x\` is a palindrome, and \`false\` otherwise.
+
+An integer is a palindrome when it reads the same forward and backward.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: x = 121
+Output: true
+Explanation: 121 reads as 121 from left to right and from right to left.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: x = -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: x = 10
+Output: false
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+\`\`\`
+
+## Constraints
+
+- \`-2^31 <= x <= 2^31 - 1\`
+
+**Follow up:** Could you solve it without converting the integer to a string?`,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Math"],
+    visibleTestCases: [
+      { input: "121", output: "true" },
+      { input: "-121", output: "false" },
+      { input: "10", output: "false" },
+    ],
+    hiddenTestCases: [
+      { input: "0", output: "true" },
+      { input: "1", output: "true" },
+      { input: "11", output: "true" },
+      { input: "1221", output: "true" },
+      { input: "12321", output: "true" },
+      { input: "123", output: "false" },
+      { input: "-1", output: "false" },
+      { input: "1000021", output: "false" },
+      { input: "2147483647", output: "false" },
+      { input: "1234321", output: "true" },
+    ],
+  },
+  {
+    title: "Roman to Integer",
+    description: `# Roman to Integer
+
+Roman numerals are represented by seven different symbols: \`I\`, \`V\`, \`X\`, \`L\`, \`C\`, \`D\` and \`M\`.
+
+| Symbol | Value |
+|--------|-------|
+| I      | 1     |
+| V      | 5     |
+| X      | 10    |
+| L      | 50    |
+| C      | 100   |
+| D      | 500   |
+| M      | 1000  |
+
+Given a roman numeral, convert it to an integer.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: s = "III"
+Output: 3
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: s = "LVIII"
+Output: 58
+Explanation: L = 50, V= 5, III = 3.
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: s = "MCMXCIV"
+Output: 1994
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+\`\`\`
+
+## Constraints
+
+- \`1 <= s.length <= 15\`
+- \`s\` contains only the characters \`('I', 'V', 'X', 'L', 'C', 'D', 'M')\`
+- It is guaranteed that \`s\` is a valid roman numeral in the range \`[1, 3999]\``,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Hash Table", "Math", "String"],
+    visibleTestCases: [
+      { input: "III", output: "3" },
+      { input: "LVIII", output: "58" },
+      { input: "MCMXCIV", output: "1994" },
+    ],
+    hiddenTestCases: [
+      { input: "I", output: "1" },
+      { input: "IV", output: "4" },
+      { input: "IX", output: "9" },
+      { input: "XL", output: "40" },
+      { input: "XC", output: "90" },
+      { input: "CD", output: "400" },
+      { input: "CM", output: "900" },
+      { input: "MMMCMXCIX", output: "3999" },
+      { input: "DCCC", output: "800" },
+      { input: "XLII", output: "42" },
+    ],
+  },
+  {
+    title: "Valid Parentheses",
+    description: `# Valid Parentheses
+
+Given a string \`s\` containing just the characters \`'('\`, \`')'\`, \`'{'\`, \`'}'\`, \`'['\` and \`']'\`, determine if the input string is valid.
+
+An input string is valid if:
+1. Open brackets must be closed by the same type of brackets.
+2. Open brackets must be closed in the correct order.
+3. Every close bracket has a corresponding open bracket of the same type.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: s = "()"
+Output: true
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: s = "()[]{}"
+Output: true
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: s = "(]"
+Output: false
+\`\`\`
+
+## Constraints
+
+- \`1 <= s.length <= 10^4\`
+- \`s\` consists of parentheses only \`'()[]{}'\``,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["String", "Array"],
+    visibleTestCases: [
+      { input: "()", output: "true" },
+      { input: "()[]{}", output: "true" },
+      { input: "(]", output: "false" },
+    ],
+    hiddenTestCases: [
+      { input: "{[]}", output: "true" },
+      { input: "([)]", output: "false" },
+      { input: "{[()]}", output: "true" },
+      { input: "", output: "true" },
+      { input: "(", output: "false" },
+      { input: ")", output: "false" },
+      { input: "((((((()))))))", output: "true" },
+      { input: "[{()}]", output: "true" },
+      { input: "{{{{", output: "false" },
+      { input: "}}}}", output: "false" },
+    ],
+  },
+  {
+    title: "Merge Two Sorted Lists",
+    description: `# Merge Two Sorted Lists
+
+You are given the heads of two sorted linked lists \`list1\` and \`list2\`.
+
+Merge the two lists into one **sorted** list. The list should be made by splicing together the nodes of the first two lists.
+
+Return the head of the merged linked list.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: list1 = [], list2 = []
+Output: []
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: list1 = [], list2 = [0]
+Output: [0]
+\`\`\`
+
+## Constraints
+
+- The number of nodes in both lists is in the range \`[0, 50]\`
+- \`-100 <= Node.val <= 100\`
+- Both \`list1\` and \`list2\` are sorted in non-decreasing order`,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Linked List", "Recursion"],
+    visibleTestCases: [
+      { input: "[1,2,4]\n[1,3,4]", output: "[1,1,2,3,4,4]" },
+      { input: "[]\n[]", output: "[]" },
+      { input: "[]\n[0]", output: "[0]" },
+    ],
+    hiddenTestCases: [
+      { input: "[1]\n[2]", output: "[1,2]" },
+      { input: "[5]\n[1,2,4]", output: "[1,2,4,5]" },
+      { input: "[1,2,3]\n[4,5,6]", output: "[1,2,3,4,5,6]" },
+      { input: "[2,4,6]\n[1,3,5]", output: "[1,2,3,4,5,6]" },
+      { input: "[1,1,1]\n[1,1,1]", output: "[1,1,1,1,1,1]" },
+      { input: "[-5,-3,-1]\n[-4,-2,0]", output: "[-5,-4,-3,-2,-1,0]" },
+      { input: "[100]\n[-100]", output: "[-100,100]" },
+      { input: "[1,3,5,7,9]\n[2,4,6,8,10]", output: "[1,2,3,4,5,6,7,8,9,10]" },
+    ],
+  },
+  {
+    title: "Remove Duplicates from Sorted Array",
+    description: `# Remove Duplicates from Sorted Array
+
+Given an integer array \`nums\` sorted in **non-decreasing order**, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same.
+
+Return \`k\` after placing the final result in the first \`k\` slots of \`nums\`.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [1,1,2]
+Output: 2, nums = [1,2,_]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [0,0,1,1,1,2,2,3,3,4]
+Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+\`\`\`
+
+## Constraints
+
+- \`1 <= nums.length <= 3 * 10^4\`
+- \`-100 <= nums[i] <= 100\`
+- \`nums\` is sorted in non-decreasing order`,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Two Pointers"],
+    visibleTestCases: [
+      { input: "[1,1,2]", output: "2" },
+      { input: "[0,0,1,1,1,2,2,3,3,4]", output: "5" },
+      { input: "[1]", output: "1" },
+    ],
+    hiddenTestCases: [
+      { input: "[1,1,1,1,1]", output: "1" },
+      { input: "[1,2,3,4,5]", output: "5" },
+      { input: "[-1,0,0,0,1,1,2]", output: "4" },
+      { input: "[0,0,0,0,0,0,0,0,0,1]", output: "2" },
+      { input: "[-100,-100,0,0,100,100]", output: "3" },
+      { input: "[1,1,2,2,3,3,4,4,5,5]", output: "5" },
+      { input: "[0]", output: "1" },
+      { input: "[1,2]", output: "2" },
+    ],
+  },
+  {
+    title: "Search Insert Position",
+    description: `# Search Insert Position
+
+Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You must write an algorithm with \`O(log n)\` runtime complexity.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [1,3,5,6], target = 5
+Output: 2
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [1,3,5,6], target = 2
+Output: 1
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: nums = [1,3,5,6], target = 7
+Output: 4
+\`\`\`
+
+## Constraints
+
+- \`1 <= nums.length <= 10^4\`
+- \`-10^4 <= nums[i] <= 10^4\`
+- \`nums\` contains distinct values sorted in ascending order
+- \`-10^4 <= target <= 10^4\``,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Binary Search"],
+    visibleTestCases: [
+      { input: "[1,3,5,6]\n5", output: "2" },
+      { input: "[1,3,5,6]\n2", output: "1" },
+      { input: "[1,3,5,6]\n7", output: "4" },
+    ],
+    hiddenTestCases: [
+      { input: "[1,3,5,6]\n0", output: "0" },
+      { input: "[1]\n0", output: "0" },
+      { input: "[1]\n2", output: "1" },
+      { input: "[1]\n1", output: "0" },
+      { input: "[1,2,3,4,5,6,7,8,9,10]\n5", output: "4" },
+      { input: "[2,4,6,8,10]\n5", output: "2" },
+      { input: "[-10,-5,0,5,10]\n-7", output: "1" },
+      { input: "[1,3,5,7,9,11,13]\n12", output: "6" },
+    ],
+  },
+  {
+    title: "Maximum Subarray",
+    description: `# Maximum Subarray
+
+Given an integer array \`nums\`, find the subarray with the largest sum, and return its sum.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [1]
+Output: 1
+Explanation: The subarray [1] has the largest sum 1.
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: nums = [5,4,-1,7,8]
+Output: 23
+Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+\`\`\`
+
+## Constraints
+
+- \`1 <= nums.length <= 10^5\`
+- \`-10^4 <= nums[i] <= 10^4\`
+
+**Follow up:** If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach.`,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Divide and Conquer", "Dynamic Programming"],
+    visibleTestCases: [
+      { input: "[-2,1,-3,4,-1,2,1,-5,4]", output: "6" },
+      { input: "[1]", output: "1" },
+      { input: "[5,4,-1,7,8]", output: "23" },
+    ],
+    hiddenTestCases: [
+      { input: "[-1]", output: "-1" },
+      { input: "[-2,-1]", output: "-1" },
+      { input: "[1,2,3,4,5]", output: "15" },
+      { input: "[-1,-2,-3,-4,-5]", output: "-1" },
+      { input: "[0,0,0,0]", output: "0" },
+      { input: "[1,-1,1,-1,1]", output: "1" },
+      { input: "[-2,1]", output: "1" },
+      { input: "[8,-19,5,-4,20]", output: "21" },
+      { input: "[100,-101,100]", output: "100" },
+      { input: "[1,2,-1,3,4,-5,6]", output: "10" },
+    ],
+  },
+  {
+    title: "Length of Last Word",
+    description: `# Length of Last Word
+
+Given a string \`s\` consisting of words and spaces, return the length of the **last** word in the string.
+
+A **word** is a maximal substring consisting of non-space characters only.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: s = "Hello World"
+Output: 5
+Explanation: The last word is "World" with length 5.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: s = "   fly me   to   the moon  "
+Output: 4
+Explanation: The last word is "moon" with length 4.
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: s = "luffy is still joyboy"
+Output: 6
+Explanation: The last word is "joyboy" with length 6.
+\`\`\`
+
+## Constraints
+
+- \`1 <= s.length <= 10^4\`
+- \`s\` consists of only English letters and spaces \`' '\`
+- There will be at least one word in \`s\``,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["String"],
+    visibleTestCases: [
+      { input: "Hello World", output: "5" },
+      { input: "   fly me   to   the moon  ", output: "4" },
+      { input: "luffy is still joyboy", output: "6" },
+    ],
+    hiddenTestCases: [
+      { input: "a", output: "1" },
+      { input: "a ", output: "1" },
+      { input: " a", output: "1" },
+      { input: "day", output: "3" },
+      { input: "Hello", output: "5" },
+      { input: "   spaces   ", output: "6" },
+      { input: "Today is a nice day", output: "3" },
+      { input: "abc def ghi", output: "3" },
+    ],
+  },
+  {
+    title: "Plus One",
+    description: `# Plus One
+
+You are given a **large integer** represented as an integer array \`digits\`, where each \`digits[i]\` is the \`i-th\` digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+
+Increment the large integer by one and return the resulting array of digits.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: digits = [1,2,3]
+Output: [1,2,4]
+Explanation: The array represents the integer 123. Incrementing by one gives 123 + 1 = 124.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: digits = [4,3,2,1]
+Output: [4,3,2,2]
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: digits = [9]
+Output: [1,0]
+\`\`\`
+
+## Constraints
+
+- \`1 <= digits.length <= 100\`
+- \`0 <= digits[i] <= 9\`
+- \`digits\` does not contain any leading 0's`,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Math"],
+    visibleTestCases: [
+      { input: "[1,2,3]", output: "[1,2,4]" },
+      { input: "[4,3,2,1]", output: "[4,3,2,2]" },
+      { input: "[9]", output: "[1,0]" },
+    ],
+    hiddenTestCases: [
+      { input: "[0]", output: "[1]" },
+      { input: "[9,9]", output: "[1,0,0]" },
+      { input: "[9,9,9]", output: "[1,0,0,0]" },
+      { input: "[1,9,9]", output: "[2,0,0]" },
+      { input: "[8,9,9,9]", output: "[9,0,0,0]" },
+      { input: "[1,0,0,0]", output: "[1,0,0,1]" },
+      { input: "[5,5,5,5]", output: "[5,5,5,6]" },
+      { input: "[2,4,9,3,9]", output: "[2,4,9,4,0]" },
+    ],
+  },
+  {
+    title: "Climbing Stairs",
+    description: `# Climbing Stairs
+
+You are climbing a staircase. It takes \`n\` steps to reach the top. Each time you can either climb \`1\` or \`2\` steps. In how many distinct ways can you climb to the top?
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: n = 2
+Output: 2
+Explanation: There are two ways: (1+1) and (2).
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: n = 3
+Output: 3
+Explanation: (1+1+1), (1+2), (2+1).
+\`\`\`
+
+## Constraints
+- \`1 <= n <= 45\``,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Math", "Dynamic Programming", "Recursion"],
+    visibleTestCases: [
+      { input: "2", output: "2" },
+      { input: "3", output: "3" },
+      { input: "4", output: "5" },
+    ],
+    hiddenTestCases: [
+      { input: "1", output: "1" },
+      { input: "5", output: "8" },
+      { input: "10", output: "89" },
+      { input: "20", output: "10946" },
+      { input: "45", output: "1836311903" },
+    ],
+  },
+  {
+    title: "Binary Search",
+    description: `# Binary Search
+
+Given an array of integers \`nums\` sorted in ascending order, and an integer \`target\`, write a function to search \`target\` in \`nums\`. If \`target\` exists, return its index. Otherwise, return \`-1\`.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [-1,0,3,5,9,12], target = 9
+Output: 4
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [-1,0,3,5,9,12], target = 2
+Output: -1
+\`\`\`
+
+## Constraints
+- \`1 <= nums.length <= 10^4\`
+- All integers in \`nums\` are unique
+- \`nums\` is sorted in ascending order`,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Binary Search"],
+    visibleTestCases: [
+      { input: "[-1,0,3,5,9,12]\n9", output: "4" },
+      { input: "[-1,0,3,5,9,12]\n2", output: "-1" },
+      { input: "[5]\n5", output: "0" },
+    ],
+    hiddenTestCases: [
+      { input: "[1]\n1", output: "0" },
+      { input: "[1]\n2", output: "-1" },
+      { input: "[1,2,3,4,5]\n1", output: "0" },
+      { input: "[1,2,3,4,5]\n5", output: "4" },
+      { input: "[1,2,3,4,5]\n3", output: "2" },
+      { input: "[-100,-50,0,50,100]\n-100", output: "0" },
+      { input: "[-100,-50,0,50,100]\n100", output: "4" },
+    ],
+  },
+  {
+    title: "Reverse String",
+    description: `# Reverse String
+
+Write a function that reverses a string. The input string is given as an array of characters \`s\`. You must do this by modifying the input array in-place with \`O(1)\` extra memory.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: s = ["h","e","l","l","o"]
+Output: ["o","l","l","e","h"]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: s = ["H","a","n","n","a","h"]
+Output: ["h","a","n","n","a","H"]
+\`\`\`
+
+## Constraints
+- \`1 <= s.length <= 10^5\`
+- \`s[i]\` is a printable ASCII character`,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Two Pointers", "String"],
+    visibleTestCases: [
+      { input: '["h","e","l","l","o"]', output: '["o","l","l","e","h"]' },
+      { input: '["H","a","n","n","a","h"]', output: '["h","a","n","n","a","H"]' },
+    ],
+    hiddenTestCases: [
+      { input: '["a"]', output: '["a"]' },
+      { input: '["a","b"]', output: '["b","a"]' },
+      { input: '["A","B","C","D","E"]', output: '["E","D","C","B","A"]' },
+    ],
+  },
+  {
+    title: "FizzBuzz",
+    description: `# FizzBuzz
+
+Given an integer \`n\`, return a string array \`answer\` (1-indexed) where:
+- \`answer[i] == "FizzBuzz"\` if \`i\` is divisible by 3 and 5.
+- \`answer[i] == "Fizz"\` if \`i\` is divisible by 3.
+- \`answer[i] == "Buzz"\` if \`i\` is divisible by 5.
+- \`answer[i] == i\` (as a string) if none of the above conditions are true.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: n = 3
+Output: ["1","2","Fizz"]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: n = 15
+Output: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+\`\`\`
+
+## Constraints
+- \`1 <= n <= 10^4\``,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Math", "String"],
+    visibleTestCases: [
+      { input: "3", output: '["1","2","Fizz"]' },
+      { input: "5", output: '["1","2","Fizz","4","Buzz"]' },
+    ],
+    hiddenTestCases: [
+      { input: "1", output: '["1"]' },
+      { input: "15", output: '["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]' },
+    ],
+  },
+  {
+    title: "Single Number",
+    description: `# Single Number
+
+Given a non-empty array of integers \`nums\`, every element appears twice except for one. Find that single one.
+
+You must implement a solution with \`O(n)\` time complexity and \`O(1)\` extra space.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [2,2,1]
+Output: 1
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [4,1,2,1,2]
+Output: 4
+\`\`\`
+
+## Constraints
+- \`1 <= nums.length <= 3 * 10^4\`
+- \`-3 * 10^4 <= nums[i] <= 3 * 10^4\``,
+    problemType: "EASY",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Math"],
+    visibleTestCases: [
+      { input: "[2,2,1]", output: "1" },
+      { input: "[4,1,2,1,2]", output: "4" },
+      { input: "[1]", output: "1" },
+    ],
+    hiddenTestCases: [
+      { input: "[1,1,2]", output: "2" },
+      { input: "[5,3,5,3,7]", output: "7" },
+      { input: "[-1,-1,2]", output: "2" },
+      { input: "[0,1,0]", output: "1" },
+    ],
+  },
+  // ==================== MEDIUM PROBLEMS ====================
+  {
+    title: "Add Two Numbers",
+    description: `# Add Two Numbers
+
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each node contains a single digit. Add the two numbers and return the sum as a linked list.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: l1 = [0], l2 = [0]
+Output: [0]
+\`\`\`
+
+## Constraints
+- The number of nodes in each linked list is in the range \`[1, 100]\`
+- \`0 <= Node.val <= 9\``,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Linked List", "Math", "Recursion"],
+    visibleTestCases: [
+      { input: "[2,4,3]\n[5,6,4]", output: "[7,0,8]" },
+      { input: "[0]\n[0]", output: "[0]" },
+    ],
+    hiddenTestCases: [
+      { input: "[9,9,9]\n[1]", output: "[0,0,0,1]" },
+      { input: "[1,8]\n[0]", output: "[1,8]" },
+      { input: "[9,9,9,9]\n[9,9,9,9]", output: "[8,9,9,9,1]" },
+    ],
+  },
+  {
+    title: "Longest Substring Without Repeating Characters",
+    description: `# Longest Substring Without Repeating Characters
+
+Given a string \`s\`, find the length of the longest substring without repeating characters.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: s = "bbbbb"
+Output: 1
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: s = "pwwkew"
+Output: 3
+\`\`\`
+
+## Constraints
+- \`0 <= s.length <= 5 * 10^4\`
+- \`s\` consists of English letters, digits, symbols and spaces`,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Hash Table", "String", "Sliding Window"],
+    visibleTestCases: [
+      { input: "abcabcbb", output: "3" },
+      { input: "bbbbb", output: "1" },
+      { input: "pwwkew", output: "3" },
+    ],
+    hiddenTestCases: [
+      { input: "", output: "0" },
+      { input: " ", output: "1" },
+      { input: "au", output: "2" },
+      { input: "dvdf", output: "3" },
+      { input: "abcdefghij", output: "10" },
+    ],
+  },
+  {
+    title: "Container With Most Water",
+    description: `# Container With Most Water
+
+You are given an integer array \`height\` of length \`n\`. Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The max area is between index 1 and 8.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: height = [1,1]
+Output: 1
+\`\`\`
+
+## Constraints
+- \`n == height.length\`
+- \`2 <= n <= 10^5\`
+- \`0 <= height[i] <= 10^4\``,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Two Pointers", "Greedy"],
+    visibleTestCases: [
+      { input: "[1,8,6,2,5,4,8,3,7]", output: "49" },
+      { input: "[1,1]", output: "1" },
+    ],
+    hiddenTestCases: [
+      { input: "[4,3,2,1,4]", output: "16" },
+      { input: "[1,2,1]", output: "2" },
+      { input: "[2,3,4,5,18,17,6]", output: "17" },
+    ],
+  },
+  {
+    title: "3Sum",
+    description: `# 3Sum
+
+Given an integer array nums, return all the triplets \`[nums[i], nums[j], nums[k]]\` such that \`i != j\`, \`i != k\`, and \`j != k\`, and \`nums[i] + nums[j] + nums[k] == 0\`.
+
+Notice that the solution set must not contain duplicate triplets.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [0,1,1]
+Output: []
+\`\`\`
+
+## Constraints
+- \`3 <= nums.length <= 3000\`
+- \`-10^5 <= nums[i] <= 10^5\``,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 2000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Two Pointers", "Sorting"],
+    visibleTestCases: [
+      { input: "[-1,0,1,2,-1,-4]", output: "[[-1,-1,2],[-1,0,1]]" },
+      { input: "[0,1,1]", output: "[]" },
+      { input: "[0,0,0]", output: "[[0,0,0]]" },
+    ],
+    hiddenTestCases: [
+      { input: "[-2,0,1,1,2]", output: "[[-2,0,2],[-2,1,1]]" },
+      { input: "[1,2,-2,-1]", output: "[]" },
+      { input: "[-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6]", output: "[[-4,-2,6],[-4,0,4],[-4,1,3],[-4,2,2],[-2,-2,4],[-2,0,2]]" },
+    ],
+  },
+  {
+    title: "Longest Palindromic Substring",
+    description: `# Longest Palindromic Substring
+
+Given a string \`s\`, return the longest palindromic substring in \`s\`.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: s = "babad"
+Output: "bab"
+Explanation: "aba" is also a valid answer.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: s = "cbbd"
+Output: "bb"
+\`\`\`
+
+## Constraints
+- \`1 <= s.length <= 1000\`
+- \`s\` consists of only digits and English letters`,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["String", "Dynamic Programming"],
+    visibleTestCases: [
+      { input: "babad", output: "bab" },
+      { input: "cbbd", output: "bb" },
+    ],
+    hiddenTestCases: [
+      { input: "a", output: "a" },
+      { input: "ac", output: "a" },
+      { input: "racecar", output: "racecar" },
+      { input: "aacabdkacaa", output: "aca" },
+    ],
+  },
+  {
+    title: "Merge Intervals",
+    description: `# Merge Intervals
+
+Given an array of \`intervals\` where \`intervals[i] = [starti, endi]\`, merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: intervals = [[1,4],[4,5]]
+Output: [[1,5]]
+\`\`\`
+
+## Constraints
+- \`1 <= intervals.length <= 10^4\`
+- \`intervals[i].length == 2\`
+- \`0 <= starti <= endi <= 10^4\``,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Sorting"],
+    visibleTestCases: [
+      { input: "[[1,3],[2,6],[8,10],[15,18]]", output: "[[1,6],[8,10],[15,18]]" },
+      { input: "[[1,4],[4,5]]", output: "[[1,5]]" },
+    ],
+    hiddenTestCases: [
+      { input: "[[1,4],[0,4]]", output: "[[0,4]]" },
+      { input: "[[1,4],[2,3]]", output: "[[1,4]]" },
+      { input: "[[1,4],[0,0]]", output: "[[0,0],[1,4]]" },
+    ],
+  },
+  {
+    title: "Group Anagrams",
+    description: `# Group Anagrams
+
+Given an array of strings \`strs\`, group the anagrams together. You can return the answer in any order.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: strs = ["eat","tea","tan","ate","nat","bat"]
+Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: strs = [""]
+Output: [[""]]
+\`\`\`
+
+## Constraints
+- \`1 <= strs.length <= 10^4\`
+- \`0 <= strs[i].length <= 100\`
+- \`strs[i]\` consists of lowercase English letters`,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Hash Table", "String", "Sorting"],
+    visibleTestCases: [
+      { input: '["eat","tea","tan","ate","nat","bat"]', output: '[["bat"],["nat","tan"],["ate","eat","tea"]]' },
+      { input: '[""]', output: '[[""]]' },
+      { input: '["a"]', output: '[["a"]]' },
+    ],
+    hiddenTestCases: [
+      { input: '["abc","bca","cab","xyz","zyx"]', output: '[["abc","bca","cab"],["xyz","zyx"]]' },
+      { input: '["",""]', output: '[["",""]]' },
+    ],
+  },
+  {
+    title: "Jump Game",
+    description: `# Jump Game
+
+You are given an integer array \`nums\`. You are initially positioned at the array's first index, and each element represents your maximum jump length at that position.
+
+Return \`true\` if you can reach the last index, or \`false\` otherwise.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [2,3,1,1,4]
+Output: true
+Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [3,2,1,0,4]
+Output: false
+\`\`\`
+
+## Constraints
+- \`1 <= nums.length <= 10^4\`
+- \`0 <= nums[i] <= 10^5\``,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Dynamic Programming", "Greedy"],
+    visibleTestCases: [
+      { input: "[2,3,1,1,4]", output: "true" },
+      { input: "[3,2,1,0,4]", output: "false" },
+    ],
+    hiddenTestCases: [
+      { input: "[0]", output: "true" },
+      { input: "[2,0]", output: "true" },
+      { input: "[2,0,0]", output: "true" },
+      { input: "[1,1,1,1]", output: "true" },
+      { input: "[1,0,1,0]", output: "false" },
+    ],
+  },
+  {
+    title: "Rotate Image",
+    description: `# Rotate Image
+
+You are given an \`n x n\` 2D \`matrix\` representing an image, rotate the image by 90 degrees (clockwise).
+
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [[7,4,1],[8,5,2],[9,6,3]]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+\`\`\`
+
+## Constraints
+- \`n == matrix.length == matrix[i].length\`
+- \`1 <= n <= 20\`
+- \`-1000 <= matrix[i][j] <= 1000\``,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Math"],
+    visibleTestCases: [
+      { input: "[[1,2,3],[4,5,6],[7,8,9]]", output: "[[7,4,1],[8,5,2],[9,6,3]]" },
+    ],
+    hiddenTestCases: [
+      { input: "[[1]]", output: "[[1]]" },
+      { input: "[[1,2],[3,4]]", output: "[[3,1],[4,2]]" },
+    ],
+  },
+  {
+    title: "Word Search",
+    description: `# Word Search
+
+Given an \`m x n\` grid of characters \`board\` and a string \`word\`, return \`true\` if \`word\` exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+Output: true
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+Output: true
+\`\`\`
+
+## Constraints
+- \`m == board.length\`
+- \`n == board[i].length\`
+- \`1 <= m, n <= 6\`
+- \`1 <= word.length <= 15\``,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 2000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Recursion", "String"],
+    visibleTestCases: [
+      { input: '[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]\nABCCED', output: "true" },
+      { input: '[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]\nSEE', output: "true" },
+      { input: '[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]\nABCB', output: "false" },
+    ],
+    hiddenTestCases: [
+      { input: '[["a"]]\na', output: "true" },
+      { input: '[["a","b"],["c","d"]]\nabdc', output: "true" },
+    ],
+  },
+  {
+    title: "Product of Array Except Self",
+    description: `# Product of Array Except Self
+
+Given an integer array \`nums\`, return an array \`answer\` such that \`answer[i]\` is equal to the product of all the elements of \`nums\` except \`nums[i]\`.
+
+You must write an algorithm that runs in \`O(n)\` time and without using the division operation.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [1,2,3,4]
+Output: [24,12,8,6]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [-1,1,0,-3,3]
+Output: [0,0,9,0,0]
+\`\`\`
+
+## Constraints
+- \`2 <= nums.length <= 10^5\`
+- \`-30 <= nums[i] <= 30\``,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array"],
+    visibleTestCases: [
+      { input: "[1,2,3,4]", output: "[24,12,8,6]" },
+      { input: "[-1,1,0,-3,3]", output: "[0,0,9,0,0]" },
+    ],
+    hiddenTestCases: [
+      { input: "[2,3]", output: "[3,2]" },
+      { input: "[1,1,1,1]", output: "[1,1,1,1]" },
+      { input: "[0,0]", output: "[0,0]" },
+    ],
+  },
+  {
+    title: "Find First and Last Position",
+    description: `# Find First and Last Position of Element in Sorted Array
+
+Given an array of integers \`nums\` sorted in non-decreasing order, find the starting and ending position of a given \`target\` value.
+
+If \`target\` is not found in the array, return \`[-1, -1]\`.
+
+You must write an algorithm with \`O(log n)\` runtime complexity.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [5,7,7,8,8,10], target = 8
+Output: [3,4]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [5,7,7,8,8,10], target = 6
+Output: [-1,-1]
+\`\`\`
+
+## Constraints
+- \`0 <= nums.length <= 10^5\`
+- \`-10^9 <= nums[i] <= 10^9\`
+- \`nums\` is a non-decreasing array`,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Binary Search"],
+    visibleTestCases: [
+      { input: "[5,7,7,8,8,10]\n8", output: "[3,4]" },
+      { input: "[5,7,7,8,8,10]\n6", output: "[-1,-1]" },
+      { input: "[]\n0", output: "[-1,-1]" },
+    ],
+    hiddenTestCases: [
+      { input: "[1]\n1", output: "[0,0]" },
+      { input: "[2,2]\n2", output: "[0,1]" },
+      { input: "[1,2,3,4,5]\n3", output: "[2,2]" },
+    ],
+  },
+  {
+    title: "Search in Rotated Sorted Array",
+    description: `# Search in Rotated Sorted Array
+
+Given the array \`nums\` after the possible rotation and an integer \`target\`, return the index of \`target\` if it is in \`nums\`, or \`-1\` if it is not in \`nums\`.
+
+You must write an algorithm with \`O(log n)\` runtime complexity.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [4,5,6,7,0,1,2], target = 3
+Output: -1
+\`\`\`
+
+## Constraints
+- \`1 <= nums.length <= 5000\`
+- \`-10^4 <= nums[i] <= 10^4\`
+- All values of \`nums\` are unique`,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Binary Search"],
+    visibleTestCases: [
+      { input: "[4,5,6,7,0,1,2]\n0", output: "4" },
+      { input: "[4,5,6,7,0,1,2]\n3", output: "-1" },
+      { input: "[1]\n0", output: "-1" },
+    ],
+    hiddenTestCases: [
+      { input: "[1]\n1", output: "0" },
+      { input: "[3,1]\n3", output: "0" },
+      { input: "[5,1,3]\n5", output: "0" },
+    ],
+  },
+  {
+    title: "Coin Change",
+    description: `# Coin Change
+
+You are given an integer array \`coins\` representing coins of different denominations and an integer \`amount\` representing a total amount of money.
+
+Return the fewest number of coins that you need to make up that amount. If that amount cannot be made up by any combination of the coins, return \`-1\`.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: coins = [1,2,5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: coins = [2], amount = 3
+Output: -1
+\`\`\`
+
+## Constraints
+- \`1 <= coins.length <= 12\`
+- \`1 <= coins[i] <= 2^31 - 1\`
+- \`0 <= amount <= 10^4\``,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 2000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Dynamic Programming"],
+    visibleTestCases: [
+      { input: "[1,2,5]\n11", output: "3" },
+      { input: "[2]\n3", output: "-1" },
+      { input: "[1]\n0", output: "0" },
+    ],
+    hiddenTestCases: [
+      { input: "[1]\n1", output: "1" },
+      { input: "[1]\n2", output: "2" },
+      { input: "[1,2,5]\n100", output: "20" },
+      { input: "[186,419,83,408]\n6249", output: "20" },
+    ],
+  },
+  {
+    title: "House Robber",
+    description: `# House Robber
+
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. Adjacent houses have security systems connected - if two adjacent houses are broken into the same night, the police will be called.
+
+Given an integer array \`nums\` representing the amount of money, return the maximum amount of money you can rob tonight without alerting the police.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums = [1,2,3,1]
+Output: 4
+Explanation: Rob house 1 (1) and house 3 (3).
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums = [2,7,9,3,1]
+Output: 12
+Explanation: Rob house 1 (2), house 3 (9) and house 5 (1).
+\`\`\`
+
+## Constraints
+- \`1 <= nums.length <= 100\`
+- \`0 <= nums[i] <= 400\``,
+    problemType: "MEDIUM",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Dynamic Programming"],
+    visibleTestCases: [
+      { input: "[1,2,3,1]", output: "4" },
+      { input: "[2,7,9,3,1]", output: "12" },
+    ],
+    hiddenTestCases: [
+      { input: "[1]", output: "1" },
+      { input: "[1,2]", output: "2" },
+      { input: "[2,1,1,2]", output: "4" },
+      { input: "[0,0,0,0,0,0,100]", output: "100" },
+    ],
+  },
+  // ==================== HARD PROBLEMS ====================
+  {
+    title: "Median of Two Sorted Arrays",
+    description: `# Median of Two Sorted Arrays
+
+Given two sorted arrays \`nums1\` and \`nums2\` of size \`m\` and \`n\` respectively, return the median of the two sorted arrays.
+
+The overall run time complexity should be \`O(log (m+n))\`.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: nums1 = [1,3], nums2 = [2]
+Output: 2.00000
+Explanation: merged array = [1,2,3] and median is 2.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: nums1 = [1,2], nums2 = [3,4]
+Output: 2.50000
+Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
+\`\`\`
+
+## Constraints
+- \`nums1.length == m\`
+- \`nums2.length == n\`
+- \`0 <= m <= 1000\`
+- \`0 <= n <= 1000\`
+- \`1 <= m + n <= 2000\``,
+    problemType: "HARD",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Binary Search", "Divide and Conquer"],
+    visibleTestCases: [
+      { input: "[1,3]\n[2]", output: "2.00000" },
+      { input: "[1,2]\n[3,4]", output: "2.50000" },
+    ],
+    hiddenTestCases: [
+      { input: "[0,0]\n[0,0]", output: "0.00000" },
+      { input: "[]\n[1]", output: "1.00000" },
+      { input: "[2]\n[]", output: "2.00000" },
+      { input: "[1,2,3,4,5]\n[6,7,8,9,10]", output: "5.50000" },
+    ],
+  },
+  {
+    title: "Regular Expression Matching",
+    description: `# Regular Expression Matching
+
+Given an input string \`s\` and a pattern \`p\`, implement regular expression matching with support for \`'.'\` and \`'*'\` where:
+- \`'.'\` Matches any single character
+- \`'*'\` Matches zero or more of the preceding element
+
+The matching should cover the entire input string (not partial).
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: s = "aa", p = "a"
+Output: false
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: s = "aa", p = "a*"
+Output: true
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: s = "ab", p = ".*"
+Output: true
+\`\`\`
+
+## Constraints
+- \`1 <= s.length <= 20\`
+- \`1 <= p.length <= 20\`
+- \`s\` contains only lowercase English letters
+- \`p\` contains only lowercase English letters, \`'.'\`, and \`'*'\``,
+    problemType: "HARD",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["String", "Dynamic Programming", "Recursion"],
+    visibleTestCases: [
+      { input: "aa\na", output: "false" },
+      { input: "aa\na*", output: "true" },
+      { input: "ab\n.*", output: "true" },
+    ],
+    hiddenTestCases: [
+      { input: "aab\nc*a*b", output: "true" },
+      { input: "mississippi\nmis*is*p*.", output: "false" },
+      { input: "a\nab*", output: "true" },
+    ],
+  },
+  {
+    title: "Merge k Sorted Lists",
+    description: `# Merge k Sorted Lists
+
+You are given an array of \`k\` linked-lists \`lists\`, each linked-list is sorted in ascending order.
+
+Merge all the linked-lists into one sorted linked-list and return it.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: lists = [[1,4,5],[1,3,4],[2,6]]
+Output: [1,1,2,3,4,4,5,6]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: lists = []
+Output: []
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: lists = [[]]
+Output: []
+\`\`\`
+
+## Constraints
+- \`k == lists.length\`
+- \`0 <= k <= 10^4\`
+- \`0 <= lists[i].length <= 500\`
+- \`-10^4 <= lists[i][j] <= 10^4\``,
+    problemType: "HARD",
+    cpuTimeLimit: 2000,
+    memoryTimeLimit: 256,
+    tags: ["Linked List", "Divide and Conquer", "Sorting"],
+    visibleTestCases: [
+      { input: "[[1,4,5],[1,3,4],[2,6]]", output: "[1,1,2,3,4,4,5,6]" },
+      { input: "[]", output: "[]" },
+      { input: "[[]]", output: "[]" },
+    ],
+    hiddenTestCases: [
+      { input: "[[1]]", output: "[1]" },
+      { input: "[[1,2,3],[4,5,6],[7,8,9]]", output: "[1,2,3,4,5,6,7,8,9]" },
+    ],
+  },
+  {
+    title: "Trapping Rain Water",
+    description: `# Trapping Rain Water
+
+Given \`n\` non-negative integers representing an elevation map where the width of each bar is \`1\`, compute how much water it can trap after raining.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+Explanation: The elevation map traps 6 units of rain water.
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: height = [4,2,0,3,2,5]
+Output: 9
+\`\`\`
+
+## Constraints
+- \`n == height.length\`
+- \`1 <= n <= 2 * 10^4\`
+- \`0 <= height[i] <= 10^5\``,
+    problemType: "HARD",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Two Pointers", "Dynamic Programming"],
+    visibleTestCases: [
+      { input: "[0,1,0,2,1,0,1,3,2,1,2,1]", output: "6" },
+      { input: "[4,2,0,3,2,5]", output: "9" },
+    ],
+    hiddenTestCases: [
+      { input: "[1]", output: "0" },
+      { input: "[1,2]", output: "0" },
+      { input: "[2,0,2]", output: "2" },
+      { input: "[3,0,0,2,0,4]", output: "10" },
+    ],
+  },
+  {
+    title: "N-Queens",
+    description: `# N-Queens
+
+The n-queens puzzle is the problem of placing \`n\` queens on an \`n x n\` chessboard such that no two queens attack each other.
+
+Given an integer \`n\`, return all distinct solutions to the n-queens puzzle.
+
+Each solution contains a distinct board configuration of the n-queens placement, where \`'Q'\` and \`'.'\` indicate a queen and an empty space, respectively.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: n = 4
+Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: n = 1
+Output: [["Q"]]
+\`\`\`
+
+## Constraints
+- \`1 <= n <= 9\``,
+    problemType: "HARD",
+    cpuTimeLimit: 2000,
+    memoryTimeLimit: 256,
+    tags: ["Array", "Recursion"],
+    visibleTestCases: [
+      { input: "4", output: '[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]' },
+      { input: "1", output: '[["Q"]]' },
+    ],
+    hiddenTestCases: [
+      { input: "2", output: "[]" },
+      { input: "3", output: "[]" },
+    ],
+  },
+  {
+    title: "Longest Valid Parentheses",
+    description: `# Longest Valid Parentheses
+
+Given a string containing just the characters \`'('\` and \`')'\`, return the length of the longest valid (well-formed) parentheses substring.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: s = "(()"
+Output: 2
+Explanation: The longest valid parentheses substring is "()".
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: s = ")()())"
+Output: 4
+Explanation: The longest valid parentheses substring is "()()".
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: s = ""
+Output: 0
+\`\`\`
+
+## Constraints
+- \`0 <= s.length <= 3 * 10^4\`
+- \`s[i]\` is \`'('\`, or \`')'\``,
+    problemType: "HARD",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["String", "Dynamic Programming"],
+    visibleTestCases: [
+      { input: "(()", output: "2" },
+      { input: ")()())", output: "4" },
+      { input: "", output: "0" },
+    ],
+    hiddenTestCases: [
+      { input: "()", output: "2" },
+      { input: "()()", output: "4" },
+      { input: "((()))", output: "6" },
+      { input: "(()(((()", output: "2" },
+    ],
+  },
+  {
+    title: "Word Ladder",
+    description: `# Word Ladder
+
+A transformation sequence from word \`beginWord\` to word \`endWord\` using a dictionary \`wordList\` is a sequence where:
+- Every adjacent pair of words differs by a single letter.
+- Every \`si\` for \`1 <= i <= k\` is in \`wordList\`. Note that \`beginWord\` does not need to be in \`wordList\`.
+
+Given two words, \`beginWord\` and \`endWord\`, and a \`wordList\`, return the number of words in the shortest transformation sequence.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+Output: 5
+Explanation: hit -> hot -> dot -> dog -> cog
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
+Output: 0
+\`\`\`
+
+## Constraints
+- \`1 <= beginWord.length <= 10\`
+- \`endWord.length == beginWord.length\`
+- \`1 <= wordList.length <= 5000\``,
+    problemType: "HARD",
+    cpuTimeLimit: 3000,
+    memoryTimeLimit: 512,
+    tags: ["Hash Table", "String"],
+    visibleTestCases: [
+      { input: 'hit\ncog\n["hot","dot","dog","lot","log","cog"]', output: "5" },
+      { input: 'hit\ncog\n["hot","dot","dog","lot","log"]', output: "0" },
+    ],
+    hiddenTestCases: [
+      { input: 'a\nc\n["a","b","c"]', output: "2" },
+      { input: 'hot\ndog\n["hot","dog"]', output: "0" },
+    ],
+  },
+  {
+    title: "Minimum Window Substring",
+    description: `# Minimum Window Substring
+
+Given two strings \`s\` and \`t\` of lengths \`m\` and \`n\` respectively, return the minimum window substring of \`s\` such that every character in \`t\` (including duplicates) is included in the window.
+
+## Examples
+
+**Example 1:**
+\`\`\`
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+\`\`\`
+
+**Example 2:**
+\`\`\`
+Input: s = "a", t = "a"
+Output: "a"
+\`\`\`
+
+**Example 3:**
+\`\`\`
+Input: s = "a", t = "aa"
+Output: ""
+\`\`\`
+
+## Constraints
+- \`m == s.length\`
+- \`n == t.length\`
+- \`1 <= m, n <= 10^5\`
+- \`s\` and \`t\` consist of uppercase and lowercase English letters`,
+    problemType: "HARD",
+    cpuTimeLimit: 1000,
+    memoryTimeLimit: 256,
+    tags: ["Hash Table", "String", "Sliding Window"],
+    visibleTestCases: [
+      { input: "ADOBECODEBANC\nABC", output: "BANC" },
+      { input: "a\na", output: "a" },
+      { input: "a\naa", output: "" },
+    ],
+    hiddenTestCases: [
+      { input: "ab\nb", output: "b" },
+      { input: "abc\nac", output: "abc" },
+    ],
+  },
+];

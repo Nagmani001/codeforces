@@ -1,9 +1,7 @@
 {
   "extends":"@repo/typescript-config/base.json",
   "compilerOptions":{
-  "rootDir":"./src",
-  "outDir":"./dist",
-  "strict":true
-  },
- "include": ["src/**/*", "prisma/**/*"]
+    "noEmit":true,
+    "allowImportingTsExtensions": true,
+  }
 }

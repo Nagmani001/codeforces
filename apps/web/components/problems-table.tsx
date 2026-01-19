@@ -47,7 +47,6 @@ export function ProblemsTable() {
             <TableHead className="w-[60px]">#</TableHead>
             <TableHead>Title</TableHead>
             <TableHead className="w-[100px]">Difficulty</TableHead>
-            <TableHead className="w-[100px] text-right">Acceptance</TableHead>
             <TableHead className="hidden md:table-cell">Tags</TableHead>
           </TableRow>
         </TableHeader>
@@ -71,7 +70,6 @@ export function ProblemsTable() {
                 <TableCell>
                   <span className={cn("font-medium", difficultyColors[problem.difficulty])}>{problem.difficulty}</span>
                 </TableCell>
-                <TableCell className="text-right font-mono text-sm">{problem.acceptance.toFixed(1)}%</TableCell>
                 <TableCell className="hidden md:table-cell">
                   <div className="flex flex-wrap gap-1">
                     {problem.tags.slice(0, 2).map((tag) => (

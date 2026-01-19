@@ -31,8 +31,6 @@ export type Problem = {
   title: string
   difficulty: "Easy" | "Medium" | "Hard"
   tags: string[]
-  acceptance: number
-  submissions: number
   status: "solved" | "attempted" | "unsolved"
 }
 
@@ -43,8 +41,6 @@ export const problems: Problem[] = [
     title: "Two Sum",
     difficulty: "Easy",
     tags: ["Array", "Hash Table"],
-    acceptance: 52.3,
-    submissions: 18420,
     status: "solved",
   },
   {
@@ -53,8 +49,6 @@ export const problems: Problem[] = [
     title: "Add Two Numbers",
     difficulty: "Medium",
     tags: ["Linked List", "Math", "Recursion"],
-    acceptance: 41.2,
-    submissions: 12350,
     status: "attempted",
   },
   {
@@ -63,8 +57,6 @@ export const problems: Problem[] = [
     title: "Longest Substring Without Repeating Characters",
     difficulty: "Medium",
     tags: ["Hash Table", "String", "Sliding Window"],
-    acceptance: 34.8,
-    submissions: 9870,
     status: "unsolved",
   },
   {
@@ -73,8 +65,6 @@ export const problems: Problem[] = [
     title: "Median of Two Sorted Arrays",
     difficulty: "Hard",
     tags: ["Array", "Binary Search", "Divide and Conquer"],
-    acceptance: 38.7,
-    submissions: 7650,
     status: "unsolved",
   },
   {
@@ -83,8 +73,6 @@ export const problems: Problem[] = [
     title: "Longest Palindromic Substring",
     difficulty: "Medium",
     tags: ["String", "Dynamic Programming"],
-    acceptance: 33.4,
-    submissions: 11200,
     status: "solved",
   },
   {
@@ -93,8 +81,6 @@ export const problems: Problem[] = [
     title: "Zigzag Conversion",
     difficulty: "Medium",
     tags: ["String"],
-    acceptance: 45.2,
-    submissions: 5430,
     status: "unsolved",
   },
   {
@@ -103,8 +89,6 @@ export const problems: Problem[] = [
     title: "Reverse Integer",
     difficulty: "Easy",
     tags: ["Math"],
-    acceptance: 27.8,
-    submissions: 15670,
     status: "solved",
   },
   {
@@ -113,8 +97,6 @@ export const problems: Problem[] = [
     title: "String to Integer (atoi)",
     difficulty: "Medium",
     tags: ["String"],
-    acceptance: 17.2,
-    submissions: 8900,
     status: "attempted",
   },
   {
@@ -123,8 +105,6 @@ export const problems: Problem[] = [
     title: "Palindrome Number",
     difficulty: "Easy",
     tags: ["Math"],
-    acceptance: 54.6,
-    submissions: 19200,
     status: "solved",
   },
   {
@@ -133,8 +113,6 @@ export const problems: Problem[] = [
     title: "Regular Expression Matching",
     difficulty: "Hard",
     tags: ["String", "Dynamic Programming", "Recursion"],
-    acceptance: 28.3,
-    submissions: 6780,
     status: "unsolved",
   },
   {
@@ -143,8 +121,6 @@ export const problems: Problem[] = [
     title: "Container With Most Water",
     difficulty: "Medium",
     tags: ["Array", "Two Pointers", "Greedy"],
-    acceptance: 55.2,
-    submissions: 10340,
     status: "unsolved",
   },
   {
@@ -153,8 +129,6 @@ export const problems: Problem[] = [
     title: "Integer to Roman",
     difficulty: "Medium",
     tags: ["Hash Table", "Math", "String"],
-    acceptance: 62.4,
-    submissions: 7890,
     status: "solved",
   },
   {
@@ -163,8 +137,6 @@ export const problems: Problem[] = [
     title: "Roman to Integer",
     difficulty: "Easy",
     tags: ["Hash Table", "Math", "String"],
-    acceptance: 59.8,
-    submissions: 16540,
     status: "solved",
   },
   {
@@ -173,8 +145,6 @@ export const problems: Problem[] = [
     title: "Longest Common Prefix",
     difficulty: "Easy",
     tags: ["String", "Trie"],
-    acceptance: 42.1,
-    submissions: 14230,
     status: "attempted",
   },
   {
@@ -183,8 +153,6 @@ export const problems: Problem[] = [
     title: "3Sum",
     difficulty: "Medium",
     tags: ["Array", "Two Pointers", "Sorting"],
-    acceptance: 33.9,
-    submissions: 11560,
     status: "unsolved",
   },
 ]

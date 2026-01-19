@@ -1,8 +1,11 @@
 import { Navbar } from "../../../../components/navbar";
 import { ProblemsFilters } from "../../../../components/problems-filters";
 import { ProblemsTable } from "../../../../components/problems-table";
+import { getProblems } from "../../../../lib/utils";
 
-export default function ProblemsPage() {
+export default async function ProblemsPage() {
+  const problems = await getProblems(1);
+  console.log(problems);
   return (
     <div className="min-h-screen bg-background">
       <Navbar />

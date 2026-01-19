@@ -1,26 +1,25 @@
 import prisma from "@repo/database/client";
 import { Router, Request, Response } from "express";
-import { noProblemId } from "../util/lib";
+import { getProblemsAuthenticated, getProblemsUnauthenticated, noProblemId } from "../util/lib";
+import { auth } from "../util/auth";
+import { fromNodeHeaders } from "better-auth/node";
 
-export const userRouter: Router = Router();
+export const userProblemRouter: Router = Router();
 
-userRouter.get("/", async (req: Request, res: Response) => {
-  const page = Number(req.query.page);
+userProblemRouter.get("/", async (req: Request, res: Response) => {
   let problems;
+  const page = Number(req.query.page);
 
-  (page == 1) ?
-    problems = await prisma.problems.findMany({
-      take: 10,
-      orderBy: {
-        createdAt: "desc"
-      }
-    }) : problems = await prisma.problems.findMany({
-      take: 10,
-      skip: (page * 10) - 10,
-      orderBy: {
-        createdAt: "desc"
-      }
-    })
+  const session = await auth.api.getSession({
+    headers: fromNodeHeaders(req.headers),
+  });
+
+  if (!session) {
+    problems = getProblemsUnauthenticated(page);
+  } else {
+    problems = getProblemsAuthenticated(page, "asdf");
+  }
+
 
   res.json({
     problems,
@@ -31,7 +30,7 @@ userRouter.get("/", async (req: Request, res: Response) => {
 });
 
 
-userRouter.get("/:problemId", async (req: Request, res: Response) => {
+userProblemRouter.get("/:problemId", async (req: Request, res: Response) => {
   const problemId = req.params.problemId as string;
   if (!problemId) return noProblemId(res);
 

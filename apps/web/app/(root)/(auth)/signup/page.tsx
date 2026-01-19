@@ -15,6 +15,7 @@ import { Button } from "@repo/ui/components/button"
 import { OTPDialog } from "../../../../components/otp-dialog"
 import { useMutation } from "@tanstack/react-query";
 import { authClient } from "../../../../lib/auth";
+import { formData } from "../../../../lib/types";
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -31,12 +32,11 @@ export default function SignUpPage() {
 
 
   const mutation = useMutation({
-    mutationFn: async (user: signupType) => {
+    mutationFn: async (user: formData) => {
       const { data, error } = await authClient.signUp.email({
         email: user.email,
         password: user.password,
-        name: "nagmani",
-        image: "https://avatars.githubusercontent.com/u/163531400?v=4",
+        name: user.username,
       }, {
         onSuccess: async (ctx) => {
           const { data, error } = await authClient.emailOtp.sendVerificationOtp({
