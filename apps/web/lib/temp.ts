@@ -3,8 +3,8 @@ import { create } from "zustand";
 
 type Filters = {
   search: string
-  difficulty: "Easy" | "Medium" | "Hard" | null
-  status: "solved" | "attempted" | "unsolved" | null
+  difficulty: "EASY" | "MEDIUM" | "HARD" | null
+  status: "SOLVED" | "ATTEMPTED" | "UNSOLVED" | null
   tags: string[]
 }
 
@@ -24,138 +24,139 @@ const initialFilters: Filters = {
   tags: [],
 }
 
-
 export type Problem = {
   id: string
   serialNumber: number
   title: string
-  difficulty: "Easy" | "Medium" | "Hard"
+  difficulty: "EASY" | "MEDIUM" | "HARD"
   tags: string[]
-  status: "solved" | "attempted" | "unsolved"
+  status: "SOLVED" | "ATTEMPTED" | "UNSOLVED"
 }
+
 
 export const problems: Problem[] = [
   {
     id: "1",
     serialNumber: 1,
     title: "Two Sum",
-    difficulty: "Easy",
+    difficulty: "EASY",
     tags: ["Array", "Hash Table"],
-    status: "solved",
+    status: "SOLVED",
   },
   {
     id: "2",
     serialNumber: 2,
     title: "Add Two Numbers",
-    difficulty: "Medium",
+    difficulty: "MEDIUM",
     tags: ["Linked List", "Math", "Recursion"],
-    status: "attempted",
+    status: "ATTEMPTED",
   },
   {
     id: "3",
     serialNumber: 3,
     title: "Longest Substring Without Repeating Characters",
-    difficulty: "Medium",
+    difficulty: "MEDIUM",
     tags: ["Hash Table", "String", "Sliding Window"],
-    status: "unsolved",
+    status: "UNSOLVED",
   },
   {
     id: "4",
     serialNumber: 4,
     title: "Median of Two Sorted Arrays",
-    difficulty: "Hard",
+    difficulty: "HARD",
     tags: ["Array", "Binary Search", "Divide and Conquer"],
-    status: "unsolved",
+    status: "UNSOLVED",
   },
   {
     id: "5",
     serialNumber: 5,
     title: "Longest Palindromic Substring",
-    difficulty: "Medium",
+    difficulty: "MEDIUM",
     tags: ["String", "Dynamic Programming"],
-    status: "solved",
+    status: "SOLVED",
   },
   {
     id: "6",
     serialNumber: 6,
     title: "Zigzag Conversion",
-    difficulty: "Medium",
+    difficulty: "MEDIUM",
     tags: ["String"],
-    status: "unsolved",
+    status: "UNSOLVED",
   },
   {
     id: "7",
     serialNumber: 7,
     title: "Reverse Integer",
-    difficulty: "Easy",
+    difficulty: "EASY",
     tags: ["Math"],
-    status: "solved",
+    status: "SOLVED",
   },
   {
     id: "8",
     serialNumber: 8,
     title: "String to Integer (atoi)",
-    difficulty: "Medium",
+    difficulty: "MEDIUM",
     tags: ["String"],
-    status: "attempted",
+    status: "ATTEMPTED",
   },
   {
     id: "9",
     serialNumber: 9,
     title: "Palindrome Number",
-    difficulty: "Easy",
+    difficulty: "EASY",
     tags: ["Math"],
-    status: "solved",
+    status: "SOLVED",
   },
   {
     id: "10",
     serialNumber: 10,
     title: "Regular Expression Matching",
-    difficulty: "Hard",
+    difficulty: "HARD",
     tags: ["String", "Dynamic Programming", "Recursion"],
-    status: "unsolved",
+    status: "UNSOLVED",
   },
   {
     id: "11",
     serialNumber: 11,
     title: "Container With Most Water",
-    difficulty: "Medium",
+    difficulty: "MEDIUM",
     tags: ["Array", "Two Pointers", "Greedy"],
-    status: "unsolved",
+    status: "UNSOLVED",
   },
   {
     id: "12",
     serialNumber: 12,
     title: "Integer to Roman",
-    difficulty: "Medium",
+    difficulty: "MEDIUM",
     tags: ["Hash Table", "Math", "String"],
-    status: "solved",
+    status: "SOLVED",
   },
   {
     id: "13",
     serialNumber: 13,
     title: "Roman to Integer",
-    difficulty: "Easy",
+    difficulty: "EASY",
     tags: ["Hash Table", "Math", "String"],
-    status: "solved",
+    status: "SOLVED",
   },
   {
     id: "14",
     serialNumber: 14,
     title: "Longest Common Prefix",
-    difficulty: "Easy",
+    difficulty: "EASY",
     tags: ["String", "Trie"],
-    status: "attempted",
+    status: "ATTEMPTED",
   },
   {
     id: "15",
     serialNumber: 15,
     title: "3Sum",
-    difficulty: "Medium",
+    difficulty: "MEDIUM",
     tags: ["Array", "Two Pointers", "Sorting"],
-    status: "unsolved",
+    status: "UNSOLVED",
   },
 ]
+
 
 
 export const allTags = Array.from(new Set(problems.flatMap((p) => p.tags))).sort()

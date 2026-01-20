@@ -18,10 +18,8 @@ import { signinFormData } from "../lib/types"
 import toast from "react-hot-toast"
 
 export function SignInForm() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const verified = searchParams.get("verified")
-
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -42,6 +40,8 @@ export function SignInForm() {
       });
       if (error) {
         toast.error("invalid email or password");
+      } else {
+        toast.success("successfully signed in");
       }
     },
 

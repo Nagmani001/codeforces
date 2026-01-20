@@ -1,5 +1,4 @@
 import * as z from "zod"
-import * as imports from "../../prisma/null"
 import { CompleteProblems, RelatedProblemsModel } from "./index"
 
 export const VisibleTestCasesModel = z.object({

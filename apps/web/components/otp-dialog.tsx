@@ -81,9 +81,15 @@ export function OTPDialog({ open, onOpenChange, email, onVerify }: OTPDialogProp
       otp: actualOtp,
     });
 
-
-    setIsVerifying(false)
-    onVerify(otpString)
+    if (error) {
+      toast.error(error.message!);
+      setIsVerifying(false)
+      setOtp(["", "", "", "", "", ""]);
+    } else {
+      toast.success("successfully signed up");
+      setIsVerifying(false)
+      onVerify(otpString)
+    }
   }
 
   const handleResend = async () => {

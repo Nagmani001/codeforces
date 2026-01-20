@@ -1,9 +1,10 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import { adminProblemRouter } from "./router/adminProblemsRouter";
 import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
 import { auth } from "./util/auth";
 import { userProblemRouter } from "./router/userProblemsRouter";
+import { tagsRouter } from "./router/tagsRouter";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -30,6 +31,7 @@ app.use(express.json());
 
 
 app.get("/api/me", async (req, res) => {
+  //console.log(req.headers);
   const session = await auth.api.getSession({
     headers: fromNodeHeaders(req.headers),
   });
@@ -39,6 +41,7 @@ app.get("/api/me", async (req, res) => {
 
 app.use("/api/admin/problems", adminProblemRouter);
 app.use("/api/user/problems", userProblemRouter);
+app.use("/api/tags", tagsRouter);
 
 app.listen(port, () => {
   console.log(`server running on port ${port}`);

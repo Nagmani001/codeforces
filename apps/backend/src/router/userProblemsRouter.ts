@@ -15,17 +15,14 @@ userProblemRouter.get("/", async (req: Request, res: Response) => {
   });
 
   if (!session) {
-    problems = getProblemsUnauthenticated(page);
+    problems = await getProblemsUnauthenticated(page);
   } else {
-    problems = getProblemsAuthenticated(page, "asdf");
+    problems = await getProblemsAuthenticated(page, session.user.id);
   }
-
-
   res.json({
     problems,
     role: "user"
   });
-
 
 });
 

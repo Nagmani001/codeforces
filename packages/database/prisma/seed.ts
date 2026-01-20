@@ -1,7 +1,7 @@
 import prisma from "../src";
 import { problemTags, problemsData } from "./seedData";
 
-const ADMIN_USER_ID = "6gmuqGogpWCUyD1bIwqwo0pDwvCqQBMh";
+const ADMIN_USER_ID = "xcBxnn3XKJcadduN7hkW5LyM7OEdisVB";
 
 async function main() {
   console.log("🌱 Starting database seed...\n");
