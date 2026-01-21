@@ -6,20 +6,26 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@repo/ui/components/button";
 import { RotateCcw } from "lucide-react"
 
-type Language = "cpp" | "python" | "java" | "javascript"
+type Language = "CPP" | "PYTHON" | "JAVA" | "JAVASCRIPT" | "TYPESCRIPT" | "GO" | "RUST";
 
 const languageLabels: Record<Language, string> = {
-  cpp: "C++",
-  python: "Python",
-  java: "Java",
-  javascript: "JavaScript",
+  CPP: "C++",
+  PYTHON: "Python",
+  JAVA: "Java",
+  JAVASCRIPT: "JavaScript",
+  GO: "Go",
+  RUST: "Rust",
+  TYPESCRIPT: "Typescript"
 }
 
 const monacoLanguages: Record<Language, string> = {
-  cpp: "cpp",
-  python: "python",
-  java: "java",
-  javascript: "javascript",
+  CPP: "cpp",
+  PYTHON: "python",
+  JAVA: "java",
+  JAVASCRIPT: "javascript",
+  GO: "Go",
+  RUST: "Rust",
+  TYPESCRIPT: "Typescript"
 }
 
 interface CodeEditorProps {

@@ -1,7 +1,7 @@
 import prisma from "../src";
-import { problemTags, problemsData } from "./seedData";
+import { problemTags, problemsData, starterCodes } from "./seedData";
 
-const ADMIN_USER_ID = "xcBxnn3XKJcadduN7hkW5LyM7OEdisVB";
+const ADMIN_USER_ID = "zqbH1efNyBxitiwAdJY3Rdo9br6qFGw4";
 
 async function main() {
   console.log("🌱 Starting database seed...\n");
@@ -48,6 +48,7 @@ async function main() {
         problemType: problem.problemType,
         cpuTimeLimit: problem.cpuTimeLimit,
         memoryTimeLimit: problem.memoryTimeLimit,
+        constraints: problem.constraints,
         userId: ADMIN_USER_ID,
         tags: {
           connect: tagIds.map((id) => ({ id })),
@@ -56,6 +57,7 @@ async function main() {
           create: problem.visibleTestCases.map((tc) => ({
             input: tc.input,
             output: tc.output,
+            explanation: tc.explanation,
           })),
         },
         hiddenTestCases: {
@@ -75,14 +77,24 @@ async function main() {
     console.log(` Skipped ${skippedCount} existing problems`);
   }
 
+  // Seed StarterCode table
+  console.log("\n💻 Seeding starter code templates...");
+  await prisma.starterCode.createMany({
+    data: starterCodes,
+    skipDuplicates: true,
+  });
+  console.log(`✅ Seeded ${starterCodes.length} starter code templates`);
+
   const totalProblems = await prisma.problems.count();
   const totalVisibleTestCases = await prisma.visibleTestCases.count();
   const totalHiddenTestCases = await prisma.hiddenTestCases.count();
+  const totalStarterCodes = await prisma.starterCode.count();
 
   console.log("\n📊 Database Summary:");
   console.log(`   - Problems: ${totalProblems}`);
   console.log(`   - Visible Test Cases: ${totalVisibleTestCases}`);
   console.log(`   - Hidden Test Cases: ${totalHiddenTestCases}`);
+  console.log(`   - Starter Code Templates: ${totalStarterCodes}`);
   console.log("\n🎉 Seeding completed successfully!");
 }
 

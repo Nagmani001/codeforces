@@ -1,16 +1,11 @@
-
 import { notFound } from "next/navigation"
 import { ArenaLayout } from "../../../../../components/arena/arena-layout"
-import { problemDetails } from "../../../../../lib/temp"
+import { getProblemPrettified, getSpecificProblem } from "../../../../../lib/utils";
 
 export default async function ArenaPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-
-  console.log(id);
-  console.log(typeof id);
-  const problem = problemDetails[id]
-  console.log(problem);
-  console.log(typeof problem);
+  const { id } = await params;
+  const getProblem = (await getSpecificProblem(id)).data;
+  const problem = getProblemPrettified(getProblem);
 
   if (!problem) {
     notFound()
@@ -18,3 +13,4 @@ export default async function ArenaPage({ params }: { params: Promise<{ id: stri
 
   return <ArenaLayout problem={problem} />
 }
+

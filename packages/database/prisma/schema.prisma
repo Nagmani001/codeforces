@@ -98,6 +98,7 @@ model Problems {
   isDeleted        Boolean            @default(false)
   problemType      ProblemType
   tags             ProblemTag[]
+  constraints      String[]
   cpuTimeLimit     Int
   memoryTimeLimit  Int
   visibleTestCases VisibleTestCases[]
@@ -128,11 +129,18 @@ model Submission {
 }
 
 model VisibleTestCases {
-  id        String   @id @default(uuid())
-  input     String
-  output    String
-  problemId String
-  problem   Problems @relation(fields: [problemId], references: [id])
+  id          String   @id @default(uuid())
+  input       String
+  output      String
+  explanation String?
+  problemId   String
+  problem     Problems @relation(fields: [problemId], references: [id])
+}
+
+model StarterCode {
+  id       String @id @default(uuid())
+  language String
+  code     String
 }
 
 model HiddenTestCases {

@@ -33,15 +33,40 @@ userProblemRouter.get("/:problemId", async (req: Request, res: Response) => {
 
   const problem = await prisma.problems.findFirst({
     where: {
-      id: problemId
+      id: problemId,
+      isDeleted: false
     },
     select: {
+      id: true,
+      title: true,
+      description: true,
+      isDeleted: false,
+      constraints: true,
+      problemType: true,
+      tags: true,
+      cpuTimeLimit: true,
+      memoryTimeLimit: true,
       visibleTestCases: true,
-      hiddenTestCases: false
+      hiddenTestCases: false,
+      submission: false
     }
   });
 
-  res.json({
-    problem
-  });
+  let starterCodeObj: any = {};
+  const starterCode = await prisma.starterCode.findMany();
+
+  starterCode.forEach(x => {
+    starterCodeObj[x.language] = x.code;
+  })
+
+  if (problem && starterCode) {
+    res.json({
+      problem,
+      starterCodeObj
+    });
+  } else {
+    res.status(404).json({
+      message: 404
+    })
+  }
 });

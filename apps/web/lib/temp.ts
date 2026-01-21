@@ -161,6 +161,7 @@ export const problems: Problem[] = [
 
 export const allTags = Array.from(new Set(problems.flatMap((p) => p.tags))).sort()
 
+
 export type TestCase = {
   id: string
   input: string
@@ -172,7 +173,7 @@ export type TestCase = {
 export type ProblemDetail = {
   id: string
   title: string
-  difficulty: "Easy" | "Medium" | "Hard"
+  problemType: "EASY" | "MEDIUM" | "HARD"
   description: string
   examples: {
     input: string
@@ -182,18 +183,69 @@ export type ProblemDetail = {
   constraints: string[]
   testCases: TestCase[]
   starterCode: {
-    cpp: string
-    python: string
-    java: string
-    javascript: string
+    CPP: string
+    PYTHON: string
+    JAVA: string
+    JAVASCRIPT: string
+    TYPESCRIPT: string
+    RUST: string
+    GO: string
   }
+}
+
+const DEFAULT_STARTER_CODES = {
+  CPP: `#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    // your code goes here
+}`,
+
+  PYTHON: `def main():
+    # cook your dish here
+
+if __name__ == "__main__":
+    main()`,
+
+  JAVA: `import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef {
+    public static void main (String[] args) throws java.lang.Exception {
+        // your code goes here
+    }
+}`,
+
+  RUST: `fn main() {
+    println!("Hello, world!");
+}`,
+
+  GO: `package main
+import "fmt"
+
+func main(){
+    // your code goes here
+}`,
+
+  JAVASCRIPT: `function main(){
+  // your code goes here  
+}
+
+main();`,
+
+  TYPESCRIPT: `function main(){
+  // your code goes here  
+}
+
+main();`,
 }
 
 export const problemDetails: Record<string, ProblemDetail> = {
   "1": {
     id: "1",
     title: "Two Sum",
-    difficulty: "Easy",
+    problemType: "EASY",
     description: `Given an array of integers \`nums\` and an integer \`target\`, return indices of the two numbers such that they add up to \`target\`.
 
 You may assume that each input would have exactly one solution, and you may not use the same element twice.
@@ -225,36 +277,13 @@ You can return the answer in any order.`,
       { id: "2", input: "[3,2,4]\n6", expectedOutput: "[1,2]" },
       { id: "3", input: "[3,3]\n6", expectedOutput: "[0,1]" },
     ],
-    starterCode: {
-      cpp: `class Solution {
-public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-        // Your code here
-    }
-};`,
-      python: `class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        # Your code here
-        pass`,
-      java: `class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        // Your code here
-    }
-}`,
-      javascript: `/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
-var twoSum = function(nums, target) {
-    // Your code here
-};`,
-    },
+    starterCode: { ...DEFAULT_STARTER_CODES },
   },
+
   "2": {
     id: "2",
     title: "Add Two Numbers",
-    difficulty: "Medium",
+    problemType: "MEDIUM",
     description: `You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
 
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.`,
@@ -279,63 +308,7 @@ You may assume the two numbers do not contain any leading zero, except the numbe
       { id: "2", input: "[0]\n[0]", expectedOutput: "[0]" },
       { id: "3", input: "[9,9,9,9,9,9,9]\n[9,9,9,9]", expectedOutput: "[8,9,9,9,0,0,0,1]" },
     ],
-    starterCode: {
-      cpp: `/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution {
-public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        // Your code here
-    }
-};`,
-      python: `# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        # Your code here
-        pass`,
-      java: `/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        // Your code here
-    }
-}`,
-      javascript: `/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
- */
-var addTwoNumbers = function(l1, l2) {
-    // Your code here
-};`,
-    },
+    starterCode: { ...DEFAULT_STARTER_CODES },
   },
 }
 
@@ -344,7 +317,7 @@ for (let i = 3; i <= 15; i++) {
   problemDetails[String(i)] = {
     id: String(i),
     title: `Problem ${i}`,
-    difficulty: i % 3 === 0 ? "Hard" : i % 2 === 0 ? "Medium" : "Easy",
+    problemType: i % 3 === 0 ? "HARD" : i % 2 === 0 ? "MEDIUM" : "EASY",
     description: `This is the description for problem ${i}. Solve this algorithmic challenge to test your skills.
 
 The problem requires you to implement an efficient algorithm that processes the given input and produces the correct output.`,
@@ -355,38 +328,20 @@ The problem requires you to implement an efficient algorithm that processes the 
         explanation: `The result is ${i} * 2 = ${i * 2}`,
       },
     ],
-    constraints: [`1 <= n <= 10^${Math.min(i, 9)}`, "Time limit: 1 second", "Memory limit: 256 MB"],
+    constraints: [
+      `1 <= n <= 10^${Math.min(i, 9)}`,
+      "Time limit: 1 second",
+      "Memory limit: 256 MB",
+    ],
     testCases: [
       { id: "1", input: String(i), expectedOutput: String(i * 2) },
       { id: "2", input: String(i + 1), expectedOutput: String((i + 1) * 2) },
       { id: "3", input: String(i + 2), expectedOutput: String((i + 2) * 2) },
     ],
-    starterCode: {
-      cpp: `class Solution {
-public:
-    int solve(int n) {
-        // Your code here
-    }
-};`,
-      python: `class Solution:
-    def solve(self, n: int) -> int:
-        # Your code here
-        pass`,
-      java: `class Solution {
-    public int solve(int n) {
-        // Your code here
-    }
-}`,
-      javascript: `/**
- * @param {number} n
- * @return {number}
- */
-var solve = function(n) {
-    // Your code here
-};`,
-    },
+    starterCode: { ...DEFAULT_STARTER_CODES },
   }
 }
+
 
 
 export const useProblemsStore = create<ProblemsStore>((set) => ({

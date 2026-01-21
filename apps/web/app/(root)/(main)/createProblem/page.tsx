@@ -36,16 +36,21 @@ interface TestCase {
   output: string
 }
 
+interface VisibleTestCase extends TestCase {
+  explanation?: string
+}
+
 export default function CreateProblemPage() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [problemType, setProblemType] = useState<string>("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [constraints, setConstraints] = useState<string[]>([""])
   const [cpuTimeLimit, setCpuTimeLimit] = useState("")
   const [cpuTimeUnit, setCpuTimeUnit] = useState<"s" | "ms">("s")
   const [memoryLimit, setMemoryLimit] = useState("")
   const [memoryUnit, setMemoryUnit] = useState<"kb" | "mb">("mb")
-  const [visibleTestCases, setVisibleTestCases] = useState<TestCase[]>([{ id: "1", input: "", output: "" }])
+  const [visibleTestCases, setVisibleTestCases] = useState<VisibleTestCase[]>([{ id: "1", input: "", output: "", explanation: "" }])
   const [hiddenTestCases, setHiddenTestCases] = useState<TestCase[]>([{ id: "1", input: "", output: "" }])
 
   const toggleTag = (tag: string) => {
@@ -53,14 +58,20 @@ export default function CreateProblemPage() {
   }
 
   const addTestCase = (type: "visible" | "hidden") => {
-    const newCase: TestCase = {
-      id: Date.now().toString(),
-      input: "",
-      output: "",
-    }
     if (type === "visible") {
+      const newCase: VisibleTestCase = {
+        id: Date.now().toString(),
+        input: "",
+        output: "",
+        explanation: "",
+      }
       setVisibleTestCases((prev) => [...prev, newCase])
     } else {
+      const newCase: TestCase = {
+        id: Date.now().toString(),
+        input: "",
+        output: "",
+      }
       setHiddenTestCases((prev) => [...prev, newCase])
     }
   }
@@ -73,12 +84,24 @@ export default function CreateProblemPage() {
     }
   }
 
-  const updateTestCase = (type: "visible" | "hidden", id: string, field: "input" | "output", value: string) => {
+  const updateTestCase = (type: "visible" | "hidden", id: string, field: "input" | "output" | "explanation", value: string) => {
     if (type === "visible") {
       setVisibleTestCases((prev) => prev.map((tc) => (tc.id === id ? { ...tc, [field]: value } : tc)))
     } else {
       setHiddenTestCases((prev) => prev.map((tc) => (tc.id === id ? { ...tc, [field]: value } : tc)))
     }
+  }
+
+  const addConstraint = () => {
+    setConstraints((prev) => [...prev, ""])
+  }
+
+  const removeConstraint = (index: number) => {
+    setConstraints((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  const updateConstraint = (index: number, value: string) => {
+    setConstraints((prev) => prev.map((c, i) => (i === index ? value : c)))
   }
 
   const handleSubmit = () => {
@@ -87,9 +110,14 @@ export default function CreateProblemPage() {
       description,
       problemType,
       tags: selectedTags,
+      constraints: constraints.filter(c => c.trim() !== ""),
       cpuTimeLimit: { value: Number.parseFloat(cpuTimeLimit), unit: cpuTimeUnit },
       memoryLimit: { value: Number.parseFloat(memoryLimit), unit: memoryUnit },
-      visibleTestCases: visibleTestCases.map(({ input, output }) => ({ input, output })),
+      visibleTestCases: visibleTestCases.map(({ input, output, explanation }) => ({
+        input,
+        output,
+        explanation: explanation?.trim() || undefined
+      })),
       hiddenTestCases: hiddenTestCases.map(({ input, output }) => ({ input, output })),
     }
     console.log("Problem Data:", problemData)
@@ -173,11 +201,11 @@ export default function CreateProblemPage() {
             </CardContent>
           </Card>
 
-          {/* Constraints */}
+          {/* Time and Memory Limits */}
           <Card>
             <CardHeader>
-              <CardTitle>Constraints</CardTitle>
-              <CardDescription>Set time and memory limits for the problem</CardDescription>
+              <CardTitle>Time and Memory Limits</CardTitle>
+              <CardDescription>Set execution limits for the problem</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -230,6 +258,40 @@ export default function CreateProblemPage() {
             </CardContent>
           </Card>
 
+          {/* Problem Constraints */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Problem Constraints</CardTitle>
+              <CardDescription>Define constraints for the problem (e.g., input ranges, array sizes)</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {constraints.map((constraint, index) => (
+                <div key={index} className="flex gap-2 items-start">
+                  <Input
+                    placeholder="e.g., 1 <= n <= 10^4"
+                    value={constraint}
+                    onChange={(e) => updateConstraint(index, e.target.value)}
+                    className="flex-1"
+                  />
+                  {constraints.length > 1 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeConstraint(index)}
+                      className="text-destructive hover:text-destructive"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+              ))}
+              <Button variant="outline" onClick={addConstraint} className="w-full">
+                <Plus className="h-4 w-4 mr-2" />
+                Add Constraint
+              </Button>
+            </CardContent>
+          </Card>
+
           {/* Test Cases */}
           <Card>
             <CardHeader>
@@ -252,7 +314,7 @@ export default function CreateProblemPage() {
                 <TabsContent value="visible" className="mt-4 space-y-4">
                   <p className="text-sm text-muted-foreground">These test cases will be shown to users as examples</p>
                   {visibleTestCases.map((testCase, index) => (
-                    <TestCaseEditor
+                    <VisibleTestCaseEditor
                       key={testCase.id}
                       index={index + 1}
                       testCase={testCase}
@@ -295,6 +357,62 @@ export default function CreateProblemPage() {
           </div>
         </div>
       </main>
+    </div>
+  )
+}
+
+function VisibleTestCaseEditor({
+  index,
+  testCase,
+  onUpdate,
+  onRemove,
+  canRemove,
+}: {
+  index: number
+  testCase: VisibleTestCase
+  onUpdate: (field: "input" | "output" | "explanation", value: string) => void
+  onRemove: () => void
+  canRemove: boolean
+}) {
+  return (
+    <div className="border border-border rounded-lg p-4 space-y-4">
+      <div className="flex items-center justify-between">
+        <span className="font-medium text-sm text-foreground">Test Case {index}</span>
+        {canRemove && (
+          <Button variant="ghost" size="sm" onClick={onRemove} className="text-destructive hover:text-destructive">
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label className="text-xs text-muted-foreground">Input</Label>
+          <Textarea
+            placeholder="Enter input..."
+            value={testCase.input}
+            onChange={(e) => onUpdate("input", e.target.value)}
+            className="font-mono text-sm min-h-[100px] resize-none"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label className="text-xs text-muted-foreground">Expected Output</Label>
+          <Textarea
+            placeholder="Enter expected output..."
+            value={testCase.output}
+            onChange={(e) => onUpdate("output", e.target.value)}
+            className="font-mono text-sm min-h-[100px] resize-none"
+          />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label className="text-xs text-muted-foreground">Explanation (Optional)</Label>
+        <Textarea
+          placeholder="e.g., Because nums[0] + nums[1] == 9, we return [0, 1]."
+          value={testCase.explanation || ""}
+          onChange={(e) => onUpdate("explanation", e.target.value)}
+          className="text-sm min-h-[60px] resize-none"
+        />
+      </div>
     </div>
   )
 }

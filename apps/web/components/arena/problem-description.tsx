@@ -5,11 +5,13 @@ import { ScrollArea } from "@repo/ui/components/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@repo/ui/components/tabs";
 import { cn } from "@repo/ui/lib/utils"
 import { ProblemDetail } from "../../lib/temp";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const difficultyColors = {
-  Easy: "text-accent",
-  Medium: "text-chart-3",
-  Hard: "text-destructive",
+  EASY: "text-accent",
+  MEDIUM: "text-chart-3",
+  HARD: "text-destructive",
 }
 
 export function ProblemDescription({ problem }: { problem: ProblemDetail }) {
@@ -39,28 +41,18 @@ export function ProblemDescription({ problem }: { problem: ProblemDetail }) {
               {/* Title and Difficulty */}
               <div>
                 <h1 className="text-xl font-semibold">
-                  {problem.id}. {problem.title}
+                  {problem.title}
                 </h1>
-                <Badge variant="secondary" className={cn("mt-2", difficultyColors[problem.difficulty])}>
-                  {problem.difficulty}
+                <Badge variant="secondary" className={cn("mt-2", difficultyColors[problem.problemType])}>
+                  {problem.problemType == "HARD" ? "Hard" : problem.problemType == "EASY" ? "Easy" : "Medium"}
                 </Badge>
               </div>
 
               {/* Description */}
               <div className="prose prose-sm dark:prose-invert max-w-none">
-                {problem.description.split("\n\n").map((paragraph, i) => (
-                  <p key={i} className="text-sm leading-relaxed text-foreground">
-                    {paragraph.split("`").map((part, j) =>
-                      j % 2 === 1 ? (
-                        <code key={j} className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">
-                          {part}
-                        </code>
-                      ) : (
-                        part
-                      ),
-                    )}
-                  </p>
-                ))}
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {problem.description}
+                </ReactMarkdown>
               </div>
 
               {/* Examples */}

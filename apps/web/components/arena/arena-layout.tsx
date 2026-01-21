@@ -11,12 +11,12 @@ import { CodeEditor } from "./code-editor"
 import { TestCasesPanel } from "./test-cases-panel"
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable"
 
-type Language = "cpp" | "python" | "java" | "javascript"
+type Language = "CPP" | "PYTHON" | "JAVA" | "JAVASCRIPT" | "TYPESCRIPT" | "GO" | "RUST";
 
 export function ArenaLayout({ problem }: { problem: ProblemDetail }) {
   const { theme, setTheme } = useTheme()
-  const [language, setLanguage] = useState<Language>("cpp")
-  const [code, setCode] = useState(problem.starterCode.cpp)
+  const [language, setLanguage] = useState<Language>("CPP")
+  const [code, setCode] = useState(problem.starterCode.CPP)
   const [testCases, setTestCases] = useState<TestCase[]>(problem.testCases)
   const [isRunning, setIsRunning] = useState(false)
   const [activeTab, setActiveTab] = useState<"testcase" | "result">("testcase")
@@ -82,7 +82,7 @@ export function ArenaLayout({ problem }: { problem: ProblemDetail }) {
               </Button>
             </Link>
             <span className="text-sm font-medium px-2">
-              {problem.id}. {problem.title}
+              {problem.title}
             </span>
             <Link href={`/arena/${nextProblemId}`}>
               <Button variant="ghost" size="icon" className="h-8 w-8" disabled={problem.id === "15"}>
