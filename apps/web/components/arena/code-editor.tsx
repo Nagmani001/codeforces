@@ -1,11 +1,7 @@
 "use client"
 
-import { configureDefaultWorkerFactory } from 'monaco-languageclient/workerFactory';
-import type { MonacoVscodeApiConfig } from 'monaco-languageclient/vscodeApiWrapper';
-import type { LanguageClientConfig } from 'monaco-languageclient/lcwrapper';
-import type { EditorAppConfig } from 'monaco-languageclient/editorApp';
 import { useTheme } from "next-themes"
-import { MonacoEditorReactComp } from '@typefox/monaco-editor-react';
+import Editor from "@monaco-editor/react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@repo/ui/components/select";
 import { Button } from "@repo/ui/components/button";
 import { RotateCcw } from "lucide-react"
@@ -27,9 +23,9 @@ const monacoLanguages: Record<Language, string> = {
   PYTHON: "python",
   JAVA: "java",
   JAVASCRIPT: "javascript",
-  GO: "Go",
-  RUST: "Rust",
-  TYPESCRIPT: "Typescript"
+  GO: "go",
+  RUST: "rust",
+  TYPESCRIPT: "typescript"
 }
 
 interface CodeEditorProps {
@@ -41,47 +37,6 @@ interface CodeEditorProps {
 
 export function CodeEditor({ code, onChange, language, onLanguageChange }: CodeEditorProps) {
   const { theme } = useTheme()
-
-
-  const vscodeApiConfig: MonacoVscodeApiConfig = {
-    $type: 'extended',
-    viewsConfig: {
-      $type: 'EditorService'
-    },
-    userConfiguration: {
-      json: JSON.stringify({
-        'workbench.colorTheme': 'Default Dark Modern',
-        'editor.wordBasedSuggestions': 'off'
-      })
-    },
-    monacoWorkerFactory: configureDefaultWorkerFactory
-  };
-
-  // Language client configuration
-  const languageClientConfig: LanguageClientConfig = {
-    languageId,
-    connection: {
-      options: {
-        $type: 'WebSocketUrl',
-        // at this url the language server for myLang must be reachable
-        url: 'ws://localhost:30000/myLangLS'
-      }
-    },
-    clientOptions: {
-      documentSelector: [languageId],
-    }
-  };
-
-  // editor app / monaco-editor configuration
-  const editorAppConfig: EditorAppConfig = {
-    codeResources: {
-      main: {
-        text: code,
-        uri: codeUri
-      }
-    }
-  };
-
 
   return (
     <div className="flex h-full flex-col">
@@ -104,13 +59,23 @@ export function CodeEditor({ code, onChange, language, onLanguageChange }: CodeE
         </Button>
       </div>
       <div className="flex-1">
-        <MonacoEditorReactComp
-          vscodeApiConfig={vscodeApiConfig}
-          editorAppConfig={editorAppConfig}
-          languageClientConfig={languageClientConfig}
-          onError={(e: any) => {
-            console.error(e);
-          }} />
+        <Editor
+          height="100%"
+          language={monacoLanguages[language]}
+          value={code}
+          onChange={(value) => onChange(value || "")}
+          theme={theme === "dark" ? "vs-dark" : "light"}
+          options={{
+            minimap: { enabled: false },
+            fontSize: 14,
+            fontFamily: "'Geist Mono', monospace",
+            lineNumbers: "on",
+            scrollBeyondLastLine: false,
+            automaticLayout: true,
+            tabSize: 4,
+            padding: { top: 12 },
+          }}
+        />
       </div>
     </div>
   )

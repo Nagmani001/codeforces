@@ -1,7 +1,7 @@
-
+import { Language } from "@prisma/client";
 export const starterCodes = [
   {
-    language: "CPP",
+    language: Language.CPP,
     code: `#include <bits/stdc++.h>
 using namespace std;
 
@@ -13,7 +13,7 @@ int main() {
 
 
   {
-    language: "PYTHON",
+    language: Language.PYTHON,
     code: `def main():
     # cook your dish here
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
 
   {
-    language: "JAVA",
+    language: Language.JAVA,
     code: `import java.util.*;
 import java.lang.*;
 import java.io.*;
@@ -40,13 +40,13 @@ class Codechef
 
 
   {
-    language: "RUST",
+    language: Language.RUST,
     code: `fn main() {
     println!("Hello, world!");
 }`,
   },
   {
-    language: "GO",
+    language: Language.GO,
     code: `package main
 import "fmt"
 
@@ -55,7 +55,7 @@ func main(){
 }`,
   },
   {
-    language: "JAVASCRIPT",
+    language: Language.JAVASCRIPT,
     code: `function main(){
   // your code goes here  
 }
@@ -63,7 +63,7 @@ func main(){
 main();`,
   },
   {
-    language: "TYPESCRIPT",
+    language: Language.TYPESCRIPT,
     code: `function main(){
   // your code goes here  
 }

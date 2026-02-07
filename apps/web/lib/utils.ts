@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "./config";
-import { ProblemDetail, problems } from "./temp";
+import { ProblemDetail, TestCase, TestCaseVerdict } from "./temp";
 
 export async function getProblems(page: number, cookieStore: any) {
   const cookieHeader = Array.from(cookieStore._parsed.values())
@@ -57,4 +57,36 @@ export function getProblemPrettified(problem: any) {
     starterCode: problem.starterCodeObj,
   };
   return actualProblem;
+}
+
+function statusIdToVerdict(id: number): TestCaseVerdict {
+  if (id === 3) return "accepted"
+  if (id === 4) return "wrong_answer"
+  if (id === 5) return "tle"
+  if (id === 6) return "compilation_error"
+  if (id >= 7 && id <= 12) return "runtime_error"
+  return "internal_error"
+}
+
+export function processJudge0Response(
+  submissions: any[],
+  currentTestCases: TestCase[]
+): TestCase[] {
+  return currentTestCases.map((tc, i) => {
+    const sub = submissions[i]
+    if (!sub) return tc
+
+    const verdict = statusIdToVerdict(sub.status.id)
+
+    return {
+      ...tc,
+      verdict,
+      status: verdict === "accepted" ? "passed" as const : "failed" as const,
+      actualOutput: sub.stdout ?? undefined,
+      stderr: sub.stderr ?? undefined,
+      compileOutput: sub.compile_output ?? undefined,
+      time: sub.time ?? undefined,
+      memory: sub.memory ?? undefined,
+    }
+  })
 }

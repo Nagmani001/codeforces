@@ -14,7 +14,6 @@ judge0Router.post("/submit", async (req: Request, res: Response) => {
     headers: fromNodeHeaders(req.headers),
   });
   if (!session) return unauthorized(res);
-  let allTestCases: any[] = [];
 
   const parsedData = submissionSchema.safeParse(req.body);
   if (!parsedData.success) return invalidInputs(res);
@@ -25,8 +24,18 @@ judge0Router.post("/submit", async (req: Request, res: Response) => {
       id: problemId
     },
     select: {
-      visibleTestCases: true,
-      hiddenTestCases: true,
+      visibleTestCases: {
+        select: {
+          input: true,
+          output: true,
+        }
+      },
+      hiddenTestCases: {
+        select: {
+          input: true,
+          output: true,
+        }
+      },
       title: false,
       createdAt: false,
       isDeleted: false,
@@ -36,33 +45,25 @@ judge0Router.post("/submit", async (req: Request, res: Response) => {
     }
   });
 
-  testCases?.hiddenTestCases.forEach(x => {
-    allTestCases.push({
-      input: x.input,
-      output: x.output
-    });
-  });
+  const test = [
+    ...testCases?.hiddenTestCases!,
+    ...testCases?.visibleTestCases!,
+  ];
 
-  testCases?.visibleTestCases.forEach(x => {
-    allTestCases.push({
-      input: x.input,
-      output: x.output
-    });
-  });
   const language_id = languageTolanguageId(language);
 
-  let newOne = allTestCases.map((x: any) => {
+  let toJudge0 = test.map((x: any) => {
     return {
       language_id,
       source_code: code,
       stdin: x.input,
       expected_output: x.output
     }
-  })
+  });
 
   try {
     const judge0Response = await axios.post(`${JUDGE0_BASE_URL}/submissions/batch/?base64_encoded=false`, {
-      submissions: newOne
+      submissions: toJudge0
     });
 
     res.json(judge0Response.data);
@@ -82,15 +83,17 @@ judge0Router.get("/submission", async (req: Request, res: Response) => {
   const tokens = req.query.tokens;
   if (!tokens) return invalidInputs(res);
 
+  console.log("tokens", tokens);
   try {
     const judge0Response = await axios.get(`${JUDGE0_BASE_URL}/submissions/batch?tokens=${tokens}`);
     // store the result in DB; 
 
     // might have to process the result first and give the user minimal response
     res.json({
-      judge0Response
+      judge0Response: judge0Response.data
     })
   } catch (err) {
+    console.log("error brother eww", err);
     res.status(500).json({
       msg: "something went wrong"
     });

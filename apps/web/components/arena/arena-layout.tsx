@@ -10,6 +10,9 @@ import { ProblemDescription } from "./problem-description"
 import { CodeEditor } from "./code-editor"
 import { TestCasesPanel } from "./test-cases-panel"
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable"
+import axios from "axios"
+import { BASE_URL } from "../../lib/config"
+import { processJudge0Response } from "../../lib/utils"
 
 type Language = "CPP" | "PYTHON" | "JAVA" | "JAVASCRIPT" | "TYPESCRIPT" | "GO" | "RUST";
 
@@ -26,20 +29,94 @@ export function ArenaLayout({ problem }: { problem: ProblemDetail }) {
     setCode(problem.starterCode[newLang])
   }
 
-  const handleRun = () => {
+  async function handleRunFor(type: "submit" | "run") {
     setIsRunning(true)
     setActiveTab("result")
-    // Simulate running tests
-    setTimeout(() => {
-      setTestCases((prev) =>
-        prev.map((tc, i) => ({
-          ...tc,
-          actualOutput: tc.expectedOutput,
-          status: i === 0 ? "passed" : i === 1 ? "passed" : "failed",
-        })),
-      )
-      setIsRunning(false)
-    }, 1500)
+
+    const submissionObj = {
+      problemId: problem.id,
+      code,
+      language,
+    };
+
+    try {
+      const tokens = await axios.post(`${BASE_URL}/api/judge0/submit`, submissionObj, {
+        withCredentials: true
+      });
+
+      let actualTokens = "";
+      tokens.data.forEach((x: any) => {
+        actualTokens += `,${x.token}`
+      });
+      try {
+        const poolResponse: any = await new Promise(async (resolve, regect) => {
+          const interval = setInterval(async () => {
+            const result = await axios.get(`${BASE_URL}/api/judge0/submission?tokens=${actualTokens.substring(1)}`, { withCredentials: true });
+            const arr = result.data.judge0Response.submissions;
+            const status = arr.find((x: any) => {
+              if (x.status.id == 1 || x.status.id == 2) {
+                return true;
+              }
+            });
+            if (!status) {
+              resolve(arr);
+              setIsRunning(false)
+              clearInterval(interval);
+            }
+          }, 1300);
+        });
+        const processResponse = processJudge0Response(poolResponse, problem.testCases);
+        setTestCases(processResponse);
+      } catch (err) {
+      }
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
+  const handleRun = async () => {
+    setIsRunning(true)
+    setActiveTab("result")
+
+    const submissionObj = {
+      problemId: problem.id,
+      code,
+      language,
+    };
+
+    try {
+      const tokens = await axios.post(`${BASE_URL}/api/judge0/submit`, submissionObj, {
+        withCredentials: true
+      });
+
+      let actualTokens = "";
+      tokens.data.forEach((x: any) => {
+        actualTokens += `,${x.token}`
+      });
+      try {
+        const poolResponse: any = await new Promise(async (resolve, regect) => {
+          const interval = setInterval(async () => {
+            const result = await axios.get(`${BASE_URL}/api/judge0/submission?tokens=${actualTokens.substring(1)}`, { withCredentials: true });
+            const arr = result.data.judge0Response.submissions;
+            const status = arr.find((x: any) => {
+              if (x.status.id == 1 || x.status.id == 2) {
+                return true;
+              }
+            });
+            if (!status) {
+              resolve(arr);
+              setIsRunning(false)
+              clearInterval(interval);
+            }
+          }, 1300);
+        });
+        const processResponse = processJudge0Response(poolResponse, problem.testCases);
+        setTestCases(processResponse);
+      } catch (err) {
+      }
+    } catch (err) {
+      console.log("error", err);
+    }
   }
 
   const handleSubmit = () => {
@@ -76,7 +153,7 @@ export function ArenaLayout({ problem }: { problem: ProblemDetail }) {
             <span className="hidden sm:inline">CodeArena</span>
           </Link>
           <div className="ml-4 flex items-center gap-1">
-            <Link href={`/arena/${prevProblemId}`}>
+            <Link href={`/ arena / ${prevProblemId}`}>
               <Button variant="ghost" size="icon" className="h-8 w-8" disabled={problem.id === "1"}>
                 <ChevronLeft className="h-4 w-4" />
               </Button>
@@ -84,7 +161,7 @@ export function ArenaLayout({ problem }: { problem: ProblemDetail }) {
             <span className="text-sm font-medium px-2">
               {problem.title}
             </span>
-            <Link href={`/arena/${nextProblemId}`}>
+            <Link href={`/ arena / ${nextProblemId}`}>
               <Button variant="ghost" size="icon" className="h-8 w-8" disabled={problem.id === "15"}>
                 <ChevronRight className="h-4 w-4" />
               </Button>

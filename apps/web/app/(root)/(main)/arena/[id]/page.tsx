@@ -7,6 +7,7 @@ export default async function ArenaPage({ params }: { params: Promise<{ id: stri
   const getProblem = (await getSpecificProblem(id)).data;
   const problem = getProblemPrettified(getProblem);
 
+
   if (!problem) {
     notFound()
   }
