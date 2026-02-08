@@ -54,6 +54,8 @@ export function ProblemsTable({ problems }: {
   const { filters } = useProblemsStore()
   const sentinelRef = useRef(null);
   const [problemState, setProblemState] = useState<Problem[]>(problems);
+  const [hasMore, setHasMore] = useState(true);
+
   async function fetchMore() {
     const prob = await axios.get(`${BASE_URL}/api/user/problems?cursor=${problemState[problemState.length - 1]!.id}`, {
       withCredentials: true
@@ -68,21 +70,29 @@ export function ProblemsTable({ problems }: {
         status: x.submission.length == 0 ? "UNSOLVED" : x.submission[0].status
       }
     });
+    if (newProblems.length == 0) {
+      setHasMore(false);
+    }
     setProblemState(prev => {
       return [...prev, ...newProblems]
     });
+    return newProblems;
   }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]!.isIntersecting) {
+          console.log("triggered");
           fetchMore();
         }
       },
       { threshold: 1.0 }
     );
     if (sentinelRef.current) observer.observe(sentinelRef.current);
+    if (!hasMore) {
+      observer.disconnect();
+    }
     return () => observer.disconnect();
   }, [problemState]);
 
