@@ -45,6 +45,11 @@ export function CalendarWidget() {
       rows.push(row)
     }
 
+    // Always render 6 rows to prevent layout shift
+    while (rows.length < 6) {
+      rows.push(Array(7).fill(null))
+    }
+
     return rows
   }, [viewMonth, viewYear])
 
@@ -89,25 +94,9 @@ export function CalendarWidget() {
       {/* Header: Day info + hexagon badge */}
       <div className="p-4 pb-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div>
-              <span className="text-lg font-bold">Day {todayDate}</span>
-              <span className="text-xs text-orange-400 ml-2">{timeLeft} left</span>
-            </div>
-            <div className="flex items-center gap-0.5">
-              <button
-                onClick={prevMonth}
-                className="text-muted-foreground hover:text-foreground p-0.5 rounded transition-colors"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <button
-                onClick={nextMonth}
-                className="text-muted-foreground hover:text-foreground p-0.5 rounded transition-colors"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
+          <div>
+            <span className="text-lg font-bold">Day {todayDate}</span>
+            <span className="text-xs text-orange-400 ml-2">{timeLeft} left</span>
           </div>
 
           {/* Hexagonal date badge */}
@@ -132,6 +121,33 @@ export function CalendarWidget() {
       </div>
 
       <CardContent className="p-4 pt-0">
+        {/* Month navigation */}
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <button
+            onClick={prevMonth}
+            className="text-muted-foreground hover:text-foreground p-0.5 rounded transition-colors"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <span className="text-sm font-medium text-muted-foreground min-w-[72px] text-center">
+            {MONTH_NAMES[viewMonth]} {viewYear}
+          </span>
+          <button
+            onClick={nextMonth}
+            className="text-muted-foreground hover:text-foreground p-0.5 rounded transition-colors"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+          {!isCurrentMonth && (
+            <button
+              onClick={() => { setViewMonth(todayMonth); setViewYear(todayYear) }}
+              className="text-xs text-emerald-400 hover:text-emerald-300 ml-1 transition-colors"
+            >
+              Today
+            </button>
+          )}
+        </div>
+
         {/* Calendar grid */}
         <div>
           {/* Day-of-week headers */}
