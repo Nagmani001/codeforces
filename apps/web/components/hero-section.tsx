@@ -1,14 +1,20 @@
 import Link from "next/link"
 import { Button } from "@repo/ui/components/button"
 import { ArrowRight, Trophy } from "lucide-react"
+import { ParticleBackground } from "./particle-background"
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden py-20 md:py-32">
+    <section className="relative overflow-hidden min-h-[90vh] flex items-center">
+      {/* Subtle radial gradient behind particles */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background" />
-      <div className="container relative px-4 mx-auto max-w-7xl">
+
+      {/* Interactive particle dots */}
+      <ParticleBackground />
+
+      <div className="container relative z-10 px-4 mx-auto max-w-7xl py-20 md:py-32">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 backdrop-blur-sm">
             <Trophy className="h-4 w-4" />
             <span>Join 500,000+ competitive programmers</span>
           </div>
@@ -30,12 +36,12 @@ export function HeroSection() {
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="gap-2 px-8 bg-transparent">
+            <Button size="lg" variant="outline" className="gap-2 px-8 bg-transparent backdrop-blur-sm">
               Explore Problems
             </Button>
           </div>
 
-          <div className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-border">
+          <div className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-border/50 backdrop-blur-sm">
             <div className="flex flex-col items-center">
               <span className="text-3xl md:text-4xl font-bold text-foreground">10K+</span>
               <span className="text-sm text-muted-foreground mt-1">Problems</span>
