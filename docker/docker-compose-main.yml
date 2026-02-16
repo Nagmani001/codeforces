@@ -33,3 +33,37 @@ services:
       interval: 1s
       timeout: 10s
       retries: 10 
+  
+  backend:
+    container_name: backend
+    build:
+      context: 
+      dockerfile: 
+    ports:
+      - 3001:3001
+    environment:
+      - 
+    healthcheck:
+      test: ["curl", "http://localhost:3001/health"]
+      interval: 1s
+      timeout: 10s
+      retries: 10 
+
+  web:
+    container_name: web 
+    build:
+      context: 
+      dockerfile: 
+    ports:
+      - 3000:3000
+    depends_on:
+      backend:
+        condition: service_healthy
+    
+    environment:
+      - 
+    healthcheck:
+      test: ["curl", "http://localhost:3001/health"]
+      interval: 1s
+      timeout: 10s
+      retries: 10 
