@@ -1,32 +1,36 @@
-ARG NODE_VERSION=24.11.0
+ARG NODE_VERSION=24.13.1
+FROM node:${NODE_VERSION}-alpine AS base
 
-FROM node:${NODE_VERSION}-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-FROM base AS prepare 
+FROM base AS prepare
 WORKDIR /app
-RUN npm install -g turbo
+COPY package.json . 
+RUN pnpm add -g turbo
 COPY . .
 RUN turbo prune backend --docker
 
-FROM base AS builder 
+FROM base AS builder
 WORKDIR /app
-RUN npm install -g pnpm 
+
 COPY --from=prepare /app/out/json/ .
 RUN pnpm install
+
 COPY --from=prepare /app/out/full/ .
+# no build step since we will use tsx
 RUN cd packages/database && pnpm dlx prisma@6.3.0 generate
-RUN pnpm run build
 
-FROM node:${NODE_VERSION}-alpine AS runner
+FROM base AS runner
 WORKDIR /app
+RUN pnpm add -g tsx
 
-# with this one i get prisma error
-COPY --from=builder /app/apps/backend/dist ./apps/backend/dist
+# Don't run production as root , security problem
+RUN addgroup --system --gid 1001 expressjs
+RUN adduser --system --uid 1001 expressjs
+USER expressjs
+COPY --from=builder /app .
 
-# with this one , i get rid of prisma error but then i have get the express error 
-# COPY --from=builder /app/apps/backend/dist ./apps/backend/dist
-# COPY --from=builder /app/node_modules/.pnpm/@prisma+client@6.3.0_prisma@6.3.0_typescript@5.9.3__typescript@5.9.3/node_modules/.prisma/client/libquery_engine-linux-musl-openssl-3.0.x.so.node ./apps/backend/dist/
-
-
-CMD [ "node","apps/backend/dist/index.js" ]
-
+EXPOSE 3001
+CMD ["tsx","apps/backend/src/index.ts"] 
