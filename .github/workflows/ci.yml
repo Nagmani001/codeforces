@@ -1,0 +1,28 @@
+name: CI for build  
+
+on:
+  pull_request:
+  push:
+    branches: [main,master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with: 
+          node-version: '24.11.0'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate prisma client
+        run: cd packages/database && npx prisma@6.3.0 generate
+
+      - name: Build the code
+        run: pnpm build
