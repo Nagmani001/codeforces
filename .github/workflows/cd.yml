@@ -23,7 +23,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        file: ../../docker/backend/Dockerfile
+        file: docker/backend/Dockerfile
         push: true
         tags: nagmani001/codeforces-backend:latest
 
@@ -31,7 +31,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        file: ../../docker/web/Dockerfile
+        file: docker/web/Dockerfile
         push: true
         tags: nagmani001/codeforces-web:latest
 
