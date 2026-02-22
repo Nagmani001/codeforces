@@ -1,0 +1,54 @@
+name: Build and Deploy to Docker Hub
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check Out Repo
+      uses: actions/checkout@v2
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push backend image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ../../docker/backend/Dockerfile
+        push: true
+        tags: nagmani001/codeforces-backend:latest
+
+    - name: Build and Push web image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ../../docker/web/Dockerfile
+        push: true
+        tags: nagmani001/codeforces-web:latest
+
+    - name: Verify Pushed Image
+      run: docker pull nagmani001/codeforces-web:latest
+
+    - name: Verify Pushed Image
+      run: docker pull nagmani001/codeforces-backend:latest
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          sudo docker pull 100xdevs/web-app:latest
+          sudo docker stop web-app || true
+          sudo docker rm web-app || true
+          sudo docker run -d --name web-app -p 3005:3000 100xdevs/web-app:latest
+
