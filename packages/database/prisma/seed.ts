@@ -1,7 +1,9 @@
 import prisma from "../src";
 import { problemTags, problemsData, starterCodes } from "./seedData";
+import { hashPassword } from "better-auth/crypto";
 
 const ADMIN_USER_ID = "yPKe9GTaKVW1og4y0XXsRqGgRmymSe3u";
+const ADMIN_PASSWORD = "admin123";
 
 async function main() {
   console.log("🌱 Starting database seed...\n");
@@ -24,6 +26,18 @@ async function main() {
         isAdmin: true,
       }
     });
+
+    const hashedPassword = await hashPassword(ADMIN_PASSWORD);
+    await prisma.account.create({
+      data: {
+        id: crypto.randomUUID(),
+        accountId: ADMIN_USER_ID,
+        providerId: "credential",
+        userId: ADMIN_USER_ID,
+        password: hashedPassword,
+      }
+    });
+    console.log(`Admin credentials -> email: nagmanipd3@gmail.com, password: ${ADMIN_PASSWORD}`);
   }
 
 

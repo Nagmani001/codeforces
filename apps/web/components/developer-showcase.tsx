@@ -170,9 +170,8 @@ export function DeveloperShowcase() {
         {developers.map((dev, index) => (
           <div
             key={dev.title}
-            className={`snap-start flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[50vw] transition-opacity duration-500 ${
-              activeIndex === index ? "opacity-100" : "opacity-40"
-            }`}
+            className={`snap-start flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[50vw] transition-opacity duration-500 ${activeIndex === index ? "opacity-100" : "opacity-40"
+              }`}
           >
             <div
               className={`relative rounded-2xl overflow-hidden aspect-[16/10] bg-gradient-to-br ${dev.gradient} ${dev.darkGradient} flex items-center justify-center`}
@@ -192,9 +191,8 @@ export function DeveloperShowcase() {
               </div>
             </div>
 
-            <div className={`mt-6 transition-all duration-500 delay-200 ${
-              activeIndex === index ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-            }`}>
+            <div className={`mt-6 transition-all duration-500 delay-200 ${activeIndex === index ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+              }`}>
               <h3 className="text-xl font-semibold text-foreground">{dev.title}</h3>
               <p className="mt-2 text-muted-foreground leading-relaxed max-w-lg">
                 {dev.description}

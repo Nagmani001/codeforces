@@ -10,5 +10,6 @@ export interface ResendEmailOptions
 export interface NodemailerInput {
   to: string,
   subject: string,
-  react: React.ReactNode
+  react: React.ReactNode,
+  transporter: any
 }

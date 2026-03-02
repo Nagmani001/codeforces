@@ -1,3 +1,6 @@
+import { config } from "dotenv";
+config();
+
 import express from "express";
 import cors from "cors";
 import { adminProblemRouter } from "./router/adminProblemsRouter";
@@ -7,9 +10,10 @@ import { userProblemRouter } from "./router/userProblemsRouter";
 import { tagsRouter } from "./router/tagsRouter";
 import { judge0Router } from "./router/judge0Router";
 import { submissionRouter } from "./router/submissionsRouter";
+import { initEmail } from "@repo/email/mail";
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
 
 declare global {
   namespace Express {
@@ -19,12 +23,12 @@ declare global {
   }
 }
 
-
 const corsMiddleware = cors({
   origin: ["http://localhost:3000", "http://localhost:3001"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 });
+
 
 app.use(corsMiddleware);
 app.all('/api/auth/{*any}', corsMiddleware, toNodeHandler(auth));
@@ -40,6 +44,10 @@ app.get("/api/me", async (req, res) => {
 });
 
 
+app.get("/health", (_req, res) => {
+  res.status(200).send("ok");
+});
+
 app.use("/api/admin/problems", adminProblemRouter);
 app.use("/api/user/problems", userProblemRouter);
 app.use("/api/tags", tagsRouter);
@@ -48,13 +56,34 @@ app.use("/api/submissions", submissionRouter);
 
 async function main() {
   /*
+  INFO: currnetly no redis connection required 
   await redisClient.connect();
   console.log("connected to redis client");
   await pubSubClient.connect();
   console.log("connected to pub sub client");
    * */
+
+
   app.listen(port, () => {
     console.log(`server running on port ${port}`);
   });
+
+  if (process.env.RESEND_API_KEY) {
+    initEmail({
+      resendApiKey: process.env.RESEND_API_KEY,
+    })
+  } else {
+    initEmail({
+      smtp: {
+        host: process.env.SMTP_HOST!,
+        port: Number(process.env.SMTP_PORT!),
+        user: process.env.SMTP_USER!,
+        password: process.env.SMTP_PASSWORD!,
+      }
+    })
+  }
 }
-main();
+main().catch((err) => {
+  console.error("Fatal error during startup:", err);
+  process.exit(1);
+});
