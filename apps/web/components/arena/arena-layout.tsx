@@ -24,6 +24,7 @@ import axios from "axios"
 import { BASE_URL } from "../../lib/config"
 import { processJudge0Response } from "../../lib/utils"
 import { useRouter } from "next/navigation"
+import { fetchEventSource } from "@microsoft/fetch-event-source"
 
 type Language = "CPP" | "PYTHON" | "JAVA" | "JAVASCRIPT" | "TYPESCRIPT" | "GO" | "RUST";
 
@@ -47,6 +48,9 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
     setIsRunning(true)
     setActiveTab("result")
 
+    // Reset test cases to pending state
+    setTestCases(problem.testCases.map(tc => ({ ...tc, status: undefined, verdict: undefined, actualOutput: undefined, stderr: undefined, compileOutput: undefined, time: undefined, memory: undefined })))
+
     const submissionObj = {
       problemId: problem.id,
       code,
@@ -55,36 +59,93 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
     };
 
     try {
-      const tokens = await axios.post(`${BASE_URL}/api/judge0/execute`, submissionObj, {
+      const response = await axios.post(`${BASE_URL}/api/execute/execute`, submissionObj, {
         withCredentials: true
       });
-      let actualTokens = "";
-      tokens.data.judge0.forEach((x: any) => {
-        actualTokens += `,${x.token}`
-      });
-      try {
-        const poolResponse: any = await new Promise(async (resolve, regect) => {
-          const interval = setInterval(async () => {
-            const result = await axios.get(`${BASE_URL}/api/judge0/submission?tokens=${actualTokens.substring(1)}&type=${type}&submissionId=${tokens.data.submissionId}`, { withCredentials: true });
-            const arr = result.data.judge0Response.submissions;
-            const status = arr.find((x: any) => {
-              if (x.status.id == 1 || x.status.id == 2) {
-                return true;
-              }
-            });
-            if (!status) {
-              resolve(arr);
-              setIsRunning(false)
-              clearInterval(interval);
-            }
-          }, 1300);
+
+      const { mode, submissionId } = response.data;
+
+      if (mode === "judge0") {
+        // ---- Judge0 polling path ----
+        const judge0Data = response.data.judge0;
+        let actualTokens = "";
+        judge0Data.forEach((x: any) => {
+          actualTokens += `,${x.token}`
         });
-        const processResponse = processJudge0Response(poolResponse, problem.testCases);
-        setTestCases(processResponse);
-      } catch (err) {
+
+        try {
+          const poolResponse: any = await new Promise((resolve) => {
+            const interval = setInterval(async () => {
+              const result = await axios.get(
+                `${BASE_URL}/api/execute/submission?tokens=${actualTokens.substring(1)}&type=${type}&submissionId=${submissionId}`,
+                { withCredentials: true }
+              );
+              const arr = result.data.judge0Response.submissions;
+              const pending = arr.find((x: any) => x.status.id === 1 || x.status.id === 2);
+              if (!pending) {
+                resolve(arr);
+                setIsRunning(false)
+                clearInterval(interval);
+              }
+            }, 1300);
+          });
+          const processResponse = processJudge0Response(poolResponse, problem.testCases);
+          setTestCases(processResponse);
+        } catch (err) {
+          console.error("polling error", err);
+          setIsRunning(false);
+        }
+      } else if (mode === "isolate") {
+        // ---- Isolate SSE path ----
+        await fetchEventSource(`${BASE_URL}/api/execute/stream/${submissionId}`, {
+          credentials: "include",
+          onmessage(ev) {
+            const event = JSON.parse(ev.data);
+
+            if (event.type === "testcase") {
+              const idx = event.testCaseNumber - 1;
+              setTestCases(prev => prev.map((tc, i) => {
+                if (i !== idx) return tc;
+                const verdictMap: Record<string, any> = {
+                  ACCEPTED: "accepted",
+                  WRONG_ANSWER: "wrong_answer",
+                  TIME_LIMIT_EXCEEDED: "tle",
+                  MEMORY_LIMIT_EXCEEDED: "tle",
+                  RUNTIME_ERROR: "runtime_error",
+                  COMPILATION_ERROR: "compilation_error",
+                };
+                return {
+                  ...tc,
+                  verdict: verdictMap[event.verdict] || "internal_error",
+                  status: event.verdict === "ACCEPTED" ? "passed" as const : "failed" as const,
+                  actualOutput: event.stdout,
+                  stderr: event.stderr,
+                  time: event.time != null ? String(event.time) : undefined,
+                  memory: event.memory,
+                };
+              }));
+            } else if (event.type === "done" || event.type === "error") {
+              if (event.compileOutput) {
+                setTestCases(prev => prev.map(tc => ({
+                  ...tc,
+                  verdict: "compilation_error" as const,
+                  status: "failed" as const,
+                  compileOutput: event.compileOutput,
+                })));
+              }
+              setIsRunning(false);
+            }
+          },
+          onerror(err) {
+            console.error("SSE error:", err);
+            setIsRunning(false);
+            throw err; // stop retrying
+          },
+        });
       }
     } catch (err) {
-      console.log("error", err);
+      console.error("execution error", err);
+      setIsRunning(false);
     }
   }
 

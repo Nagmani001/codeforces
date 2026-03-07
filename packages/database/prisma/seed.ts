@@ -3,7 +3,7 @@ import { problemTags, problemsData, starterCodes } from "./seedData";
 import { hashPassword } from "better-auth/crypto";
 
 const ADMIN_USER_ID = "yPKe9GTaKVW1og4y0XXsRqGgRmymSe3u";
-const ADMIN_PASSWORD = "admin123";
+const ADMIN_PASSWORD = "nagmaniupadhyay";
 
 async function main() {
   console.log("🌱 Starting database seed...\n");

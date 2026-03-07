@@ -9,8 +9,11 @@ import { auth } from "./util/auth";
 import { userProblemRouter } from "./router/userProblemsRouter";
 import { tagsRouter } from "./router/tagsRouter";
 import { judge0Router } from "./router/judge0Router";
+import { executionRouter } from "./router/executionRouter";
 import { submissionRouter } from "./router/submissionsRouter";
 import { initEmail } from "@repo/email/mail";
+import { redisClient, pubSubClient } from "./redis/client";
+import { EXECUTOR_MODE } from "./util/config";
 
 const app = express();
 const port = process.env.PORT;
@@ -52,17 +55,16 @@ app.use("/api/admin/problems", adminProblemRouter);
 app.use("/api/user/problems", userProblemRouter);
 app.use("/api/tags", tagsRouter);
 app.use("/api/judge0", judge0Router);
+app.use("/api/execute", executionRouter);
 app.use("/api/submissions", submissionRouter);
 
 async function main() {
-  /*
-  INFO: currnetly no redis connection required 
-  await redisClient.connect();
-  console.log("connected to redis client");
-  await pubSubClient.connect();
-  console.log("connected to pub sub client");
-   * */
-
+  if (EXECUTOR_MODE === "isolate") {
+    await redisClient.connect();
+    console.log("connected to redis client");
+    await pubSubClient.connect();
+    console.log("connected to pub sub client");
+  }
 
   app.listen(port, () => {
     console.log(`server running on port ${port}`);

@@ -117,15 +117,21 @@ model ProblemTag {
 }
 
 model Submission {
-  id            String         @id @default(uuid())
-  code          String?
-  language      Language       @default(CPP)
-  status        ProblemStatus  @default(UNSOLVED)
-  resultVerdict ResultVerdict?
-  problemId     String
-  problem       Problems       @relation(fields: [problemId], references: [id], onDelete: Cascade)
-  userId        String
-  user          User           @relation(fields: [userId], references: [id])
+  id                  String         @id @default(uuid())
+  code                String?
+  language            Language       @default(CPP)
+  status              ProblemStatus  @default(UNSOLVED)
+  resultVerdict       ResultVerdict?
+  failedTestCaseNumber Int?
+  maxCpuTime          Int?
+  maxMemoryUsed       Int?
+  compilationError    String?
+  totalTestCases      Int?
+  createdAt           DateTime       @default(now())
+  problemId           String
+  problem             Problems       @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  userId              String
+  user                User           @relation(fields: [userId], references: [id])
 }
 
 model VisibleTestCases {
