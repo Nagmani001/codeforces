@@ -244,6 +244,24 @@ executionRouter.get("/submission", async (req: Request, res: Response) => {
             status: resultVerdict === "ACCEPTED" ? "SOLVED" : "ATTEMPTED",
           },
         });
+
+        if (resultVerdict == "ACCEPTED") {
+          const today = new Date();
+
+          await prisma.calendar.upsert({
+            where: {
+              userId_date: {
+                userId: session.user.id,
+                date: today
+              }
+            },
+            update: {},
+            create: {
+              userId: session.user.id,
+              date: today,
+            },
+          });
+        }
       }
     }
 

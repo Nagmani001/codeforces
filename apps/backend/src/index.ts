@@ -11,6 +11,7 @@ import { tagsRouter } from "./router/tagsRouter";
 import { judge0Router } from "./router/judge0Router";
 import { executionRouter } from "./router/executionRouter";
 import { submissionRouter } from "./router/submissionsRouter";
+import { calendarRouter } from "./router/calendarRouter";
 import { initEmail } from "@repo/email/mail";
 import { redisClient, pubSubClient } from "./redis/client";
 import { EXECUTOR_MODE } from "./util/config";
@@ -57,6 +58,7 @@ app.use("/api/tags", tagsRouter);
 app.use("/api/judge0", judge0Router);
 app.use("/api/execute", executionRouter);
 app.use("/api/submissions", submissionRouter);
+app.use("/api/calendar", calendarRouter);
 
 async function main() {
   if (EXECUTOR_MODE === "isolate") {

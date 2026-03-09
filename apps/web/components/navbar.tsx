@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Code2, ListChecks, Moon, Sun, User, LogOut, Settings } from "lucide-react"
+import { Code2, ListChecks, Moon, Sun, User, LogOut } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@repo/ui/components/button"
 import { cn } from "@repo/ui/lib/utils"
@@ -77,10 +77,6 @@ export function Navbar({ user }: {
                   <DropdownMenuItem>
                     <User className="mr-2 h-4 w-4" />
                     Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

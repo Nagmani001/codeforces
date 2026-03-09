@@ -4,6 +4,8 @@ import { useMemo, useState, useEffect } from "react"
 import { Card, CardContent } from "@repo/ui/components/card"
 import { cn } from "@repo/ui/lib/utils"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import axios from "axios"
+import { BASE_URL } from "../lib/config"
 
 const DAY_HEADERS = ["S", "M", "T", "W", "T", "F", "S"]
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -12,6 +14,7 @@ export function CalendarWidget() {
   const today = new Date()
   const [viewMonth, setViewMonth] = useState(today.getMonth())
   const [viewYear, setViewYear] = useState(today.getFullYear())
+  const [activityDays, setActivityDays] = useState<Set<number>>(new Set())
 
   const todayDate = today.getDate()
   const todayMonth = today.getMonth()
@@ -19,8 +22,34 @@ export function CalendarWidget() {
 
   const isCurrentMonth = viewMonth === todayMonth && viewYear === todayYear
 
-  // Mock activity data — days with submissions
-  const activityDays = useMemo(() => new Set([1, 2, 3, 4, 5, 18]), [])
+  useEffect(() => {
+    let cancelled = false
+
+    const fetchMonthActivity = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/calendar/month`, {
+          params: {
+            year: viewYear,
+            month: viewMonth + 1,
+          },
+          withCredentials: true,
+        })
+
+        if (cancelled) return
+        const submittedDays = Array.isArray(response.data?.submittedDays)
+          ? response.data.submittedDays
+          : []
+        setActivityDays(new Set(submittedDays))
+      } catch {
+        if (!cancelled) setActivityDays(new Set())
+      }
+    }
+
+    fetchMonthActivity()
+    return () => {
+      cancelled = true
+    }
+  }, [viewMonth, viewYear])
 
   // Build calendar grid
   const calendarRows = useMemo(() => {
@@ -89,6 +118,13 @@ export function CalendarWidget() {
     }
   }
 
+  const goToToday = () => {
+    if (!isCurrentMonth) {
+      setViewMonth(todayMonth)
+      setViewYear(todayYear)
+    }
+  }
+
   return (
     <Card className="border-border/50 shadow-sm">
       {/* Header: Day info + hexagon badge */}
@@ -138,14 +174,20 @@ export function CalendarWidget() {
           >
             <ChevronRight className="h-4 w-4" />
           </button>
-          {!isCurrentMonth && (
-            <button
-              onClick={() => { setViewMonth(todayMonth); setViewYear(todayYear) }}
-              className="text-xs text-emerald-400 hover:text-emerald-300 ml-1 transition-colors"
-            >
-              Today
-            </button>
-          )}
+          <button
+            onClick={goToToday}
+            disabled={isCurrentMonth}
+            className={cn(
+              "text-xs ml-1 transition-colors",
+              isCurrentMonth
+                ? "text-emerald-500"
+                : "text-emerald-400 hover:text-emerald-300",
+              isCurrentMonth && "opacity-70 cursor-default"
+            )}
+            aria-label={isCurrentMonth ? "Viewing current month" : "Go to current month"}
+          >
+            {isCurrentMonth ? "Viewing today" : "Go to today"}
+          </button>
         </div>
 
         {/* Calendar grid */}
@@ -193,21 +235,6 @@ export function CalendarWidget() {
           ))}
         </div>
 
-        {/* Weekly Premium section */}
-
-        {/* Footer */}
-        <div className="flex items-center justify-between mt-3 px-1">
-          <div className="flex items-center gap-1.5 text-emerald-400 text-sm">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M8 0L10 6H16L11 9.5L13 16L8 12L3 16L5 9.5L0 6H6L8 0Z" />
-            </svg>
-            <span className="font-semibold">0</span>
-            <span className="text-muted-foreground">Redeem</span>
-          </div>
-          <span className="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
-            Rules
-          </span>
-        </div>
       </CardContent>
     </Card>
   )
