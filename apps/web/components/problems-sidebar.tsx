@@ -7,7 +7,6 @@ import { getProblemStatus } from "../lib/utils";
 export async function ProblemsSidebar() {
   const cookieStore = await cookies();
   const problemStats = await getProblemStatus(cookieStore);
-  console.log("stats", problemStats.data);
   return (
     <div className="space-y-6">
       <CalendarWidget />

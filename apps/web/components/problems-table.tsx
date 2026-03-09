@@ -83,7 +83,6 @@ export function ProblemsTable({ problems }: {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]!.isIntersecting) {
-          console.log("triggered");
           fetchMore();
         }
       },

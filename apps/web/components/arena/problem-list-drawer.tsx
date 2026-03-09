@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { Search, CheckCircle2, Circle } from "lucide-react"
+import { Search } from "lucide-react"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@repo/ui/components/sheet"
 import { ScrollArea } from "@repo/ui/components/scroll-area"
 import { cn } from "@repo/ui/lib/utils"
@@ -32,10 +32,12 @@ export function ProblemListDrawer({ open, onOpenChange, currentProblemId }: Prob
   const [problems, setProblems] = useState<ProblemListItem[]>([])
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(false)
+  const sentinelRef = useRef(null);
   const hasMore = useRef(true)
   const isFetching = useRef(false)
   const problemsRef = useRef<ProblemListItem[]>([])
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
+  console.log(problems);
 
   async function fetchProblems(cursor?: string) {
     if (isFetching.current || !hasMore.current) return
@@ -76,19 +78,22 @@ export function ProblemListDrawer({ open, onOpenChange, currentProblemId }: Prob
   }, [open])
 
   useEffect(() => {
-    if (!open) return
-    const viewport = scrollWrapperRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null
-    if (!viewport) return
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = viewport
-      if (scrollHeight - scrollTop - clientHeight < 100 && !isFetching.current && hasMore.current && problemsRef.current.length > 0) {
-        const lastId = problemsRef.current[problemsRef.current.length - 1]!.id
-        fetchProblems(lastId)
-      }
+    const lastId = problemsRef.current[problemsRef.current.length - 1]?.id
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]!.isIntersecting) {
+          fetchProblems(lastId)
+        }
+      },
+      { threshold: 1.0 }
+    );
+    if (sentinelRef.current) observer.observe(sentinelRef.current);
+    if (!hasMore) {
+      observer.disconnect();
     }
-    viewport.addEventListener('scroll', handleScroll)
-    return () => viewport.removeEventListener('scroll', handleScroll)
-  }, [open, problems])
+    return () => observer.disconnect();
+  }, [problems]);
+
 
   const filtered = problems.filter((p) =>
     p.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -149,18 +154,11 @@ export function ProblemListDrawer({ open, onOpenChange, currentProblemId }: Prob
                       )}
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        {problem.status === "SOLVED" ? (
-                          <CheckCircle2 className="h-4 w-4 shrink-0 text-green-500" />
-                        ) : problem.status === "ATTEMPTED" ? (
-                          <Circle className="h-4 w-4 shrink-0 text-yellow-500" />
-                        ) : (
-                          <Circle className="h-4 w-4 shrink-0 text-muted-foreground/40" />
-                        )}
                         <span className={cn("truncate", isCurrent && "font-medium")}>
-                          {i + 1}. {problem.title}
+                          {i + 1}. {problem.title.length > 33 ? `${problem.title.slice(0, 30)}...` : problem.title}
                         </span>
                       </div>
-                      <span className={cn("text-xs font-medium shrink-0 ml-3", diff.className)}>
+                      <span className={cn("text-xs font-medium shrink-0", diff.className)}>
                         {diff.label}
                       </span>
                     </Link>
@@ -168,6 +166,7 @@ export function ProblemListDrawer({ open, onOpenChange, currentProblemId }: Prob
                 })}
               </div>
             )}
+            <div ref={sentinelRef} />
           </ScrollArea>
         </div>
       </SheetContent>

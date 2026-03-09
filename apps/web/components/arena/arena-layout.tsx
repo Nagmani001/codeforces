@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight, Code2, Moon, Sun, List, User, LogOut, Settings } from "lucide-react"
+import { ChevronLeft, ChevronRight, Code2, Moon, Sun, List, User, LogOut } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@repo/ui/components/button"
 import type { ProblemDetail, TestCase } from "../../lib/temp";
@@ -25,6 +25,7 @@ import { BASE_URL } from "../../lib/config"
 import { processJudge0Response } from "../../lib/utils"
 import { useRouter } from "next/navigation"
 import { fetchEventSource } from "@microsoft/fetch-event-source"
+import { authClient } from "../../lib/auth"
 
 type Language = "CPP" | "PYTHON" | "JAVA" | "JAVASCRIPT" | "TYPESCRIPT" | "GO" | "RUST";
 
@@ -225,17 +226,18 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                      <User className="mr-2 h-4 w-4" />
+                      Profile
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem variant="destructive">
+                <DropdownMenuItem onSelect={async () => {
+                  await authClient.signOut();
+                  router.push("/signin");
+                }} variant="destructive">
                   <LogOut className="mr-2 h-4 w-4" />
                   Log out
                 </DropdownMenuItem>

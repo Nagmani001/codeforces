@@ -73,7 +73,6 @@ export default function SignUpPage() {
 
   const handleOTPVerify = async (otp: string) => {
     router.push("/problems");
-
   }
   return (
     <div className="min-h-screen flex">

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Code2, ListChecks, Moon, Sun, User, LogOut } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@repo/ui/components/button"
@@ -15,12 +15,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@repo/ui/components/dropdown-menu"
+import { authClient } from "../lib/auth"
 
 export function Navbar({ user }: {
   user: any | undefined
 }) {
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
+  const router = useRouter();
 
   const navItems = [
     { href: "/problems", label: "Problems", icon: ListChecks },
@@ -74,13 +76,18 @@ export function Navbar({ user }: {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                      <User className="mr-2 h-4 w-4" />
+                      Profile
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem variant="destructive">
+                <DropdownMenuItem onSelect={async () => {
+                  await authClient.signOut();
+                  router.push("/signin")
+                }} variant="destructive">
                   <LogOut className="mr-2 h-4 w-4" />
                   Log out
                 </DropdownMenuItem>
