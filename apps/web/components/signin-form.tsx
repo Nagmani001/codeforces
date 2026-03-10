@@ -16,6 +16,7 @@ import { useMutation } from "@tanstack/react-query"
 import { authClient } from "../lib/auth"
 import { signinFormData } from "../lib/types"
 import toast from "react-hot-toast"
+import { FRONTEND_URL } from "../lib/config"
 
 export function SignInForm() {
   const searchParams = useSearchParams()
@@ -52,7 +53,9 @@ export function SignInForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+    if (formData.email == "" || formData.password == "") {
+      return toast.error("no email or password provided");
+    }
     setIsLoading(true)
     mutation.mutate(formData);
     setIsLoading(false)
@@ -95,8 +98,19 @@ export function SignInForm() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <Button variant={"link"} onClick={() => {
-                  alert("yet to implement")
+                <Button type="button" variant={"link"} onClick={async () => {
+                  if (formData.email == "") {
+                    return toast.error("please enter the email")
+                  }
+                  const { data, error } = await authClient.requestPasswordReset({
+                    email: formData.email,
+                    redirectTo: `${FRONTEND_URL}/api/auth/reset-password`,
+                  });
+                  if (error) {
+                    return toast.error("something went wrong");
+                  }
+                  toast.success(data.message)
+
                 }} className="text-sm text-primary hover:underline">
                   Forgot password?
                 </Button >

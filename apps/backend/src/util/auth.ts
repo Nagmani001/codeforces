@@ -4,6 +4,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { emailOTP } from "better-auth/plugins";
 import { sendEmail } from "@repo/email/mail";
 import OtpTemplate from "@repo/email/template/OtpTemplate";
+import ResentPasswordEmail from "@repo/email/template/resetPassword";
 
 
 export const auth = betterAuth({
@@ -23,6 +24,18 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url, token }, request) => {
+      sendEmail({
+        to: user.email,
+        subject: "Reset your password",
+        react: ResentPasswordEmail({ url, token }),
+      })
+    },
+    onPasswordReset: async ({ user }, request) => {
+      // your logic here
+      console.log(`Password for user ${user.email} has been reset.`);
+    },
   },
   plugins: [
     emailOTP({
