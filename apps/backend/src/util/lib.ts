@@ -33,9 +33,6 @@ export async function getProblemsUnauthenticated(cursor: string | undefined) {
     problems = await prisma.problems.findMany({
       skip: 1,
       take: 15,
-      orderBy: {
-        createdAt: "desc"
-      },
       cursor: {
         id: cursor
       },
@@ -60,9 +57,6 @@ export async function getProblemsUnauthenticated(cursor: string | undefined) {
     }) : problems = await prisma.problems.findMany({
       take: 15,
       skip: 0,
-      orderBy: {
-        createdAt: "desc"
-      },
       where: {
         isDeleted: false
       },
@@ -92,9 +86,6 @@ export async function getProblemsAuthenticated(cursor: string | undefined, userI
     problems = await prisma.problems.findMany({
       skip: 1,
       take: 15,
-      orderBy: {
-        createdAt: "desc"
-      },
       cursor: {
         id: cursor
       },
@@ -124,9 +115,6 @@ export async function getProblemsAuthenticated(cursor: string | undefined, userI
     }) : problems = await prisma.problems.findMany({
       take: 15,
       skip: 0,
-      orderBy: {
-        createdAt: "desc"
-      },
       where: {
         isDeleted: false
       },
