@@ -1,6 +1,4 @@
-import { config } from "dotenv";
-config();
-
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { adminProblemRouter } from "./router/adminProblemsRouter";
@@ -8,7 +6,6 @@ import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
 import { auth } from "./util/auth";
 import { userProblemRouter } from "./router/userProblemsRouter";
 import { tagsRouter } from "./router/tagsRouter";
-import { judge0Router } from "./router/judge0Router";
 import { executionRouter } from "./router/executionRouter";
 import { submissionRouter } from "./router/submissionsRouter";
 import { calendarRouter } from "./router/calendarRouter";
@@ -58,7 +55,7 @@ app.get("/health", (_req, res) => {
 app.use("/api/admin/problems", adminProblemRouter);
 app.use("/api/user/problems", userProblemRouter);
 app.use("/api/tags", tagsRouter);
-app.use("/api/judge0", judge0Router);
+// app.use("/api/judge0", judge0Router);
 app.use("/api/execute", executionRouter);
 app.use("/api/submissions", submissionRouter);
 app.use("/api/calendar", calendarRouter);

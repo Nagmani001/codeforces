@@ -14,7 +14,6 @@ export const executionRouter: Router = Router();
 
 executionRouter.use(authMiddlewareUser);
 
-// POST /execute — unified entry point
 executionRouter.post("/execute", async (req: Request, res: Response) => {
   const session = res.locals.session;
 
@@ -40,7 +39,6 @@ executionRouter.post("/execute", async (req: Request, res: Response) => {
       : [...problem.hiddenTestCases, ...problem.visibleTestCases];
 
   if (EXECUTOR_MODE === "isolate") {
-    // ---- Isolate path: push job to Redis queue ----
     let submission;
     if (type === "submit") {
       submission = await prisma.submission.create({
@@ -116,7 +114,6 @@ executionRouter.post("/execute", async (req: Request, res: Response) => {
   }
 });
 
-// GET /stream/:submissionId — SSE endpoint for isolate mode
 executionRouter.get("/stream/:submissionId", async (req: Request, res: Response) => {
   const submissionId = req.params.submissionId as string;
 
@@ -171,7 +168,6 @@ executionRouter.get("/stream/:submissionId", async (req: Request, res: Response)
       await subscriber.unsubscribe(channel);
       await subscriber.disconnect();
     } catch {
-      // client already disconnected
     }
   });
 });
