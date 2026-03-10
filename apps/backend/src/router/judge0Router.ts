@@ -1,19 +1,17 @@
 import { Router, Request, Response } from "express";
-import { invalidInputs, languageTolanguageId, unauthorized } from "../util/lib";
+import { invalidInputs, languageTolanguageId } from "../util/lib";
 import prisma from "@repo/database/client";
 import { submissionSchema } from "@repo/common/zodTypes";
 import axios from "axios";
 import { JUDGE0_BASE_URL } from "../util/config";
-import { auth } from "../util/auth";
-import { fromNodeHeaders } from "better-auth/node";
+import { authMiddlewareUser } from "../middleware/authMiddleware";
 
 export const judge0Router: Router = Router();
 
+judge0Router.use(authMiddlewareUser);
+
 judge0Router.post("/execute", async (req: Request, res: Response) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-  if (!session) return unauthorized(res);
+  const session = res.locals.session;
 
   const parsedData = submissionSchema.safeParse(req.body);
   if (!parsedData.success) return invalidInputs(res);
@@ -110,11 +108,6 @@ judge0Router.post("/execute", async (req: Request, res: Response) => {
 });
 
 judge0Router.get("/submission", async (req: Request, res: Response) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-  if (!session) return unauthorized(res);
-
   const tokens = req.query.tokens;
   const submissionId = req.query.submissionId as string | undefined;
   const type = req.query.type;

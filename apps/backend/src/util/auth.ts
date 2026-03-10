@@ -31,11 +31,7 @@ export const auth = betterAuth({
         subject: "Reset your password",
         react: ResentPasswordEmail({ url, token }),
       })
-    },
-    onPasswordReset: async ({ user }, request) => {
-      // your logic here
-      console.log(`Password for user ${user.email} has been reset.`);
-    },
+    }
   },
   plugins: [
     emailOTP({

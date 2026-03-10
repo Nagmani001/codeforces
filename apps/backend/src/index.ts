@@ -23,7 +23,9 @@ const port = process.env.PORT;
 declare global {
   namespace Express {
     interface Request {
-      userId?: String
+      userId?: string
+      user?: any
+      session?: any
     }
   }
 }

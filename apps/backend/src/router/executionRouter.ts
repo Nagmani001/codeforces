@@ -1,24 +1,22 @@
 import { Router, Request, Response } from "express";
-import { invalidInputs, languageTolanguageId, unauthorized } from "../util/lib";
+import { invalidInputs, languageTolanguageId } from "../util/lib";
 import prisma from "@repo/database/client";
 import { submissionSchema } from "@repo/common/zodTypes";
 import { SUBMISSION_QUEUE } from "@repo/common/consts";
 import axios from "axios";
 import { JUDGE0_BASE_URL, EXECUTOR_MODE } from "../util/config";
-import { auth } from "../util/auth";
-import { fromNodeHeaders } from "better-auth/node";
 import { redisClient, pubSubClient } from "../redis/client";
 import { v4 as uuidv4 } from "uuid";
 import type { SubmissionJob, SubmissionEvent } from "@repo/common/types";
+import { authMiddlewareUser } from "../middleware/authMiddleware";
 
 export const executionRouter: Router = Router();
 
+executionRouter.use(authMiddlewareUser);
+
 // POST /execute — unified entry point
 executionRouter.post("/execute", async (req: Request, res: Response) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-  if (!session) return unauthorized(res);
+  const session = res.locals.session;
 
   const parsedData = submissionSchema.safeParse(req.body);
   if (!parsedData.success) return invalidInputs(res);
@@ -120,11 +118,6 @@ executionRouter.post("/execute", async (req: Request, res: Response) => {
 
 // GET /stream/:submissionId — SSE endpoint for isolate mode
 executionRouter.get("/stream/:submissionId", async (req: Request, res: Response) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-  if (!session) return unauthorized(res);
-
   const submissionId = req.params.submissionId as string;
 
   res.writeHead(200, {
@@ -185,10 +178,7 @@ executionRouter.get("/stream/:submissionId", async (req: Request, res: Response)
 
 // GET /submission — Judge0 polling proxy (same logic as judge0Router)
 executionRouter.get("/submission", async (req: Request, res: Response) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-  if (!session) return unauthorized(res);
+  const session = res.locals.session;
 
   const tokens = req.query.tokens;
   const submissionId = req.query.submissionId as string | undefined;

@@ -1,22 +1,15 @@
 import { Router, Request, Response } from "express";
 import prisma from "@repo/database/client";
-import { auth } from "../util/auth";
-import { RelatedProblemsModel, RelatedProblemsModelOptional } from "@repo/database/zodTypes/problems";
-import { fromNodeHeaders } from "better-auth/node";
-import { invalidInputs, noProblemId, notAdmin, unauthorized } from "../util/lib";
+import { RelatedProblemsModelOptional } from "@repo/database/zodTypes/problems";
+import { invalidInputs, noProblemId } from "../util/lib";
 import { createProblemSchema } from "@repo/common/zodTypes";
+import { authMiddlewareAdmin } from "../middleware/authMiddleware";
 
 export const adminProblemRouter: Router = Router();
 
+adminProblemRouter.use(authMiddlewareAdmin);
+
 adminProblemRouter.get("/", async (req: Request, res: Response) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-
-  if (!session) return unauthorized(res);
-  if (!session.user.isAdmin) return notAdmin(res);
-
-
   const page = Number(req.query.page);
   let problems;
 
@@ -41,12 +34,7 @@ adminProblemRouter.get("/", async (req: Request, res: Response) => {
 });
 
 adminProblemRouter.post("/createProblem", async (req: Request, res: Response) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-
-  if (!session) return unauthorized(res);
-  if (!session.user.isAdmin) return notAdmin(res);
+  const session = res.locals.session;
 
   const parsedData = createProblemSchema.safeParse(req.body);
   if (!parsedData.success) return invalidInputs(res);
@@ -80,12 +68,6 @@ adminProblemRouter.post("/createProblem", async (req: Request, res: Response) =>
 
 
 adminProblemRouter.put("/updateProblem/:problemId", async (req: Request, res: Response) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-
-  if (!session) return unauthorized(res);
-  if (!session.user.isAdmin) return notAdmin(res);
   const problemId = req.params.problemId as string;
   if (!problemId) return noProblemId(res);
   const parsedData = RelatedProblemsModelOptional.safeParse(req.body);
@@ -164,12 +146,6 @@ adminProblemRouter.put("/updateProblem/:problemId", async (req: Request, res: Re
 });
 
 adminProblemRouter.delete("/deleteProblem/:problemId", async (req: Request, res: Response) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
-
-  if (!session) return unauthorized(res);
-  if (!session.user.isAdmin) return notAdmin(res);
   const problemId = req.params.problemId as string;
   if (!problemId) return noProblemId(res);
 
