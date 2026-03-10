@@ -15,6 +15,7 @@ import { calendarRouter } from "./router/calendarRouter";
 import { initEmail } from "@repo/email/mail";
 import { redisClient, pubSubClient } from "./redis/client";
 import { EXECUTOR_MODE } from "./util/config";
+import { profileRouter } from "./router/profileRouter";
 
 const app = express();
 const port = process.env.PORT;
@@ -59,6 +60,8 @@ app.use("/api/judge0", judge0Router);
 app.use("/api/execute", executionRouter);
 app.use("/api/submissions", submissionRouter);
 app.use("/api/calendar", calendarRouter);
+app.use("/api/profile", profileRouter);
+
 
 async function main() {
   if (EXECUTOR_MODE === "isolate") {

@@ -64,7 +64,7 @@ export function Navbar({ user }: {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                  {user.image ? user.image : user.name[0].toUpperCase()}
+                  {user.image ? <img className="rounded-full" src={user.image} /> : user.name[0].toUpperCase()}
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">

@@ -79,4 +79,6 @@ export const tagsSchema = z.object({
   tag: z.string()
 });
 
-
+export const updateProfileSchema = z.object({
+  name: z.string().optional(),
+});
