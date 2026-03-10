@@ -42,10 +42,10 @@ export function ProfileSettings({ user }: { user?: ProfileUser }) {
           <div className="flex items-center gap-4">
             <div className="h-16 w-16 overflow-hidden rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xl font-semibold">
               {user?.image ? (
-                <div
-                  aria-label="Profile image"
-                  className="h-full w-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${user.image})` }}
+                <img
+                  src={user.image}
+                  alt="Profile"
+                  className="h-full w-full object-cover"
                 />
               ) : (
                 fallbackInitial
