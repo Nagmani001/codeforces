@@ -297,6 +297,7 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
               <ResizablePanel defaultSize={40} minSize={20}>
                 <TestCasesPanel
                   testCases={testCases}
+                  isJudge0={isJudge0}
                   activeTab={activeTab}
                   onTabChange={setActiveTab}
                   isRunning={isRunning}

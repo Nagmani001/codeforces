@@ -1,8 +1,13 @@
 {
   "extends":"@repo/typescript-config/base.json",
   "compilerOptions":{
-    "rootDir":"./src",
-    "outDir":"./dist",
-    "target": "ES2023"
+    "target": "ES2023",
+    "baseUrl": ".",
+    "rootDirs": ["./src", "../../packages/database/src"],
+    "paths": {
+      "@repo/database/client": ["../../packages/database/src/index.ts"],
+      "@repo/database/seed": ["../../packages/database/prisma/seed.ts"],
+      "@repo/database/*": ["../../packages/database/src/*"]
+    }
   }
 }

@@ -10,6 +10,7 @@
   },
   "exports": {
     "./client": "./src/index.ts",
+    "./seed":"./prisma/seed.ts",
     "./zodTypes/*": "./src/zod/*.ts"
   },
   "keywords": [],

@@ -1,8 +1,7 @@
 import { Router, Request, Response } from "express";
 import prisma from "@repo/database/client";
-import { RelatedProblemsModelOptional } from "@repo/database/zodTypes/problems";
 import { invalidInputs, noProblemId } from "../util/lib";
-import { createProblemSchema } from "@repo/common/zodTypes";
+import { createProblemSchema, updateProblemSchema } from "@repo/common/zodTypes";
 import { authMiddlewareAdmin } from "../middleware/authMiddleware";
 
 export const adminProblemRouter: Router = Router();
@@ -40,6 +39,7 @@ adminProblemRouter.post("/createProblem", async (req: Request, res: Response) =>
   if (!parsedData.success) return invalidInputs(res);
 
   const { title, problemType, tags, constraints, description, cpuTimeLimit, memoryTimeLimit, visibleTestCases, hiddenTestCases } = parsedData.data;
+  const tagConnect = tags.map((tag) => ({ title: tag.title }));
 
   await prisma.problems.create({
     data: {
@@ -47,7 +47,7 @@ adminProblemRouter.post("/createProblem", async (req: Request, res: Response) =>
       problemType,
       userId: session.user.id,
       tags: {
-        connect: tags
+        connect: tagConnect,
       },
       constraints,
       description,
@@ -70,13 +70,14 @@ adminProblemRouter.post("/createProblem", async (req: Request, res: Response) =>
 adminProblemRouter.put("/updateProblem/:problemId", async (req: Request, res: Response) => {
   const problemId = req.params.problemId as string;
   if (!problemId) return noProblemId(res);
-  const parsedData = RelatedProblemsModelOptional.safeParse(req.body);
+  const parsedData = updateProblemSchema.safeParse(req.body);
   if (!parsedData.success) return invalidInputs(res);
   const { title, description, cpuTimeLimit, memoryTimeLimit, visibleTestCases, hiddenTestCases } = parsedData.data;
 
   let queries = [];
 
-  if (title || description || cpuTimeLimit || memoryTimeLimit) {
+  //INFO: since cpuTimeLimit = 0 is falsy , otherwise if(title || description || cpuTimeLimit || memoryTimeLimit ) is good enough
+  if (title !== undefined || description !== undefined || cpuTimeLimit !== undefined || memoryTimeLimit !== undefined) {
     queries.push(
       prisma.problems.update({
         where: {
@@ -91,7 +92,7 @@ adminProblemRouter.put("/updateProblem/:problemId", async (req: Request, res: Re
       }));
   }
 
-  if (visibleTestCases) {
+  if (visibleTestCases !== undefined) {
     queries.push(
       prisma.visibleTestCases.deleteMany({
         where: {
@@ -111,7 +112,7 @@ adminProblemRouter.put("/updateProblem/:problemId", async (req: Request, res: Re
     )
   }
 
-  if (hiddenTestCases) {
+  if (hiddenTestCases !== undefined) {
     queries.push(
       prisma.hiddenTestCases.deleteMany({
         where: {

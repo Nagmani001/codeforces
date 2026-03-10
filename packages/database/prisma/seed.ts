@@ -1,6 +1,7 @@
 import prisma from "../src";
 import { problemTags, problemsData, starterCodes } from "./seedData";
 import { hashPassword } from "better-auth/crypto";
+import { fileURLToPath } from "url";
 
 const ADMIN_USER_ID = "yPKe9GTaKVW1og4y0XXsRqGgRmymSe3u";
 const ADMIN_PASSWORD = "nagmaniupadhyay";
@@ -24,7 +25,7 @@ function stripTitleHeadingFromDescription(description: string, title: string) {
   return lines.slice(i).join("\n").trimStart();
 }
 
-async function main() {
+export async function seedDatabase() {
   console.log("🌱 Starting database seed...\n");
 
   console.log("creating admin user");
@@ -153,11 +154,15 @@ async function main() {
   console.log("\n🎉 Seeding completed successfully!");
 }
 
-main()
-  .catch((e) => {
-    console.error("❌ Seeding failed:", e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+const isDirectRun = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isDirectRun) {
+  seedDatabase()
+    .catch((e) => {
+      console.error("❌ Seeding failed:", e);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}
