@@ -1,0 +1,19 @@
+{
+  "name": "integration-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "chmod +x ./src/scripts/*.sh && ./src/scripts/run-integration.sh",
+    "test:ci": "chmod +x ./src/scripts/*.sh && ./src/scripts/run-integration-ci.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "axios": "^1.13.5",
+    "vitest": "^4.0.18"
+  }
+}
