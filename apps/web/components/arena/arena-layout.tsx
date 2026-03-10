@@ -31,6 +31,7 @@ type Language = "CPP" | "PYTHON" | "JAVA" | "JAVASCRIPT" | "TYPESCRIPT" | "GO" |
 
 export function ArenaLayout({ problem, problemIdList, index, user }: { problem: ProblemDetail, problemIdList: string[], index: number, user: any | undefined }) {
   const { theme, setTheme } = useTheme()
+  const [isJudge0, setIsjudge0] = useState(true);
   const [language, setLanguage] = useState<Language>("CPP")
   const [code, setCode] = useState(problem.starterCode.CPP)
   const [testCases, setTestCases] = useState<TestCase[]>(problem.testCases)
@@ -67,6 +68,7 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
       const { mode, submissionId } = response.data;
 
       if (mode === "judge0") {
+        setIsjudge0(true);
         // ---- Judge0 polling path ----
         const judge0Data = response.data.judge0;
         let actualTokens = "";
@@ -97,6 +99,7 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
           setIsRunning(false);
         }
       } else if (mode === "isolate") {
+        setIsjudge0(false);
         // ---- Isolate SSE path ----
         await fetchEventSource(`${BASE_URL}/api/execute/stream/${submissionId}`, {
           credentials: "include",

@@ -146,7 +146,29 @@ export type ProblemSeed = {
   hiddenTestCases: { input: string; output: string }[];
 };
 
-export const problemsData: ProblemSeed[] = [
+const DEFAULT_MEMORY_LIMIT_MB = 512;
+const KB_PER_MB = 1024;
+
+function normalizeHeading(text: string) {
+  return text.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function stripTitleHeadingFromDescription(description: string, title: string) {
+  const normalizedTitle = normalizeHeading(title);
+  const lines = description.replace(/\r\n/g, "\n").split("\n");
+  const first = lines[0] ?? "";
+  const match = first.match(/^#{1,6}\s+(.+?)\s*$/);
+  if (!match) return description;
+
+  const headingText = match[1] ?? "";
+  if (normalizeHeading(headingText) !== normalizedTitle) return description;
+
+  let i = 1;
+  while (i < lines.length && lines[i]!.trim() === "") i++;
+  return lines.slice(i).join("\n").trimStart();
+}
+
+const problemsDataMb: ProblemSeed[] = [
   // ==================== EASY PROBLEMS (1-20) ====================
   {
     title: "Two Sum",
@@ -2072,3 +2094,11 @@ Output: ""
     ],
   },
 ];
+
+// Seed data is authored in MB, but the runtime (isolate `--mem`) expects KB.
+// Also enforce a sane minimum memory limit for all seeded problems.
+export const problemsData: ProblemSeed[] = problemsDataMb.map((problem) => ({
+  ...problem,
+  description: stripTitleHeadingFromDescription(problem.description, problem.title),
+  memoryTimeLimit: Math.max(problem.memoryTimeLimit, DEFAULT_MEMORY_LIMIT_MB) * KB_PER_MB,
+}));

@@ -10,6 +10,7 @@ import type { TestCase, TestCaseVerdict } from "../../lib/temp";
 interface TestCasesPanelProps {
   testCases: TestCase[]
   activeTab: "testcase" | "result"
+  isJudge0: boolean,
   onTabChange: (tab: "testcase" | "result") => void
   isRunning: boolean
 }
@@ -56,17 +57,15 @@ function summaryColor(verdict?: TestCaseVerdict): string {
   }
 }
 
-export function TestCasesPanel({ testCases, activeTab, onTabChange, isRunning }: TestCasesPanelProps) {
+export function TestCasesPanel({ testCases, isJudge0, activeTab, onTabChange, isRunning }: TestCasesPanelProps) {
   const [selectedCase, setSelectedCase] = useState(0)
 
   const hasResults = testCases.some((tc) => tc.verdict || tc.status)
   const allAccepted = hasResults && testCases.every((tc) => tc.verdict === "accepted" || tc.status === "passed")
   const passedCount = testCases.filter((tc) => tc.verdict === "accepted" || tc.status === "passed").length
 
-  // Check if it's a compilation error (same for all test cases)
   const isCompileError = hasResults && testCases[0]?.verdict === "compilation_error"
 
-  // Find the first non-accepted verdict for summary display
   const firstFailure = testCases.find((tc) => tc.verdict && tc.verdict !== "accepted")
 
   const selected = testCases[selectedCase]!
@@ -154,7 +153,10 @@ export function TestCasesPanel({ testCases, activeTab, onTabChange, isRunning }:
                         Compilation Error
                       </div>
                       <div className="rounded-md bg-muted p-3 font-mono text-sm text-destructive">
-                        <pre className="whitespace-pre-wrap">{Buffer.from(selected.compileOutput as string, "base64").toString("utf-8") || "Compilation failed"}</pre>
+                        {isJudge0 ?
+                          <pre className="whitespace-pre-wrap">{Buffer.from(selected.compileOutput as string, "base64").toString("utf-8") || "Compilation failed"}</pre>
+                          : <pre className="whitespace-pre-wrap">{selected.compileOutput}</pre>
+                        }
                       </div>
                     </div>
                   ) : (

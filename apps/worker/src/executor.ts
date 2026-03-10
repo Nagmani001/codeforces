@@ -9,6 +9,8 @@ function publish(pubSubClient: RedisClientType, submissionId: string, event: Sub
 
 export async function executeSubmission(job: SubmissionJob, pubSubClient: RedisClientType) {
   const { submissionId, code, language, testCases, cpuTimeLimit, memoryLimit } = job;
+  console.log(cpuTimeLimit);
+  console.log(memoryLimit);
   const config = LANGUAGE_CONFIGS[language];
 
   if (!config) {
@@ -53,6 +55,7 @@ export async function executeSubmission(job: SubmissionJob, pubSubClient: RedisC
           compileOutput: compilationError,
           totalTestCases: testCases.length,
         });
+        console.log("i ran");
         return {
           verdict: "COMPILATION_ERROR" as Verdict,
           compilationError,

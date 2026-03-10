@@ -97,6 +97,12 @@ export class IsolateSandbox implements Sandbox {
     const wallTimeSec = timeLimitSec * 3;
     const memoryKB = options.memoryLimit || 256000;
 
+    const env: Record<string, string> = {
+      PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      ...options.env,
+    };
+    const envArgs = Object.entries(env).map(([key, value]) => `--env=${key}=${value}`);
+
     const isolateArgs = [
       "--box-id", String(this.boxId),
       "--meta", this.metaFile,
@@ -105,6 +111,7 @@ export class IsolateSandbox implements Sandbox {
       "--mem", String(memoryKB),
       "--processes=64",
       "--stderr-to-stdout",
+      ...envArgs,
       "--run", "--",
       command,
       ...args,

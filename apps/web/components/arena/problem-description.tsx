@@ -10,6 +10,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import axios from "axios";
 import { BASE_URL } from "../../lib/config";
+import { MarkdownRenderer } from "./markdown-renderer";
 
 type Submission = {
   id: string;
@@ -62,13 +63,11 @@ export function ProblemDescription({ problem }: { problem: ProblemDetail }) {
               </div>
 
               {/* Description */}
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {problem.description}
-                </ReactMarkdown>
-              </div>
-
+              {/*
+              */}
+              <MarkdownRenderer source={problem.description} />
               {/* Examples */}
+              {/*
               <div className="space-y-3">
                 {problem.examples.map((example, i) => (
                   <div key={i} className="space-y-2">
@@ -92,8 +91,10 @@ export function ProblemDescription({ problem }: { problem: ProblemDetail }) {
                   </div>
                 ))}
               </div>
+              */}
 
               {/* Constraints */}
+              {/*
               <div>
                 <h3 className="font-medium text-sm mb-2">Constraints:</h3>
                 <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
@@ -104,6 +105,7 @@ export function ProblemDescription({ problem }: { problem: ProblemDetail }) {
                   ))}
                 </ul>
               </div>
+              */}
             </div>
           </ScrollArea>
         </TabsContent>

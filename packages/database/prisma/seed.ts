@@ -5,6 +5,25 @@ import { hashPassword } from "better-auth/crypto";
 const ADMIN_USER_ID = "yPKe9GTaKVW1og4y0XXsRqGgRmymSe3u";
 const ADMIN_PASSWORD = "nagmaniupadhyay";
 
+function normalizeHeading(text: string) {
+  return text.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function stripTitleHeadingFromDescription(description: string, title: string) {
+  const normalizedTitle = normalizeHeading(title);
+  const lines = description.replace(/\r\n/g, "\n").split("\n");
+  const first = lines[0] ?? "";
+  const match = first.match(/^#{1,6}\s+(.+?)\s*$/);
+  if (!match) return description;
+
+  const headingText = match[1] ?? "";
+  if (normalizeHeading(headingText) !== normalizedTitle) return description;
+
+  let i = 1;
+  while (i < lines.length && lines[i]!.trim() === "") i++;
+  return lines.slice(i).join("\n").trimStart();
+}
+
 async function main() {
   console.log("🌱 Starting database seed...\n");
 
@@ -22,7 +41,7 @@ async function main() {
         name: "nagmani",
         email: "nagmanipd3@gmail.com",
         emailVerified: true,
-        image: "asdf",
+        image: "https://avatars.githubusercontent.com/u/163531400?s=400&u=5bf1ab844c533514e2ef682f3078e59123fc8949&v=4",
         isAdmin: true,
       }
     });
@@ -76,10 +95,11 @@ async function main() {
     /*
     INFO:  
     */
+    const sanitizedDescription = stripTitleHeadingFromDescription(problem.description, problem.title);
     await prisma.problems.create({
       data: {
         title: problem.title,
-        description: problem.description,
+        description: sanitizedDescription,
         problemType: problem.problemType,
         cpuTimeLimit: problem.cpuTimeLimit,
         memoryTimeLimit: problem.memoryTimeLimit,
