@@ -1,0 +1,20 @@
+{
+  "name": "ws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx tsx src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*"
+  },
+  "dependencies": {
+    "@types/ws": "^8.18.1",
+    "vscode-ws-jsonrpc": "^3.5.0",
+    "ws": "^8.19.0"
+  }
+}

@@ -1,7 +1,6 @@
 import prisma from "../src";
 import { problemTags, problemsData, starterCodes } from "./seedData";
 import { hashPassword } from "better-auth/crypto";
-import { fileURLToPath } from "url";
 
 const ADMIN_USER_ID = "yPKe9GTaKVW1og4y0XXsRqGgRmymSe3u";
 const ADMIN_PASSWORD = "nagmaniupadhyay";
@@ -154,7 +153,7 @@ export async function seedDatabase() {
   console.log("\n🎉 Seeding completed successfully!");
 }
 
-const isDirectRun = process.argv[1] === fileURLToPath(import.meta.url);
+const isDirectRun = require.main === module;
 
 if (isDirectRun) {
   seedDatabase()

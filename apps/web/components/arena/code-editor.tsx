@@ -66,7 +66,7 @@ export function CodeEditor({ code, onChange, starterCode, language, onLanguageCh
           height="100%"
           language={monacoLanguages[language]}
           value={code}
-          onChange={(value) => onChange(value || "")}
+          onChange={(value: any) => onChange(value || "")}
           theme={theme === "dark" ? "vs-dark" : "light"}
           options={{
             minimap: { enabled: false },
