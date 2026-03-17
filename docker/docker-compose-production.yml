@@ -13,6 +13,17 @@ services:
       timeout: 10s
       retries: 10 
 
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379 
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 10s
+      retries: 10 
+
   backend:
     container_name: backend
     build:
@@ -21,33 +32,39 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:nagmani@database:5432/postgres
     env_file:
-      - ../apps/backend/.env
-      - ../packages/email/.env
+      - ../apps/backend/.env.prod
     ports:
       - 3001:3001
     depends_on:
       database:
         condition: service_healthy
+      redis: 
+        condition: service_healthy
     healthcheck:
-      test: ["CMD","wget","--spider","-q","http://localhost:3001/health"]
+      test: ["CMD","wget","--spider","-q","http://localhost:4001/health"]
       interval: 1s
       timeout: 10s
       retries: 10
 
+  worker:
+    container_name: worker  
+    build:
+      context: ../
+      dockerfile: docker/worker/Dockerfile
+    depends_on:
+      backend:
+        condition: service_healthy
+
   web:
     container_name: web
-
     build:
       context: ../
       dockerfile: docker/web/Dockerfile
-
     ports:
       - 3000:3000
 
-    environment:
-      - NEXT_PUBLIC_BACKEND_URL=http://localhost:3001
-      - NEXT_PUBLIC_BACKEND_URL=http://backend:3001
-
+    env_file:
+      - ../apps/web/.env.prod
     depends_on:
       backend:
         condition: service_healthy
