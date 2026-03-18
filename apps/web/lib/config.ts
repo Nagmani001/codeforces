@@ -1,6 +1,7 @@
+export const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+export const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
 
-export const BASE_URL = "http://localhost:3001";
-export const FRONTEND_URL = "http://localhost:3000";
+
 /*
 const isServer = typeof window === "undefined";
 

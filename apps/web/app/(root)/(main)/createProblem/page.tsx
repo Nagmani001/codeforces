@@ -18,7 +18,6 @@ import { toast } from "react-hot-toast";
 import { createProblemSchema } from "@repo/common/zodTypes";
 import { useRouter } from "next/navigation";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001"
 
 interface ProblemTag {
   id: string
@@ -70,7 +69,7 @@ export default function CreateProblemPage() {
   const fetchTags = async () => {
     try {
       setIsLoadingTags(true)
-      const response = await fetch(`${BACKEND_URL}/api/tags/getAll`, {
+      const response = await fetch(`${BASE_URL}/api/tags/getAll`, {
         credentials: "include"
       })
       if (response.ok) {
@@ -91,7 +90,7 @@ export default function CreateProblemPage() {
 
     try {
       setIsAddingTag(true)
-      const response = await fetch(`${BACKEND_URL}/api/tags/createTag`, {
+      const response = await fetch(`${BASE_URL}/api/tags/createTag`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -119,7 +118,7 @@ export default function CreateProblemPage() {
     if (!tag || tag.fixed) return
 
     try {
-      const response = await fetch(`${BACKEND_URL}/api/tags/updateTag/${tagId}`, {
+      const response = await fetch(`${BASE_URL}/api/tags/updateTag/${tagId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -146,7 +145,7 @@ export default function CreateProblemPage() {
     if (!tag || tag.fixed) return
 
     try {
-      const response = await fetch(`${BACKEND_URL}/api/tags/deleteTag/${tagId}`, {
+      const response = await fetch(`${BASE_URL}/api/tags/deleteTag/${tagId}`, {
         method: "DELETE",
         credentials: "include"
       })

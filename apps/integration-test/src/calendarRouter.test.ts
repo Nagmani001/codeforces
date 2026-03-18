@@ -47,5 +47,5 @@ describe.sequential("calendarRouter", () => {
     expect(res.status).toBe(400);
   });
 
-  afterAll(async () => {});
+  afterAll(async () => { });
 });

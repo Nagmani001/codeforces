@@ -6,7 +6,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=nagmani
     ports:
-      - '5432:5432'
+      - '5433:5432'
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 1s
@@ -30,11 +30,11 @@ services:
       context: ../
       dockerfile: docker/backend/Dockerfile
     environment:
-      - DATABASE_URL=postgresql://postgres:nagmani@database:5432/postgres
+      - DATABASE_URL=postgresql://postgres:nagmani@database:5433/postgres
     env_file:
       - ../apps/backend/.env.prod
     ports:
-      - 3001:3001
+      - 4001:4001
     depends_on:
       database:
         condition: service_healthy
@@ -61,10 +61,9 @@ services:
       context: ../
       dockerfile: docker/web/Dockerfile
     ports:
-      - 3000:3000
-
+      - 4000:4000
     env_file:
-      - ../apps/web/.env.prod
+      - ../apps/web/.env.production
     depends_on:
       backend:
         condition: service_healthy

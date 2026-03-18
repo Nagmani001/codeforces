@@ -10,6 +10,7 @@ import { authClient } from "../lib/auth";
 
 export default async function Home() {
   const cookie = await cookies();
+  console.log("cookies", cookie);
   const { data: session, error } = await authClient.getSession({
     fetchOptions: {
       headers: {
@@ -17,6 +18,10 @@ export default async function Home() {
       },
     },
   });
+
+  console.log("session", session);
+  console.log("error", error);
+
   if (session != null) {
     redirect("/problems");
   }
