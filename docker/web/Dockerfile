@@ -1,23 +1,38 @@
-ARG NODE_VERSION=24.11.0
+ARG NODE_VERSION=24.13.1
+FROM node:${NODE_VERSION}-alpine AS base
 
-FROM node:${NODE_VERSION}-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-FROM base AS prepare 
+FROM base AS prepare
 WORKDIR /app
-RUN npm install -g turbo
+# since corepack will use the latest pnpm but our package.json has : "packageManager": "pnpm@9.0.0",
+COPY package.json .
+RUN pnpm add -g turbo
 COPY . .
 RUN turbo prune web --docker
 
-FROM base AS builder 
+FROM base AS builder
 WORKDIR /app
-RUN npm install -g pnpm 
-COPY --from=prepare /app/out/json/ . 
-RUN pnpm install 
-COPY --from=prepare /app/out/full/ . 
-RUN pnpm run build
+
+COPY --from=prepare /app/out/json/ .
+RUN pnpm install --frozen-lockfile
+
+COPY --from=prepare /app/out/full/ .
+RUN pnpm build 
 
 FROM base AS runner
 WORKDIR /app
-COPY --from=builder /app . 
+ENV HOSTNAME="0.0.0.0"
 
-CMD [ "npm","run","start:web" ]
+# Don't run production as root , security problem
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+USER nextjs
+
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
+
+CMD ["node", "apps/web/server.js"]
