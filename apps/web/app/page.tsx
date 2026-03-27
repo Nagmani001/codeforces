@@ -9,22 +9,8 @@ import { cookies } from "next/headers";
 import { authClient } from "../lib/auth";
 
 export default async function Home() {
-  const cookie = await cookies();
-  console.log("cookies", cookie);
-  const { data: session, error } = await authClient.getSession({
-    fetchOptions: {
-      headers: {
-        Cookie: cookie.toString(),
-      },
-    },
-  });
 
-  console.log("session", session);
-  console.log("error", error);
 
-  if (session != null) {
-    redirect("/problems");
-  }
   return (
     <div className="min-h-screen flex flex-col">
       <NavbarLanding />
