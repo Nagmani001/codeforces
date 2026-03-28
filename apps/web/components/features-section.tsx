@@ -26,7 +26,7 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } }
 };
 
 import { useMotionValue, useAnimationFrame } from "framer-motion";
@@ -51,7 +51,6 @@ const OrbitIcon = ({
 
   return (
     <motion.div
-      style={{ rotate: rotation }}
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       style={{ width: size, height: size, rotate: rotation }}
     >
