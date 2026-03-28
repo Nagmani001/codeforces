@@ -74,40 +74,7 @@ export function ParticleBackground() {
     document.head.appendChild(style)
     styleRef.current = style
 
-    // Mouse tracking — exact same JS as the reference
-    const el = containerRef.current
-    if (!el) return
-
-    let isInteractive = false
-
-    const handlePointerMove = (e: PointerEvent) => {
-      if (!isInteractive) {
-        isInteractive = true
-      }
-      el.style.setProperty(
-        "--ring-x",
-        String((e.clientX / window.innerWidth) * 100)
-      )
-      el.style.setProperty(
-        "--ring-y",
-        String((e.clientY / window.innerHeight) * 100)
-      )
-      el.style.setProperty("--ring-interactive", "1")
-    }
-
-    const handlePointerLeave = () => {
-      isInteractive = false
-      el.style.setProperty("--ring-x", "50")
-      el.style.setProperty("--ring-y", "50")
-      el.style.setProperty("--ring-interactive", "0")
-    }
-
-    el.addEventListener("pointermove", handlePointerMove)
-    el.addEventListener("pointerleave", handlePointerLeave)
-
     return () => {
-      el.removeEventListener("pointermove", handlePointerMove)
-      el.removeEventListener("pointerleave", handlePointerLeave)
       if (styleRef.current) {
         document.head.removeChild(styleRef.current)
         styleRef.current = null
@@ -122,7 +89,7 @@ export function ParticleBackground() {
   return (
     <div
       ref={containerRef}
-      className="ring-particles-bg absolute inset-0 w-full h-full pointer-events-auto"
+      className="ring-particles-bg absolute inset-0 w-full h-full pointer-events-none"
       style={
         {
           "--particle-color": particleColor,

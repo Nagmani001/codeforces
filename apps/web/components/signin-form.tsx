@@ -77,7 +77,7 @@ export function SignInForm() {
         </Alert>
       )}
 
-      <Card className="border-0 shadow-none lg:border lg:shadow-sm">
+      <Card className="border-0 shadow-none  ">
         <CardHeader className="space-y-1 px-0 lg:px-6">
           <CardTitle className="text-2xl">Sign in</CardTitle>
           <CardDescription>Enter your credentials to access your account</CardDescription>

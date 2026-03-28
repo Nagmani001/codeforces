@@ -16,21 +16,7 @@ export function NavbarLanding() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Home
-          </Link>
-          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Contests
-          </Link>
-          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Problemset
-          </Link>
-          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Gym
-          </Link>
-          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Ratings
-          </Link>
+          
         </nav>
 
         <div className="hidden md:flex items-center gap-3">

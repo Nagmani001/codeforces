@@ -1,29 +1,40 @@
 import { Suspense } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Code2 } from "lucide-react"
 import { SignInForm } from "../../../../components/signin-form"
+import dashboard from "../../../../public/dashboard3.png"
 
 export default function SignInPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-primary relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary-foreground/10 via-transparent to-transparent" />
-        <div className="relative flex flex-col justify-center px-12 xl:px-20">
-          <Link href="/" className="flex items-center gap-2 mb-8">
-            <Code2 className="h-10 w-10 text-primary-foreground" />
-            <span className="text-2xl font-bold text-primary-foreground">Codeforces</span>
+      <div className="hidden lg:flex lg:w-1/2 bg-primary relative overflow-hidden flex-col items-start pt-8 xl:pt-12 h-screen">
+
+        {/* Text Section */}
+        <div className="relative z-10 w-full px-12 xl:px-20 flex-shrink-0">
+          <Link href="/" className="inline-flex items-center gap-2 mb-8 xl:mb-10">
+            <Code2 className="h-8 w-8 text-primary-foreground" />
+            <span className="text-2xl font-bold text-primary-foreground tracking-tight">Codeforces</span>
           </Link>
-          <h1 className="text-4xl xl:text-5xl font-bold text-primary-foreground leading-tight">
-            Welcome Back, Programmer
+
+          <h1 className="text-3xl lg:text-4xl xl:text-[2.5rem] 2xl:text-[2.75rem] font-bold text-primary-foreground leading-[1.15] mb-5 w-full drop-shadow-sm whitespace-nowrap">
+            Join the World's Largest<br />Competitive Programming <br/>Community
           </h1>
-          <p className="mt-6 text-lg text-primary-foreground/80">
-            Continue your journey to becoming a better competitive programmer. Your next contest awaits.
+          <p className="text-base text-primary-foreground/80 font-medium tracking-wide">
+            Solve algorithmic challenges, compete in rated contests, and become a better programmer.
           </p>
-          <div className="mt-12 p-6 bg-primary-foreground/10 rounded-lg backdrop-blur-sm">
-            <p className="text-primary-foreground font-medium mb-2">Upcoming Contest</p>
-            <p className="text-2xl font-bold text-primary-foreground">Codeforces Round #925</p>
-            <p className="text-primary-foreground/70 mt-1">Starts in 2 days, 14 hours</p>
+        </div>
+
+        {/* Floating Dashboard Mockup */}
+        <div className="relative z-10 w-full px-12 xl:px-20 mt-8 flex-1 flex flex-col justify-start pb-8 overflow-visible min-h-0 scale-110">
+          <div className="relative w-full max-w-[800px] max-h-full flex rounded-2xl overflow-hidden   rotate-[-1.5deg] hover:rotate-0 hover:-translate-y-2 transition-all duration-700 ease-out origin-top-left">
+            <Image 
+              src={dashboard} 
+              alt="Platform Dashboard" 
+              className="w-full h-auto max-h-full object-contain object-top-left"
+              priority
+            />
           </div>
         </div>
       </div>
