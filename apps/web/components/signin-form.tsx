@@ -11,12 +11,13 @@ import { Label } from "@repo/ui/components/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@repo/ui/components/card"
 import { Checkbox } from "@repo/ui/components/checkbox"
 import { Alert, AlertDescription } from "@repo/ui/components/alert"
-import { Code2, Eye, EyeOff, Loader2, CheckCircle2 } from "lucide-react"
+import { Eye, EyeOff, Loader2, CheckCircle2 } from "lucide-react"
 import { useMutation } from "@tanstack/react-query"
 import { authClient } from "../lib/auth"
 import { signinFormData } from "../lib/types"
 import toast from "react-hot-toast"
 import { FRONTEND_URL } from "../lib/config"
+import { BrandLogo } from "./brand-logo"
 
 export function SignInForm() {
   const searchParams = useSearchParams()
@@ -65,7 +66,7 @@ export function SignInForm() {
     <div className="w-full max-w-md">
       <div className="lg:hidden flex items-center gap-2 mb-8">
         <Link href="/" className="flex items-center gap-2">
-          <Code2 className="h-8 w-8 text-primary" />
+          <BrandLogo className="h-8 w-8" />
           <span className="text-xl font-bold text-foreground">Codeforces</span>
         </Link>
       </div>

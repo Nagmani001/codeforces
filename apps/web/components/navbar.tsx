@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Code2, ListChecks, Moon, Sun, User, LogOut } from "lucide-react"
+import { ListChecks, Moon, Sun, User, LogOut } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@repo/ui/components/button"
 import { cn } from "@repo/ui/lib/utils"
@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@repo/ui/components/dropdown-menu"
 import { authClient } from "../lib/auth"
+import { BrandLogo } from "./brand-logo"
 
 export function Navbar({ user }: {
   user: any | undefined
@@ -32,7 +33,7 @@ export function Navbar({ user }: {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-[1600px] mx-auto flex h-14 items-center px-4 sm:px-6 lg:px-8">
         <Link href="/problems" className="mr-8 flex items-center gap-2 font-semibold">
-          <Code2 className="h-5 w-5 text-primary" />
+          <BrandLogo className="h-5 w-5" />
           <span>Codeforces</span>
         </Link>
         <nav className="flex items-center gap-1">

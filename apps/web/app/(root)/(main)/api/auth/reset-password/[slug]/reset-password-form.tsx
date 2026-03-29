@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import toast from "react-hot-toast"
-import { Code2, Eye, EyeOff, Loader2, CheckCircle2 } from "lucide-react"
+import { Eye, EyeOff, Loader2, CheckCircle2 } from "lucide-react"
 
 import { authClient } from "../../../../../../../lib/auth"
 import { Alert, AlertDescription } from "@repo/ui/components/alert"
@@ -15,6 +15,7 @@ import { Button } from "@repo/ui/components/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@repo/ui/components/card"
 import { Input } from "@repo/ui/components/input"
 import { Label } from "@repo/ui/components/label"
+import { BrandLogo } from "../../../../../../../components/brand-logo"
 
 export function ResetPasswordForm({ token }: { token: string }) {
   const router = useRouter()
@@ -78,7 +79,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary-foreground/10 via-transparent to-transparent" />
         <div className="relative flex flex-col justify-center px-12 xl:px-20">
           <Link href="/" className="flex items-center gap-2 mb-8">
-            <Code2 className="h-10 w-10 text-primary-foreground" />
+            <BrandLogo className="h-10 w-10" priority />
             <span className="text-2xl font-bold text-primary-foreground">Codeforces</span>
           </Link>
           <h1 className="text-4xl xl:text-5xl font-bold text-primary-foreground leading-tight">Reset Your Password</h1>
@@ -96,7 +97,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
         <div className="w-full max-w-md">
           <div className="lg:hidden flex items-center gap-2 mb-8">
             <Link href="/" className="flex items-center gap-2">
-              <Code2 className="h-8 w-8 text-primary" />
+              <BrandLogo className="h-8 w-8" />
               <span className="text-xl font-bold text-foreground">Codeforces</span>
             </Link>
           </div>
@@ -198,4 +199,3 @@ export function ResetPasswordForm({ token }: { token: string }) {
     </div>
   )
 }
-

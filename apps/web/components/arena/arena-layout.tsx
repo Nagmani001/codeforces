@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight, Code2, Moon, Sun, List, User, LogOut } from "lucide-react"
+import { ChevronLeft, ChevronRight, Moon, Sun, List, User, LogOut } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@repo/ui/components/button"
 import type { ProblemDetail, TestCase } from "../../lib/temp";
@@ -26,6 +26,7 @@ import { processJudge0Response } from "../../lib/utils"
 import { useRouter } from "next/navigation"
 import { fetchEventSource } from "@microsoft/fetch-event-source"
 import { authClient } from "../../lib/auth"
+import { BrandLogo } from "../brand-logo"
 
 type Language = "CPP" | "PYTHON" | "JAVA" | "JAVASCRIPT" | "TYPESCRIPT" | "GO" | "RUST";
 
@@ -171,7 +172,7 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
             <List className="h-4 w-4" />
           </Button>
           <Link href="/problems" className="flex items-center gap-2 font-semibold">
-            <Code2 className="h-5 w-5 text-primary" />
+            <BrandLogo className="h-5 w-5" />
             <span className="hidden sm:inline">CodeArena</span>
           </Link>
           <div className="ml-4 flex items-center gap-1">

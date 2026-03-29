@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { Code2, ArrowRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { Button } from "@repo/ui/components/button"
+import { BrandLogo } from "./brand-logo"
 
 export function ExpandingFooter() {
   const footerRef = useRef<HTMLDivElement>(null)
@@ -83,7 +84,7 @@ export function ExpandingFooter() {
             {/* Brand */}
             <div className="col-span-2">
               <Link href="/" className="flex items-center gap-2">
-                <Code2 className="h-6 w-6 text-primary" />
+                <BrandLogo className="h-6 w-6" />
                 <span className="text-lg font-bold text-foreground">Codeforces</span>
               </Link>
               <p className="mt-4 text-sm text-muted-foreground max-w-xs leading-relaxed">

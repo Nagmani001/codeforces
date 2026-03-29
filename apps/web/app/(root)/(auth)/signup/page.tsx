@@ -8,7 +8,7 @@ import Link from "next/link"
 import Image from "next/image"
 import dashboard from "../../../../public/dashboard3.png"
 import { useRouter } from "next/navigation"
-import { Code2, Eye, EyeOff, Loader2 } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@repo/ui/components/card"
 import { Label } from "@repo/ui/components/label"
 import { Input } from "@repo/ui/components/input"
@@ -18,6 +18,7 @@ import { OTPDialog } from "../../../../components/otp-dialog"
 import { useMutation } from "@tanstack/react-query";
 import { authClient } from "../../../../lib/auth";
 import { formData } from "../../../../lib/types";
+import { BrandLogo } from "../../../../components/brand-logo";
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -84,7 +85,7 @@ export default function SignUpPage() {
         {/* Text Section */}
         <div className="relative z-10 w-full px-12 xl:px-20 flex-shrink-0">
           <Link href="/" className="inline-flex items-center gap-2 mb-8 xl:mb-10">
-            <Code2 className="h-8 w-8 text-primary-foreground" />
+            <BrandLogo className="h-8 w-8" priority />
             <span className="text-2xl font-bold text-primary-foreground tracking-tight">Codeforces</span>
           </Link>
 
@@ -114,7 +115,7 @@ export default function SignUpPage() {
         <div className="w-full max-w-md">
           <div className="lg:hidden flex items-center gap-2 mb-8">
             <Link href="/" className="flex items-center gap-2">
-              <Code2 className="h-8 w-8 text-primary" />
+              <BrandLogo className="h-8 w-8" />
               <span className="text-xl font-bold text-foreground">Codeforces</span>
             </Link>
           </div>

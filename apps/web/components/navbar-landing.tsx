@@ -2,16 +2,17 @@
 
 import Link from "next/link"
 import { Button } from "@repo/ui/components/button"
-import { Code2, Menu } from "lucide-react"
+import { Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@repo/ui/components/sheet"
 import { ModeToggle } from "./themeToggle"
+import { BrandLogo } from "./brand-logo"
 
 export function NavbarLanding() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4 mx-auto max-w-7xl">
         <Link href="/" className="flex items-center gap-2">
-          <Code2 className="h-8 w-8 text-primary" />
+          <BrandLogo className="h-8 w-8" />
           <span className="text-xl font-bold text-foreground">Codeforces</span>
         </Link>
 

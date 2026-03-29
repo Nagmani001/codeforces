@@ -1,8 +1,8 @@
 import { Suspense } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Code2 } from "lucide-react"
 import { SignInForm } from "../../../../components/signin-form"
+import { BrandLogo } from "../../../../components/brand-logo"
 import dashboard from "../../../../public/dashboard3.png"
 
 export default function SignInPage() {
@@ -14,7 +14,7 @@ export default function SignInPage() {
         {/* Text Section */}
         <div className="relative z-10 w-full px-12 xl:px-20 flex-shrink-0">
           <Link href="/" className="inline-flex items-center gap-2 mb-8 xl:mb-10">
-            <Code2 className="h-8 w-8 text-primary-foreground" />
+            <BrandLogo className="h-8 w-8" priority />
             <span className="text-2xl font-bold text-primary-foreground tracking-tight">Codeforces</span>
           </Link>
 
