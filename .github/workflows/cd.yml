@@ -167,7 +167,6 @@
 
               # check health of web
               curl -f --retry 3 --retry-delay 2 http://localhost:4000/api/health || exit 1
-              
-
               # Clean up old images
+              #
               docker image prune -f
