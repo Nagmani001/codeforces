@@ -12,6 +12,7 @@
   "dependencies": {
     "@repo/common": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "dotenv": "^17.3.1",
     "redis": "^5.10.0"
   },
   "devDependencies": {

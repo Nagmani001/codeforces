@@ -1,7 +1,10 @@
+import { config } from "dotenv";
+config();
 import { pubSubClient, redisClient } from "./redis/client";
 import { SUBMISSION_QUEUE } from "@repo/common/consts";
 import { executeSubmission } from "./executor";
 import type { SubmissionJob } from "@repo/common/types";
+
 
 const CONCURRENCY = parseInt(process.env.WORKER_CONCURRENCY || "2", 10);
 

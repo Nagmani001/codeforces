@@ -30,29 +30,27 @@ services:
       context: ../
       dockerfile: docker/backend/Dockerfile
     environment:
-      - DATABASE_URL=postgresql://postgres:nagmani@database:5433/postgres
+      - DATABASE_URL=postgresql://postgres:nagmani@database:5432/postgres
+      - REDIS_URL=redis://redis:6379
     env_file:
       - ../apps/backend/.env.prod
     ports:
-      - 4001:4001
+      - 3001:3001
     depends_on:
       database:
         condition: service_healthy
-      redis: 
+      redis:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD","wget","--spider","-q","http://localhost:4001/health"]
-      interval: 1s
-      timeout: 10s
-      retries: 10
 
   worker:
-    container_name: worker  
+    container_name: worker
     build:
       context: ../
       dockerfile: docker/worker/Dockerfile
+    environment:
+      - REDIS_URL=redis://redis:6379
     depends_on:
-      backend:
+      redis:
         condition: service_healthy
 
   web:
@@ -62,9 +60,4 @@ services:
       dockerfile: docker/web/Dockerfile
     ports:
       - 4000:4000
-    env_file:
-      - ../apps/web/.env.production
-    depends_on:
-      backend:
-        condition: service_healthy
 

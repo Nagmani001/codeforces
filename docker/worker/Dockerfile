@@ -24,6 +24,10 @@ FROM base AS runner
 WORKDIR /app
 RUN pnpm add -g tsx
 
+RUN addgroup --system --gid 1001 worker
+RUN adduser --system --uid 1001 worker
+USER worker
+
 COPY --from=builder /app .
 
-CMD ["tsx","apps/worker/src/index.ts"] 
+CMD ["tsx","apps/worker/src/index.ts"]
