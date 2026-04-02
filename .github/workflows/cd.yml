@@ -134,9 +134,9 @@
             host: ${{ secrets.SSH_HOST }}
             username: ${{ secrets.SSH_USERNAME }}
             key: ${{ secrets.SSH_KEY }}
-            source: docker/compose-files/docker-compose-deploy.yml
+            source: docker/docker-compose-deploy.yml
             target: /home/${{ secrets.SSH_USERNAME }}/codeforces/
-            strip_components: 2
+            strip_components: 1
 
         - name: Deploy to VM
           uses: appleboy/ssh-action@v1
