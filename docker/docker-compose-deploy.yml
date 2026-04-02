@@ -1,5 +1,5 @@
 services:
-  database:
+  database-codeforces:
     image: postgres
     container_name: database-codeforces
     restart: always
@@ -32,13 +32,13 @@ services:
     container_name: backend-codeforces
     restart: always
     ports:
-      - "3001:3001"
+      - "4001:4001"
     env_file:
       - .env.backend
     depends_on:
-      database:
+      database-codeforces:
         condition: service_healthy
-      redis:
+      redis-codeforces:
         condition: service_healthy
 
   worker:
@@ -48,7 +48,7 @@ services:
     env_file:
       - .env.worker
     depends_on:
-      redis:
+      redis-codeforces:
         condition: service_healthy
 
   web:
@@ -56,7 +56,7 @@ services:
     container_name: web-codeforces
     restart: always
     ports:
-      - "3000:3000"
+      - "4000:4000"
 
 volumes:
   pgdata:
