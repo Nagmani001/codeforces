@@ -15,7 +15,7 @@ services:
       timeout: 10s
       retries: 10
 
-  redis:
+  redis-codeforces:
     image: redis
     container_name: redis-codeforces
     restart: always

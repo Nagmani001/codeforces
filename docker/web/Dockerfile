@@ -20,7 +20,13 @@ COPY --from=prepare /app/out/json/ .
 RUN pnpm install --frozen-lockfile
 
 COPY --from=prepare /app/out/full/ .
-RUN pnpm build 
+
+ARG NEXT_PUBLIC_BACKEND_URL
+ARG NEXT_PUBLIC_FRONTEND_URL
+ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
+ENV NEXT_PUBLIC_FRONTEND_URL=$NEXT_PUBLIC_FRONTEND_URL
+
+RUN pnpm build
 
 FROM base AS runner
 WORKDIR /app
