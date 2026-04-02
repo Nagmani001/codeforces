@@ -11,7 +11,17 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
-  trustedOrigins: ["http://localhost:3000"],
+  trustedOrigins: process.env.TRUSTED_ORIGINS
+    ? process.env.TRUSTED_ORIGINS.split(",")
+    : ["http://localhost:3000"],
+  ...(process.env.COOKIE_DOMAIN && {
+    advanced: {
+      crossSubDomainCookies: {
+        enabled: true,
+        domain: process.env.COOKIE_DOMAIN,
+      },
+    },
+  }),
   user: {
     additionalFields: {
       isAdmin: {

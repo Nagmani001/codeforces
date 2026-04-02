@@ -1,0 +1,62 @@
+services:
+  database:
+    image: postgres
+    container_name: database-codeforces
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+    ports:
+      - '5433:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 1s
+      timeout: 10s
+      retries: 10
+
+  redis:
+    image: redis
+    container_name: redis-codeforces
+    restart: always
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 10s
+      retries: 10
+
+  backend:
+    image: ghcr.io/nagmani001/codeforces/backend:latest
+    container_name: backend-codeforces
+    restart: always
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env.backend
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    image: ghcr.io/nagmani001/codeforces/worker:latest
+    container_name: worker-codeforces
+    restart: always
+    env_file:
+      - .env.worker
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  web:
+    image: ghcr.io/nagmani001/codeforces/web:latest
+    container_name: web-codeforces
+    restart: always
+    ports:
+      - "4000:4000"
+
+volumes:
+  pgdata:

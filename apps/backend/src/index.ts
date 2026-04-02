@@ -1,5 +1,5 @@
 import "dotenv/config";
-
+config();
 import express from "express";
 import cors from "cors";
 import { adminProblemRouter } from "./router/adminProblemsRouter";
@@ -14,6 +14,7 @@ import { initEmail } from "@repo/email/mail";
 import { redisClient, pubSubClient } from "./redis/client";
 import { EXECUTOR_MODE } from "./util/config";
 import { profileRouter } from "./router/profileRouter";
+import { config } from "better-auth";
 
 const app = express();
 const port = process.env.PORT;
@@ -29,7 +30,9 @@ declare global {
 }
 
 const corsMiddleware = cors({
-  origin: ["http://localhost:3000", "http://localhost:3001"],
+  origin: process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS.split(",")
+    : ["http://localhost:3000", "http://localhost:3001"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 });
