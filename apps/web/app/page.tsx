@@ -1,4 +1,5 @@
 import { FeaturesSection } from "../components/features-section";
+
 import { redirect } from 'next/navigation';
 import { HeroSection } from "../components/hero-section";
 import { NavbarLanding } from "../components/navbar-landing";
