@@ -20,7 +20,7 @@ services:
     container_name: redis-codeforces
     restart: always
     ports:
-      - '6379:6379'
+      - '6370:6379'
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 1s
@@ -56,7 +56,7 @@ services:
     container_name: web-codeforces
     restart: always
     ports:
-      - "4000:4000"
+      - "3000:3000"
 
 volumes:
   pgdata:
