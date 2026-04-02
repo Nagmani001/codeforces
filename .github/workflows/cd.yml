@@ -136,7 +136,7 @@
             key: ${{ secrets.SSH_KEY }}
             passphrase: ${{ secrets.SSH_PASSPHRASE }}
             source: docker/docker-compose-deploy.yml
-            target: /home/${{ secrets.SSH_USERNAME }}/codeforces/
+            target: /root/codeforces/
             strip_components: 1
 
         - name: Deploy to VM
@@ -147,7 +147,7 @@
             key: ${{ secrets.SSH_KEY }}
             passphrase: ${{ secrets.SSH_PASSPHRASE }}
             script: |
-              cd /home/${{ secrets.SSH_USERNAME }}/codeforces
+              cd /root/codeforces
 
               # Pull latest images
               docker compose -f docker-compose-deploy.yml pull
