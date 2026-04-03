@@ -30,10 +30,8 @@ FROM base AS runner
 WORKDIR /app
 RUN pnpm add -g tsx
 
-# Install isolate runtime dependency
 RUN apk add --no-cache libcap
 
-# Copy isolate binary and config
 COPY --from=isolate-builder /isolate/isolate /usr/local/bin/isolate
 COPY --from=isolate-builder /isolate/default.cf /usr/local/etc/isolate
 
