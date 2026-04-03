@@ -4,7 +4,7 @@ services:
     container_name: database-codeforces
     restart: always
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_PASSWORD=password
     ports:
       - '5433:5432'
     volumes:
