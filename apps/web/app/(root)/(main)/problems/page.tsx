@@ -17,7 +17,7 @@ export default async function ProblemsPage() {
     user = res.data?.user;
   } catch { }
   const actualTags = tags.data.allTags.map((x: any) => x.title);
-  const newProblems: Problem[] = problems.data.problems.map((x: any, index: number) => {
+  const newProblems: Problem[] = problems!.data.problems.map((x: any, index: number) => {
     return {
       id: x.id,
       serialNumber: index + 1,

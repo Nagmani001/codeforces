@@ -54,6 +54,8 @@ services:
   web:
     image: ghcr.io/nagmani001/codeforces/web:latest
     container_name: web-codeforces
+    env_file:
+      - .env.web
     restart: always
     ports:
       - "4000:4000"
