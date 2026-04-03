@@ -3,7 +3,7 @@ import { BASE_URL } from "./config";
 import { ProblemDetail, TestCase, TestCaseVerdict } from "./temp";
 
 export async function getProblems(cookieStore: any) {
-  console.log(BASE_URL);
+  console.log("base url used", BASE_URL);
   const cookieHeader = Array.from(cookieStore._parsed.values())
     .map(({ name, value }: any) => {
       return `${name}=${encodeURIComponent(value)}`;
@@ -15,6 +15,7 @@ export async function getProblems(cookieStore: any) {
         "cookie": cookieHeader
       }
     });
+    console.log("problems", problems);
     return problems;
   } catch (err) {
     console.log("axios error", err);
