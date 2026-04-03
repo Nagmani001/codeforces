@@ -8,6 +8,7 @@ import { ExpandingFooter } from "../components/expanding-footer";
 export default async function Home() {
 
 
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavbarLanding />
