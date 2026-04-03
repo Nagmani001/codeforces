@@ -1,13 +1,9 @@
 import { FeaturesSection } from "../components/features-section";
-
-import { redirect } from 'next/navigation';
 import { HeroSection } from "../components/hero-section";
 import { NavbarLanding } from "../components/navbar-landing";
 import { DeveloperShowcase } from "../components/developer-showcase";
 import { HowItWorks } from "../components/how-it-works";
 import { ExpandingFooter } from "../components/expanding-footer";
-import { cookies } from "next/headers";
-import { authClient } from "../lib/auth";
 
 export default async function Home() {
 
