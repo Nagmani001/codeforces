@@ -7,10 +7,16 @@ RUN corepack enable
 
 FROM base AS prepare
 WORKDIR /app
-COPY package.json . 
+COPY package.json .
 RUN pnpm add -g turbo
 COPY . .
 RUN turbo prune worker --docker
+
+FROM base AS isolate-builder
+RUN apk add --no-cache git gcc make musl-dev libcap-dev
+RUN git clone https://github.com/ioi/isolate.git /isolate
+WORKDIR /isolate
+RUN make isolate
 
 FROM base AS builder
 WORKDIR /app
@@ -24,9 +30,12 @@ FROM base AS runner
 WORKDIR /app
 RUN pnpm add -g tsx
 
-RUN addgroup --system --gid 1001 worker
-RUN adduser --system --uid 1001 worker
-USER worker
+# Install isolate runtime dependency
+RUN apk add --no-cache libcap
+
+# Copy isolate binary and config
+COPY --from=isolate-builder /isolate/isolate /usr/local/bin/isolate
+COPY --from=isolate-builder /isolate/default.cf /usr/local/etc/isolate
 
 COPY --from=builder /app .
 
