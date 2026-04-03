@@ -3,23 +3,17 @@ import { BASE_URL } from "./config";
 import { ProblemDetail, TestCase, TestCaseVerdict } from "./temp";
 
 export async function getProblems(cookieStore: any) {
-  console.log("base url used", BASE_URL);
   const cookieHeader = Array.from(cookieStore._parsed.values())
     .map(({ name, value }: any) => {
       return `${name}=${encodeURIComponent(value)}`;
     })
     .join("; ");
-  try {
-    const problems = await axios.get(`${BASE_URL}/api/user/problems`, {
-      headers: {
-        "cookie": cookieHeader
-      }
-    });
-    console.log("problems", problems);
-    return problems;
-  } catch (err) {
-    console.log("axios error", err);
-  }
+  const problems = await axios.get(`${BASE_URL}/api/user/problems`, {
+    headers: {
+      "cookie": cookieHeader
+    }
+  });
+  return problems;
 }
 export async function getUser(cookieStore: any) {
   const cookieHeader = Array.from(cookieStore._parsed.values())
