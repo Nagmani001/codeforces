@@ -122,7 +122,7 @@
               ${{ env.IMAGE_PREFIX }}/worker:latest
 
     deploy:
-      needs: [build-backend, build-web]
+      needs: [build-backend, build-web, build-worker]
       # Run even if one build was skipped (nothing changed in that app)
       if: always() && !failure() && !cancelled()
       runs-on: ubuntu-latest
