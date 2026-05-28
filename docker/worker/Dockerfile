@@ -2,7 +2,7 @@ ARG NODE_VERSION=24.13.1
 FROM node:${NODE_VERSION}-alpine AS base
 
 ENV PNPM_HOME="/pnpm"
-ENV PATH="/pnpm/bin:$PNPM_HOME:$PATH"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
 FROM base AS prepare
