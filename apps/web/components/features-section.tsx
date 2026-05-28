@@ -77,16 +77,16 @@ const OrbitIcon = ({
 };
 export function FeaturesSection() {
   return (
-    <section className="py-20 bg-muted/30">
-      <div className="container px-4 mx-auto max-w-7xl">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+    <section className="py-12 md:py-16 lg:py-20 bg-muted/30">
+      <div className="w-full px-4 md:px-8 lg:px-16 mx-auto max-w-screen-xl">
+        <div className="text-center max-w-2xl mx-auto mb-10 md:mb-16">
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">Everything You Need to Excel</h2>
-            <p className="mt-4 text-muted-foreground text-lg">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">Everything You Need to Excel</h2>
+            <p className="mt-4 text-muted-foreground text-base md:text-lg">
               Powerful tools and resources designed to help you become a better programmer.
             </p>
           </motion.div>
@@ -97,12 +97,12 @@ export function FeaturesSection() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full"
         >
           {/* 1. Track Progress */}
-          <motion.div variants={item} className="p-8 flex flex-col justify-between group rounded-3xl bg-card border border-border hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
+          <motion.div variants={item} className="p-5 sm:p-6 md:p-8 flex flex-col justify-between group rounded-3xl bg-card border border-border hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
             <div>
-              <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center justify-between mb-6 md:mb-8">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-muted border border-border flex items-center justify-center overflow-hidden">
                     <img src="https://picsum.photos/seed/abhishek/100/100" alt="Profile" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
@@ -145,8 +145,8 @@ export function FeaturesSection() {
           </motion.div>
 
           {/* 2. Global Community */}
-          <motion.div variants={item} className="p-8 flex flex-col justify-between relative overflow-hidden group rounded-3xl bg-card border border-border hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
-            <div className="relative h-48 flex items-center justify-center">
+          <motion.div variants={item} className="p-5 sm:p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group rounded-3xl bg-card border border-border hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
+            <div className="relative h-40 sm:h-48 flex items-center justify-center">
               {/* Orbits */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-border w-56 h-56" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-border w-40 h-40" />
@@ -171,7 +171,7 @@ export function FeaturesSection() {
           </motion.div>
 
           {/* 3. Rated Contests */}
-          <motion.div variants={item} className="p-8 flex flex-col justify-between group rounded-3xl bg-card border border-border hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
+          <motion.div variants={item} className="p-5 sm:p-6 md:p-8 flex flex-col justify-between group rounded-3xl bg-card border border-border hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
             <div className="space-y-3">
               {[
                 { name: "Contest #1", time: "6:00 PM", tag: "Div 2", color: "bg-blue-500/10 text-blue-600 border-blue-500/20" },
@@ -200,8 +200,8 @@ export function FeaturesSection() {
           </motion.div>
 
           {/* 5. Vast Problemset (Large Card) */}
-          <motion.div variants={item} className="p-8 md:col-span-2 flex flex-col justify-between group overflow-hidden rounded-3xl bg-card border border-border hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
-            <div className="flex flex-wrap items-center justify-center gap-4 p-6 min-h-[16rem] mb-4">
+          <motion.div variants={item} className="p-5 sm:p-6 md:p-8 sm:col-span-2 lg:col-span-2 flex flex-col justify-between group overflow-hidden rounded-3xl bg-card border border-border hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 p-4 sm:p-6 min-h-[12rem] sm:min-h-[16rem] mb-4 overflow-hidden">
               {[
                 { text: "Two Sum", rotate: -5 },
                 { text: "Add Two Numbers", rotate: 3 },
@@ -224,7 +224,7 @@ export function FeaturesSection() {
                     y: { duration: 4 + i, repeat: Infinity, ease: "easeInOut" }
                   }}
                   viewport={{ once: true }}
-                  className="px-6 py-3 rounded-full bg-card shadow-sm border border-border text-sm font-medium text-foreground whitespace-nowrap hover:shadow-md transition-all cursor-default"
+                  className="px-3 py-2 sm:px-6 sm:py-3 rounded-full bg-card shadow-sm border border-border text-xs sm:text-sm font-medium text-foreground max-w-full truncate sm:whitespace-nowrap hover:shadow-md transition-all cursor-default"
                   style={{ 
                     transform: `rotate(${v.rotate}deg)`
                   }}
@@ -244,7 +244,7 @@ export function FeaturesSection() {
           </motion.div>
 
           {/* 4. Virtual Contests */}
-          <motion.div variants={item} className="p-8 flex flex-col justify-between group rounded-3xl bg-card border border-border hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
+          <motion.div variants={item} className="p-5 sm:p-6 md:p-8 flex flex-col justify-between group rounded-3xl bg-card border border-border hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
             <div className="space-y-4">
               {[
                 { name: "Round #145", type: "Virtual", icon: <Play size={12} fill="currentColor" /> },

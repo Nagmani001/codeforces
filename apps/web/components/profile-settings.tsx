@@ -39,7 +39,7 @@ export function ProfileSettings({ user }: { user?: ProfileUser }) {
           <CardDescription>Update your public profile details.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="h-16 w-16 overflow-hidden rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xl font-semibold">
               {user?.image ? (
                 <img
@@ -101,7 +101,7 @@ export function ProfileSettings({ user }: { user?: ProfileUser }) {
               <Input id="email" value={user?.email ?? ""} disabled />
             </div>
             <div className="md:col-span-2">
-              <Button type="submit">Save profile</Button>
+              <Button type="submit" className="w-full sm:w-auto min-h-[44px]">Save profile</Button>
             </div>
           </form>
         </CardContent>
@@ -166,7 +166,7 @@ export function ProfileSettings({ user }: { user?: ProfileUser }) {
               />
             </div>
             <div className="md:col-span-2">
-              <Button type="submit">Update password</Button>
+              <Button type="submit" className="w-full sm:w-auto min-h-[44px]">Update password</Button>
             </div>
           </form>
         </CardContent>

@@ -99,13 +99,13 @@ export function TestCasesPanel({ testCases, isJudge0, activeTab, onTabChange, is
           <ScrollArea className="h-full">
             <div className="p-4 space-y-4">
               {/* Test Case Selector */}
-              <div className="flex gap-2">
+              <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
                 {testCases.map((tc, i) => (
                   <button
                     key={tc.id}
                     onClick={() => setSelectedCase(i)}
                     className={cn(
-                      "px-3 py-1 text-sm rounded-md transition-colors",
+                      "px-3 py-2 min-h-[44px] text-sm rounded-md transition-colors shrink-0",
                       selectedCase === i
                         ? "bg-secondary text-secondary-foreground"
                         : "text-muted-foreground hover:bg-muted",
@@ -196,13 +196,13 @@ export function TestCasesPanel({ testCases, isJudge0, activeTab, onTabChange, is
                       )}
 
                       {/* Test Case Results */}
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
                         {testCases.map((tc, i) => (
                           <button
                             key={tc.id}
                             onClick={() => setSelectedCase(i)}
                             className={cn(
-                              "flex items-center gap-1.5 px-3 py-1 text-sm rounded-md transition-colors",
+                              "flex items-center gap-1.5 px-3 py-2 min-h-[44px] text-sm rounded-md transition-colors shrink-0",
                               selectedCase === i
                                 ? "bg-secondary text-secondary-foreground"
                                 : "text-muted-foreground hover:bg-muted",

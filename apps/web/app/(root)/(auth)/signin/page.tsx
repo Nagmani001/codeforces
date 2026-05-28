@@ -18,8 +18,8 @@ export default function SignInPage() {
             <span className="text-2xl font-bold text-primary-foreground tracking-tight">Codeforces</span>
           </Link>
 
-          <h1 className="text-3xl lg:text-4xl xl:text-[2.5rem] 2xl:text-[2.75rem] font-bold text-primary-foreground leading-[1.15] mb-5 w-full drop-shadow-sm whitespace-nowrap">
-            Join the World's Largest<br />Competitive Programming <br/>Community
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-primary-foreground leading-tight mb-5 w-full drop-shadow-sm text-balance">
+            Join the World&apos;s Largest Competitive Programming Community
           </h1>
           <p className="text-base text-primary-foreground/80 font-medium tracking-wide">
             Solve algorithmic challenges, compete in rated contests, and become a better programmer.
@@ -28,7 +28,7 @@ export default function SignInPage() {
 
         {/* Floating Dashboard Mockup */}
         <div className="relative z-10 w-full px-12 xl:px-20 mt-8 flex-1 flex flex-col justify-start pb-8 overflow-visible min-h-0 scale-110">
-          <div className="relative w-full max-w-[800px] max-h-full flex rounded-2xl overflow-hidden   rotate-[-1.5deg] hover:rotate-0 hover:-translate-y-2 transition-all duration-700 ease-out origin-top-left">
+          <div className="relative w-full max-w-3xl max-h-full flex rounded-2xl overflow-hidden rotate-[-1.5deg] hover:rotate-0 hover:-translate-y-2 transition-all duration-700 ease-out origin-top-left">
             <Image 
               src={dashboard} 
               alt="Platform Dashboard" 
@@ -40,7 +40,7 @@ export default function SignInPage() {
       </div>
 
       {/* Right side - Sign in form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-6 sm:p-6 md:p-12">
         <Suspense fallback={null}>
           <SignInForm />
         </Suspense>

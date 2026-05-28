@@ -41,9 +41,9 @@ export function CodeEditor({ code, onChange, starterCode, language, onLanguageCh
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between border-b px-4 py-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b px-3 sm:px-4 py-2">
         <Select value={language} onValueChange={(v) => onLanguageChange(v as Language)}>
-          <SelectTrigger className="w-[140px] h-8">
+          <SelectTrigger className="w-full min-w-0 flex-1 sm:flex-none sm:w-36 h-9 min-h-[44px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -56,7 +56,7 @@ export function CodeEditor({ code, onChange, starterCode, language, onLanguageCh
         </Select>
         <Button onClick={() => {
           onChange(starterCode[language]);
-        }} variant="ghost" size="sm" className="h-8 gap-1">
+        }} variant="ghost" size="sm" className="h-9 min-h-[44px] gap-1 shrink-0">
           <RotateCcw className="h-3 w-3" />
           Reset
         </Button>

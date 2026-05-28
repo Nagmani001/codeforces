@@ -31,7 +31,7 @@ declare global {
 const corsMiddleware = cors({
   origin: process.env.CORS_ORIGINS
     ? process.env.CORS_ORIGINS.split(",")
-    : ["http://localhost:3000", "http://localhost:3001"],
+    : ["http://localhost:4000", "http://localhost:4001"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 });

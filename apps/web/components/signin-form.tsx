@@ -63,7 +63,7 @@ export function SignInForm() {
   }
 
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-md mx-auto">
       <div className="lg:hidden flex items-center gap-2 mb-8">
         <Link href="/" className="flex items-center gap-2">
           <BrandLogo className="h-8 w-8" />
@@ -80,7 +80,7 @@ export function SignInForm() {
 
       <Card className="border-0 shadow-none  ">
         <CardHeader className="space-y-1 px-0 lg:px-6">
-          <CardTitle className="text-2xl">Sign in</CardTitle>
+          <CardTitle className="text-xl sm:text-2xl">Sign in</CardTitle>
           <CardDescription>Enter your credentials to access your account</CardDescription>
         </CardHeader>
         <CardContent className="px-0 lg:px-6">
@@ -146,7 +146,7 @@ export function SignInForm() {
               </label>
             </div>
 
-            <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+            <Button type="submit" className="w-full min-h-[44px]" size="lg" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

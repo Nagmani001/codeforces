@@ -51,15 +51,15 @@ export function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
   return (
     <div className="border border-border rounded-lg overflow-hidden">
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "write" | "preview")}>
-        <div className="border-b border-border bg-muted/30 px-2 py-1 flex items-center justify-between">
-          <div className="flex items-center gap-1">
+        <div className="border-b border-border bg-muted/30 px-2 py-1 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-1 overflow-x-auto">
             {toolbarActions.map(({ icon: Icon, action, title }) => (
               <Button
                 key={title}
                 variant="ghost"
                 size="sm"
                 onClick={action}
-                className="h-8 w-8 p-0"
+                className="h-9 w-9 min-h-[44px] min-w-[44px] p-0 shrink-0"
                 title={title}
                 disabled={activeTab === "preview"}
               >
@@ -95,12 +95,12 @@ Given an array of integers `nums` and an integer `target`, return indices of the
 - -10^9 <= nums[i] <= 10^9"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="min-h-[400px] rounded-none border-0 resize-none font-mono text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="min-h-[240px] sm:min-h-[320px] md:min-h-[400px] rounded-none border-0 resize-none font-mono text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </TabsContent>
 
         <TabsContent value="preview" className="m-0">
-          <div className="min-h-[400px] p-4 prose prose-sm dark:prose-invert max-w-none">
+          <div className="min-h-[240px] sm:min-h-[320px] md:min-h-[400px] p-4 prose prose-sm dark:prose-invert max-w-none overflow-x-auto">
             {value ? (
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
             ) : (

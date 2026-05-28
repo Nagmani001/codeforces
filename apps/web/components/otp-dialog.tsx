@@ -115,7 +115,7 @@ export function OTPDialog({ open, onOpenChange, email, onVerify }: OTPDialogProp
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="w-[calc(100%-2rem)] max-w-md mx-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl text-center">Verify Your Email</DialogTitle>
           <DialogDescription className="text-center">
@@ -124,7 +124,7 @@ export function OTPDialog({ open, onOpenChange, email, onVerify }: OTPDialogProp
         </DialogHeader>
 
         <div className="flex flex-col items-center gap-6 py-4">
-          <div className="flex gap-2" onPaste={handlePaste}>
+          <div className="flex gap-1.5 sm:gap-2 w-full justify-center max-w-xs mx-auto" onPaste={handlePaste}>
             {otp.map((digit, index) => (
               <Input
                 key={index}
@@ -137,14 +137,14 @@ export function OTPDialog({ open, onOpenChange, email, onVerify }: OTPDialogProp
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-12 h-14 text-center text-xl font-semibold"
+                className="w-10 h-12 sm:w-12 sm:h-14 flex-1 max-w-12 text-center text-base sm:text-xl font-semibold"
               />
             ))}
           </div>
 
           {error && <p className="text-sm text-destructive">{error}</p>}
 
-          <Button onClick={handleVerify} className="w-full" size="lg" disabled={isVerifying}>
+          <Button onClick={handleVerify} className="w-full min-h-[44px]" size="lg" disabled={isVerifying}>
             {isVerifying ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

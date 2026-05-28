@@ -4,9 +4,9 @@ import { BrandLogo } from "./brand-logo"
 export function Footer() {
   return (
     <footer className="border-t border-border bg-muted/30">
-      <div className="container px-4 py-12 mx-auto max-w-7xl">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="col-span-2 md:col-span-1">
+      <div className="w-full px-4 md:px-8 py-10 md:py-12 mx-auto max-w-screen-xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="sm:col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2">
               <BrandLogo className="h-6 w-6" />
               <span className="text-lg font-bold text-foreground">Codeforces</span>

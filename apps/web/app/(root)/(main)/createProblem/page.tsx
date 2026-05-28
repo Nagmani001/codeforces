@@ -313,10 +313,10 @@ export default function CreateProblemPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar user={null} />
-      <main className="container mx-auto py-8 px-4 max-w-6xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Create Problem</h1>
-          <p className="text-muted-foreground mt-2">Define a new coding problem with test cases and constraints</p>
+      <main className="w-full mx-auto py-6 md:py-8 px-4 md:px-6 lg:px-8 max-w-6xl">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Create Problem</h1>
+          <p className="text-sm sm:text-base text-muted-foreground mt-2">Define a new coding problem with test cases and constraints</p>
         </div>
 
         <div className="space-y-6">
@@ -421,19 +421,20 @@ export default function CreateProblemPage() {
                   ))}
                 </div>
               )}
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Input
                   placeholder="Add a new tag..."
                   value={newTagInput}
                   onChange={(e) => setNewTagInput(e.target.value)}
                   onKeyDown={handleTagInputKeyDown}
-                  className="flex-1"
+                  className="flex-1 w-full text-base"
                   disabled={isAddingTag}
                 />
                 <Button
                   type="button"
                   variant="outline"
                   onClick={addTag}
+                  className="w-full sm:w-auto min-h-[44px] shrink-0"
                   disabled={isAddingTag || !newTagInput.trim() || tags.some(t => t.title === newTagInput.trim())}
                 >
                   {isAddingTag ? (
@@ -474,17 +475,17 @@ export default function CreateProblemPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="cpu-time">CPU Time Limit</Label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <Input
                       id="cpu-time"
                       type="number"
                       placeholder="e.g., 2"
                       value={cpuTimeLimit}
                       onChange={(e) => setCpuTimeLimit(e.target.value)}
-                      className="flex-1"
+                      className="flex-1 w-full text-base"
                     />
                     <Select value={cpuTimeUnit} onValueChange={(v) => setCpuTimeUnit(v as "s" | "ms")}>
-                      <SelectTrigger className="w-24">
+                      <SelectTrigger className="w-full sm:w-24 min-h-[44px]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -498,17 +499,17 @@ export default function CreateProblemPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="memory">Memory Limit</Label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <Input
                       id="memory"
                       type="number"
                       placeholder="e.g., 256"
                       value={memoryLimit}
                       onChange={(e) => setMemoryLimit(e.target.value)}
-                      className="flex-1"
+                      className="flex-1 w-full text-base"
                     />
                     <Select value={memoryUnit} onValueChange={(v) => setMemoryUnit(v as "kb" | "mb")}>
-                      <SelectTrigger className="w-24">
+                      <SelectTrigger className="w-full sm:w-24 min-h-[44px]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -616,9 +617,9 @@ export default function CreateProblemPage() {
           </Card>
 
           {/* Actions */}
-          <div className="flex justify-end gap-4">
-            <Button variant="outline" disabled={isSubmitting}>Cancel</Button>
-            <Button onClick={handleSubmit} disabled={isSubmitting}>
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-4">
+            <Button variant="outline" disabled={isSubmitting} className="w-full sm:w-auto min-h-[44px]">Cancel</Button>
+            <Button onClick={handleSubmit} disabled={isSubmitting} className="w-full sm:w-auto min-h-[44px]">
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

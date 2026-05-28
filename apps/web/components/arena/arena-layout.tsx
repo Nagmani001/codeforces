@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, Moon, Sun, List, User, LogOut } from "lucide-react"
 import { useTheme } from "next-themes"
@@ -39,7 +39,16 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
   const [isRunning, setIsRunning] = useState(false)
   const [activeTab, setActiveTab] = useState<"testcase" | "result">("testcase")
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [panelDirection, setPanelDirection] = useState<"horizontal" | "vertical">("horizontal")
   const router = useRouter();
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)")
+    const update = () => setPanelDirection(mq.matches ? "horizontal" : "vertical")
+    update()
+    mq.addEventListener("change", update)
+    return () => mq.removeEventListener("change", update)
+  }, [])
 
 
   const handleLanguageChange = (newLang: Language) => {
@@ -165,49 +174,49 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
   return (
     <div className="flex h-screen flex-col bg-background">
       {/* Top Navbar */}
-      <header className="flex h-12 items-center border-b px-4">
+      <header className="flex flex-wrap sm:flex-nowrap min-h-12 h-auto sm:h-12 items-center border-b gap-2 px-2 sm:px-4 py-2 sm:py-0">
         {/* Left section */}
-        <div className="flex items-center gap-2 flex-1">
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setDrawerOpen(true)}>
+        <div className="flex items-center gap-1 sm:gap-2 flex-1 min-w-0 order-1">
+          <Button variant="ghost" size="icon" className="h-9 w-9 min-h-[44px] min-w-[44px] shrink-0" onClick={() => setDrawerOpen(true)}>
             <List className="h-4 w-4" />
           </Button>
-          <Link href="/problems" className="flex items-center gap-2 font-semibold">
+          <Link href="/problems" className="flex items-center gap-2 font-semibold shrink-0">
             <BrandLogo className="h-5 w-5" />
-            <span className="hidden sm:inline">CodeArena</span>
+            <span className="hidden sm:inline text-sm">CodeArena</span>
           </Link>
-          <div className="ml-4 flex items-center gap-1">
+          <div className="hidden md:flex ml-2 lg:ml-4 items-center gap-1 min-w-0">
             <Button onClick={() => {
               router.push(`/arena/${problemIdList[index - 1] ? problemIdList[index - 1] : problemIdList[index]}`)
-            }} variant="ghost" size="icon" className="h-8 w-8" disabled={problem.id === "1"}>
+            }} variant="ghost" size="icon" className="h-9 w-9 min-h-[44px] min-w-[44px] shrink-0" disabled={problem.id === "1"}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <span className="text-sm font-medium px-2">
+            <span className="text-sm font-medium px-1 truncate max-w-[120px] lg:max-w-xs">
               {problem.title}
             </span>
             <Button onClick={() => {
               router.push(`/arena/${problemIdList[index + 1] ? problemIdList[index + 1] : problemIdList[index]}`)
-            }} variant="ghost" size="icon" className="h-8 w-8" disabled={problem.id === "15"}>
+            }} variant="ghost" size="icon" className="h-9 w-9 min-h-[44px] min-w-[44px] shrink-0" disabled={problem.id === "15"}>
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
         </div>
 
         {/* Center section - Run & Submit */}
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={handleRun} disabled={isRunning}>
+        <div className="flex items-center gap-2 order-3 sm:order-2 w-full sm:w-auto justify-center sm:justify-center">
+          <Button variant="outline" size="sm" onClick={handleRun} disabled={isRunning} className="flex-1 sm:flex-none min-h-[44px]">
             {isRunning ? "Running..." : "Run"}
           </Button>
-          <Button size="sm" onClick={handleSubmit} disabled={isRunning}>
+          <Button size="sm" onClick={handleSubmit} disabled={isRunning} className="flex-1 sm:flex-none min-h-[44px]">
             {isRunning ? "Submitting..." : "Submit"}
           </Button>
         </div>
 
         {/* Right section */}
-        <div className="flex items-center gap-2 flex-1 justify-end">
+        <div className="flex items-center gap-1 sm:gap-2 flex-1 sm:flex-none justify-end order-2 sm:order-3">
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8"
+            className="h-9 w-9 min-h-[44px] min-w-[44px]"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -217,7 +226,7 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <button className="h-9 w-9 min-h-[44px] min-w-[44px] rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                   {user.image ?
                     <img
                       src={user.image}
@@ -255,13 +264,13 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
             </DropdownMenu>
           ) : (
             <>
-              <Link href="/signin">
-                <Button variant="ghost" size="sm">
+              <Link href="/signin" className="hidden sm:block">
+                <Button variant="ghost" size="sm" className="min-h-[44px]">
                   Sign In
                 </Button>
               </Link>
-              <Link href="/signup">
-                <Button size="sm">Sign Up</Button>
+              <Link href="/signup" className="hidden sm:block">
+                <Button size="sm" className="min-h-[44px]">Sign Up</Button>
               </Link>
             </>
           )}
@@ -269,17 +278,20 @@ export function ArenaLayout({ problem, problemIdList, index, user }: { problem: 
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-hidden">
-        <ResizablePanelGroup direction="horizontal">
+      <div className="flex-1 overflow-hidden min-h-0">
+        <p className="md:hidden truncate text-xs font-medium text-muted-foreground px-3 py-1.5 border-b bg-muted/30">
+          {problem.title}
+        </p>
+        <ResizablePanelGroup direction={panelDirection}>
           {/* Left Panel - Problem Description */}
-          <ResizablePanel defaultSize={50} minSize={25}>
+          <ResizablePanel defaultSize={panelDirection === "vertical" ? 40 : 50} minSize={20}>
             <ProblemDescription problem={problem} />
           </ResizablePanel>
 
           <ResizableHandle withHandle />
 
           {/* Right Panel - Code Editor + Test Cases */}
-          <ResizablePanel defaultSize={50} minSize={35}>
+          <ResizablePanel defaultSize={panelDirection === "vertical" ? 60 : 50} minSize={25}>
             <ResizablePanelGroup direction="vertical">
               {/* Code Editor */}
               <ResizablePanel defaultSize={60} minSize={30}>

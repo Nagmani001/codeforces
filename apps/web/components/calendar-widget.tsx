@@ -161,7 +161,8 @@ export function CalendarWidget() {
         <div className="flex items-center justify-center gap-2 mb-2">
           <button
             onClick={prevMonth}
-            className="text-muted-foreground hover:text-foreground p-0.5 rounded transition-colors"
+            className="text-muted-foreground hover:text-foreground p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded transition-colors"
+            aria-label="Previous month"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -170,7 +171,8 @@ export function CalendarWidget() {
           </span>
           <button
             onClick={nextMonth}
-            className="text-muted-foreground hover:text-foreground p-0.5 rounded transition-colors"
+            className="text-muted-foreground hover:text-foreground p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded transition-colors"
+            aria-label="Next month"
           >
             <ChevronRight className="h-4 w-4" />
           </button>
@@ -178,7 +180,7 @@ export function CalendarWidget() {
             onClick={goToToday}
             disabled={isCurrentMonth}
             className={cn(
-              "text-xs ml-1 transition-colors",
+              "text-xs ml-1 min-h-[44px] px-2 transition-colors",
               isCurrentMonth
                 ? "text-emerald-500"
                 : "text-emerald-400 hover:text-emerald-300",

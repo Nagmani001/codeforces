@@ -13,14 +13,16 @@ export const auth = betterAuth({
   }),
   trustedOrigins: process.env.TRUSTED_ORIGINS
     ? process.env.TRUSTED_ORIGINS.split(",")
-    : ["http://localhost:3000"],
+    : ["http://localhost:4000"],
   ...(process.env.COOKIE_DOMAIN && {
+    /*
     advanced: {
       crossSubDomainCookies: {
         enabled: true,
         domain: process.env.COOKIE_DOMAIN,
       },
     },
+     * */
   }),
   user: {
     additionalFields: {

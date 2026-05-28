@@ -104,7 +104,7 @@ export function ProblemListDrawer({ open, onOpenChange, currentProblemId }: Prob
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="left" className="w-[420px] sm:max-w-[420px] p-0 gap-0">
+      <SheetContent side="left" className="w-full max-w-full sm:max-w-md p-0 gap-0">
         {/* Header */}
         <SheetHeader className="border-b p-4 pb-3 pr-10">
           <div className="flex items-center justify-between">
@@ -122,7 +122,7 @@ export function ProblemListDrawer({ open, onOpenChange, currentProblemId }: Prob
               placeholder="Search problems..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-8 w-full rounded-md border bg-transparent pl-8 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+              className="h-11 w-full rounded-md border bg-transparent pl-8 pr-3 text-base sm:text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
             />
           </div>
         </SheetHeader>

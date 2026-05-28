@@ -57,12 +57,12 @@ export function ProgressWidget({ easy, medium, hard }: ProblemStats) {
 
   return (
     <Card className="border-border/50 shadow-sm">
-      <CardContent className="p-5">
-        <div className="flex items-center gap-5">
+      <CardContent className="p-4 sm:p-5">
+        <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-6">
           {/* Gauge */}
-          <div className="flex-shrink-0">
-            <div className="relative">
-              <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+          <div className="flex-shrink-0 w-full sm:w-auto flex justify-center">
+            <div className="relative scale-90 sm:scale-100">
+              <svg className="w-full max-w-[180px] h-auto" width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
                 {/* Background track */}
                 <circle
                   cx={center}

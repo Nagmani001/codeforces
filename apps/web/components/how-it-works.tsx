@@ -62,9 +62,9 @@ function StepCard({
       }`}
       style={{ transitionDelay: `${index * 150}ms` }}
     >
-      <div className="flex items-start gap-6">
+      <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
         <div className="flex-shrink-0">
-          <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+          <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
             <step.icon className="h-6 w-6 text-primary" />
           </div>
         </div>
@@ -72,8 +72,8 @@ function StepCard({
           <span className="text-xs font-mono text-muted-foreground tracking-widest uppercase">
             Step {step.number}
           </span>
-          <h3 className="text-xl font-semibold text-foreground mt-1">{step.title}</h3>
-          <p className="mt-2 text-muted-foreground leading-relaxed">{step.description}</p>
+          <h3 className="text-lg sm:text-xl font-semibold text-foreground mt-1">{step.title}</h3>
+          <p className="mt-2 text-sm sm:text-base text-muted-foreground leading-relaxed">{step.description}</p>
         </div>
       </div>
 
@@ -87,14 +87,14 @@ function StepCard({
 
 export function HowItWorks() {
   return (
-    <section className="py-24">
-      <div className="container px-4 mx-auto max-w-7xl">
-        <div className="grid md:grid-cols-2 gap-16 items-start">
+    <section className="py-12 md:py-16 lg:py-24">
+      <div className="w-full px-4 md:px-8 lg:px-16 mx-auto max-w-screen-xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
           <div className="md:sticky md:top-24">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
               How it works
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-md">
+            <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-md">
               Get started in minutes. Our platform is designed to help you grow from beginner to expert.
             </p>
           </div>

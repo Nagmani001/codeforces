@@ -32,15 +32,15 @@ export default async function ProblemsPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar user={user} />
-      <main className="container max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-screen-2xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
         {/* Hero Section */}
-        <div className="relative mb-8 p-6 rounded-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-accent/5 border border-primary/10 overflow-hidden">
+        <div className="relative mb-6 md:mb-8 p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-accent/5 border border-primary/10 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-60" />
           <div className="relative z-10">
-            <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
               Problems
             </h1>
-            <p className="mt-2 text-muted-foreground max-w-2xl">
+            <p className="mt-2 text-sm sm:text-base text-muted-foreground max-w-2xl">
               Sharpen your algorithmic thinking with our curated collection of competitive programming challenges
             </p>
           </div>
@@ -49,8 +49,8 @@ export default async function ProblemsPage() {
           <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-accent/10 rounded-full blur-3xl" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
-          <div className="lg:col-span-3 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
+          <div className="lg:col-span-3 space-y-4 md:space-y-6 min-w-0">
             <ProblemsFilters allTags={actualTags} />
             <ProblemsTable problems={newProblems} />
           </div>

@@ -21,32 +21,30 @@ export function ProblemsFilters({ allTags }: {
   const activeFiltersCount = (filters.difficulty ? 1 : 0) + (filters.status ? 1 : 0) + filters.tags.length
 
   return (
-    <div className="mb-6 space-y-4">
+    <div className="mb-4 md:mb-6 space-y-4">
       {/* Main Filters Row */}
-      <div className="flex flex-wrap items-center gap-3 p-4 rounded-xl bg-card border border-border/50 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 p-4 rounded-xl bg-card border border-border/50 shadow-sm">
         {/* Search Input */}
-        <div className="relative flex-1 min-w-[240px] max-w-md">
+        <div className="relative w-full sm:flex-1 sm:min-w-0 sm:max-w-md">
           <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search problems by title..."
             value={filters.search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 h-11 bg-background/50 border-border/50 focus-visible:border-primary/50 transition-colors duration-200"
+            className="pl-10 h-11 w-full text-base bg-background/50 border-border/50 focus-visible:border-primary/50 transition-colors duration-200"
           />
         </div>
 
-        {/* Divider */}
-        <div className="hidden sm:block w-px h-8 bg-border/50" />
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:contents gap-3 w-full sm:w-auto">
         {/* Difficulty Select */}
         <Select
           value={filters.difficulty || "all"}
           onValueChange={(v) => setDifficulty(v === "all" ? null : (v as "EASY" | "MEDIUM" | "HARD"))}
         >
-          <SelectTrigger className="w-[140px] h-11 bg-background/50 border-border/50 hover:border-primary/50 transition-colors duration-200">
+          <SelectTrigger className="w-full sm:w-36 md:w-40 h-11 min-h-[44px] bg-background/50 border-border/50 hover:border-primary/50 transition-colors duration-200">
             <div className="flex items-center gap-2">
               <div className={cn(
-                "w-2 h-2 rounded-full",
+                "w-2 h-2 rounded-full shrink-0",
                 filters.difficulty === "EASY" && "bg-emerald-500",
                 filters.difficulty === "MEDIUM" && "bg-amber-500",
                 filters.difficulty === "HARD" && "bg-red-500",
@@ -88,7 +86,7 @@ export function ProblemsFilters({ allTags }: {
           value={filters.status || "all"}
           onValueChange={(v) => setStatus(v === "all" ? null : (v as "SOLVED" | "ATTEMPTED" | "UNSOLVED"))}
         >
-          <SelectTrigger className="w-[140px] h-11 bg-background/50 border-border/50 hover:border-primary/50 transition-colors duration-200">
+          <SelectTrigger className="w-full sm:w-36 md:w-40 h-11 min-h-[44px] bg-background/50 border-border/50 hover:border-primary/50 transition-colors duration-200">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
@@ -105,7 +103,7 @@ export function ProblemsFilters({ allTags }: {
             <Button
               variant="outline"
               className={cn(
-                "gap-2 h-11 bg-background/50 border-border/50 hover:border-primary/50 transition-all duration-200",
+                "gap-2 w-full sm:w-auto h-11 min-h-[44px] bg-background/50 border-border/50 hover:border-primary/50 transition-all duration-200",
                 filters.tags.length > 0 && "border-primary/30 bg-primary/5"
               )}
             >
@@ -120,17 +118,17 @@ export function ProblemsFilters({ allTags }: {
               )}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[320px] p-4" align="start">
+          <PopoverContent className="w-[min(100vw-2rem,20rem)] sm:w-80 p-4" align="start">
             <div className="mb-3 pb-2 border-b border-border/50">
               <h4 className="font-semibold text-sm">Filter by Tags</h4>
               <p className="text-xs text-muted-foreground mt-0.5">Select the topics you want to practice</p>
             </div>
-            <div className="grid grid-cols-2 gap-2.5 max-h-[280px] overflow-y-auto pr-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-60 sm:max-h-72 overflow-y-auto pr-1">
               {allTags.map((tag) => (
                 <div
                   key={tag}
                   className={cn(
-                    "flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors duration-150",
+                    "flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors duration-150 min-h-[44px]",
                     filters.tags.includes(tag) ? "bg-primary/10" : "hover:bg-muted/50"
                   )}
                   onClick={() => toggleTag(tag)}
@@ -156,23 +154,24 @@ export function ProblemsFilters({ allTags }: {
             variant="ghost"
             size="sm"
             onClick={clearFilters}
-            className="gap-1.5 h-9 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors duration-200"
+            className="gap-1.5 w-full sm:w-auto min-h-[44px] text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors duration-200"
           >
             <X className="h-3.5 w-3.5" />
             Clear all
           </Button>
         )}
+        </div>
       </div>
 
       {/* Active Tags Display */}
       {filters.tags.length > 0 && (
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm text-muted-foreground font-medium">Active tags:</span>
+          <span className="text-sm text-muted-foreground font-medium w-full sm:w-auto">Active tags:</span>
           {filters.tags.map((tag) => (
             <Badge
               key={tag}
               variant="secondary"
-              className="cursor-pointer gap-1.5 px-3 py-1 bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors duration-200"
+              className="cursor-pointer gap-1.5 px-3 py-1.5 min-h-[32px] bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors duration-200"
               onClick={() => toggleTag(tag)}
             >
               {tag}

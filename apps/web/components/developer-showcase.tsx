@@ -125,14 +125,14 @@ export function DeveloperShowcase() {
   }
 
   return (
-    <section className="py-24 border-t border-border overflow-hidden">
-      <div className="container px-4 mx-auto max-w-7xl mb-12">
+    <section className="py-12 md:py-16 lg:py-24 border-t border-border overflow-hidden">
+      <div className="w-full px-4 md:px-8 lg:px-16 mx-auto max-w-screen-xl mb-8 md:mb-12">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
               Built for every developer
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-xl">
+            <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-xl">
               Whether you&apos;re preparing for competitions, building projects, or mastering algorithms
               &mdash; our platform adapts to your journey.
             </p>
@@ -141,7 +141,7 @@ export function DeveloperShowcase() {
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full bg-background"
+              className="rounded-full bg-background min-h-[44px] min-w-[44px]"
               onClick={handlePrev}
             >
               <ArrowLeft className="h-4 w-4" />
@@ -149,7 +149,7 @@ export function DeveloperShowcase() {
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full bg-background"
+              className="rounded-full bg-background min-h-[44px] min-w-[44px]"
               onClick={handleNext}
             >
               <ArrowRight className="h-4 w-4" />
@@ -158,7 +158,7 @@ export function DeveloperShowcase() {
         </div>
       </div>
 
-      <div className="relative w-full max-w-[1400px] mx-auto h-[550px] md:h-[600px] flex items-center justify-center perspective-[1200px]">
+      <div className="relative w-full max-w-screen-2xl mx-auto h-[min(70vh,420px)] sm:h-[480px] md:h-[550px] lg:h-[600px] flex items-center justify-center perspective-[1200px] px-2 sm:px-4">
         {developers.map((dev, index) => {
           const isActive = index === activeIndex;
           const N = developers.length;
@@ -167,7 +167,7 @@ export function DeveloperShowcase() {
           return (
             <motion.div
               key={dev.title}
-              className="absolute w-[85vw] md:w-[60vw] lg:w-[45vw] cursor-pointer"
+              className="absolute w-[92vw] sm:w-[85vw] md:w-[60vw] lg:w-[45vw] max-w-lg md:max-w-none cursor-pointer"
               onClick={() => setActiveIndex(index)}
               initial={false}
               animate={{

@@ -150,23 +150,16 @@
             script: |
               cd /root/codeforces
 
-              # Pull latest images
               docker compose -f docker-compose-deploy.yml pull
 
-              # Run database migrations
               docker compose -f docker-compose-deploy.yml run --rm backend sh -c "cd packages/database && npx prisma@6.3.0 migrate deploy"
 
-              # Restart services , assuming deps are already running
               docker compose -f docker-compose-deploy.yml up -d --no-deps backend
               docker compose -f docker-compose-deploy.yml up -d --no-deps web
               docker compose -f docker-compose-deploy.yml up -d --no-deps worker 
 
-              # check health of backend  
               sleep 10 
               curl -f --retry 3 --retry-delay 2 http://localhost:4001/health || exit 1
 
-              # check health of web
               curl -f --retry 3 --retry-delay 2 http://localhost:4000/api/health || exit 1
-              # Clean up old images
-              #
               docker image prune -f

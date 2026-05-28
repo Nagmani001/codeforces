@@ -82,8 +82,8 @@ export function ResetPasswordForm({ token }: { token: string }) {
             <BrandLogo className="h-10 w-10" priority />
             <span className="text-2xl font-bold text-primary-foreground">Codeforces</span>
           </Link>
-          <h1 className="text-4xl xl:text-5xl font-bold text-primary-foreground leading-tight">Reset Your Password</h1>
-          <p className="mt-6 text-lg text-primary-foreground/80">
+          <h1 className="text-3xl sm:text-4xl xl:text-5xl font-bold text-primary-foreground leading-tight">Reset Your Password</h1>
+          <p className="mt-6 text-base md:text-lg text-primary-foreground/80">
             Choose a strong password to protect your account and get back to solving problems.
           </p>
           <div className="mt-12 p-6 bg-primary-foreground/10 rounded-lg backdrop-blur-sm">
@@ -93,7 +93,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-6 sm:p-6 md:p-12">
         <div className="w-full max-w-md">
           <div className="lg:hidden flex items-center gap-2 mb-8">
             <Link href="/" className="flex items-center gap-2">
@@ -113,7 +113,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
 
           <Card className="border-0 shadow-none lg:border lg:shadow-sm">
             <CardHeader className="space-y-1 px-0 lg:px-6">
-              <CardTitle className="text-2xl">Set a new password</CardTitle>
+              <CardTitle className="text-xl sm:text-2xl">Set a new password</CardTitle>
               <CardDescription>Enter a new password for your account</CardDescription>
             </CardHeader>
             <CardContent className="px-0 lg:px-6">
@@ -169,11 +169,11 @@ export function ResetPasswordForm({ token }: { token: string }) {
                 </div>
 
                 {isComplete ? (
-                  <Button type="button" className="w-full" size="lg" onClick={() => router.push("/signin")}>
+                  <Button type="button" className="w-full min-h-[44px]" size="lg" onClick={() => router.push("/signin")}>
                     Continue to sign in
                   </Button>
                 ) : (
-                  <Button type="submit" className="w-full" size="lg" disabled={mutation.isPending || !token}>
+                  <Button type="submit" className="w-full min-h-[44px]" size="lg" disabled={mutation.isPending || !token}>
                     {mutation.isPending ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />

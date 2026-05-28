@@ -54,7 +54,7 @@ export function ProblemDescription({ problem }: { problem: ProblemDetail }) {
             <div className="p-4 space-y-4">
               {/* Title and Difficulty */}
               <div>
-                <h1 className="text-xl font-semibold">
+                <h1 className="text-lg sm:text-xl font-semibold break-words">
                   {problem.title}
                 </h1>
                 <Badge variant="secondary" className={cn("mt-2", difficultyColors[problem.problemType])}>

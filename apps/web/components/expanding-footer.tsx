@@ -37,10 +37,10 @@ export function ExpandingFooter() {
     <div ref={footerRef} className="relative overflow-hidden">
       {/* CTA card that scales up */}
       <div
-        className="mx-4 md:mx-8 mb-8 rounded-3xl bg-primary text-primary-foreground overflow-hidden transition-transform duration-100 ease-out"
+        className="mx-4 sm:mx-6 md:mx-8 mb-6 md:mb-8 rounded-2xl sm:rounded-3xl bg-primary text-primary-foreground overflow-hidden transition-transform duration-100 ease-out"
         style={{ transform: `scale(${scale})`, transformOrigin: "center bottom" }}
       >
-        <div className="relative px-8 py-16 md:px-16 md:py-24">
+        <div className="relative px-4 py-10 sm:px-8 sm:py-14 md:px-16 md:py-24">
           {/* Speckled noise background */}
           <div className="absolute inset-0 opacity-[0.03]" style={{
             backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
@@ -49,25 +49,25 @@ export function ExpandingFooter() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent" />
 
           <div className="relative max-w-3xl">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
               Ready to level up your competitive programming?
             </h2>
-            <div className="flex flex-col sm:flex-row gap-3 mt-8">
-              <Link href="/signup">
+            <div className="flex flex-col sm:flex-row gap-3 mt-6 md:mt-8">
+              <Link href="/signup" className="w-full sm:w-auto">
                 <Button
                   size="lg"
                   variant="secondary"
-                  className="gap-2 px-8 text-foreground"
+                  className="gap-2 w-full sm:w-auto min-h-[44px] px-6 md:px-8 text-foreground"
                 >
                   Get Started Free
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/problems">
+              <Link href="/problems" className="w-full sm:w-auto">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 px-8 bg-transparent"
+                  className="w-full sm:w-auto min-h-[44px] border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 px-6 md:px-8 bg-transparent"
                 >
                   Explore Problems
                 </Button>
@@ -79,10 +79,10 @@ export function ExpandingFooter() {
 
       {/* Actual Footer */}
       <footer className="bg-muted/50 border-t border-border">
-        <div className="container px-4 py-16 mx-auto max-w-7xl">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+        <div className="w-full px-4 md:px-8 py-10 md:py-16 mx-auto max-w-screen-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 md:gap-10">
             {/* Brand */}
-            <div className="col-span-2">
+            <div className="sm:col-span-2">
               <Link href="/" className="flex items-center gap-2">
                 <BrandLogo className="h-6 w-6" />
                 <span className="text-lg font-bold text-foreground">Codeforces</span>

@@ -113,19 +113,20 @@ export function ProblemsTable({ problems }: {
 
   return (
     <div className="rounded-xl border border-border/50 bg-card shadow-sm overflow-hidden">
+      <div className="overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent border-b border-border/50 bg-muted/30">
-            <TableHead className="w-[70px] h-14 text-center font-semibold text-xs uppercase tracking-wider text-muted-foreground">
+            <TableHead className="w-14 sm:w-16 h-12 sm:h-14 text-center font-semibold text-xs uppercase tracking-wider text-muted-foreground">
               Status
             </TableHead>
-            <TableHead className="w-[80px] h-14 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
+            <TableHead className="hidden sm:table-cell w-12 sm:w-16 h-12 sm:h-14 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
               #
             </TableHead>
             <TableHead className="h-14 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
               Title
             </TableHead>
-            <TableHead className="w-[130px] h-14 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
+            <TableHead className="w-24 sm:w-28 md:w-32 h-12 sm:h-14 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
               Difficulty
             </TableHead>
             <TableHead className="hidden md:table-cell h-14 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
@@ -169,19 +170,19 @@ export function ProblemsTable({ problems }: {
                   </TableCell>
 
                   {/* Serial Number Column */}
-                  <TableCell className="h-16">
+                  <TableCell className="hidden sm:table-cell h-14 sm:h-16">
                     <span className="font-mono text-sm text-muted-foreground font-medium">
                       {problem.serialNumber}
                     </span>
                   </TableCell>
 
                   {/* Title Column */}
-                  <TableCell className="h-16">
+                  <TableCell className="h-14 sm:h-16 max-w-[140px] sm:max-w-none">
                     <Link
                       href={`/arena/${problem.id}`}
-                      className="group/link flex items-center gap-2 font-medium text-foreground hover:text-primary transition-colors duration-200"
+                      className="group/link flex items-center gap-2 font-medium text-sm sm:text-base text-foreground hover:text-primary transition-colors duration-200"
                     >
-                      <span className="group-hover/link:underline underline-offset-2">
+                      <span className="group-hover/link:underline underline-offset-2 truncate">
                         {problem.title}
                       </span>
                       <ExternalLink className="h-3.5 w-3.5 opacity-0 group-hover/link:opacity-100 transition-opacity duration-200 text-muted-foreground" />
@@ -227,6 +228,7 @@ export function ProblemsTable({ problems }: {
           )}
         </TableBody>
       </Table>
+      </div>
       <div ref={sentinelRef} />
       {/* Footer with problem count */}
       {
