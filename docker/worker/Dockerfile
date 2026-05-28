@@ -2,7 +2,7 @@ ARG NODE_VERSION=24.13.1
 FROM node:${NODE_VERSION}-alpine AS base
 
 ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+ENV PATH="/pnpm/bin:$PNPM_HOME:$PATH"
 RUN corepack enable
 
 FROM base AS prepare
@@ -22,8 +22,8 @@ COPY --from=prepare /app/out/full/ .
 
 FROM node:${NODE_VERSION}-slim AS isolate-builder
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git gcc make pkg-config libcap-dev libsystemd-dev libc6-dev ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+  git gcc make pkg-config libcap-dev libsystemd-dev libc6-dev ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/ioi/isolate.git /isolate
 WORKDIR /isolate
 RUN make isolate && make install
@@ -38,8 +38,8 @@ WORKDIR /app
 
 # Install isolate runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libcap2 libsystemd0 \
-    && rm -rf /var/lib/apt/lists/*
+  libcap2 libsystemd0 \
+  && rm -rf /var/lib/apt/lists/*
 
 # Copy isolate binary and config
 COPY --from=isolate-builder /usr/local/bin/isolate /usr/local/bin/isolate
