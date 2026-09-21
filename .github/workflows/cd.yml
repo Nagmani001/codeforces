@@ -136,9 +136,8 @@
             host: ${{ secrets.SSH_HOST }}
             username: ${{ secrets.SSH_USERNAME }}
             key: ${{ secrets.SSH_KEY }}
-            passphrase: ${{ secrets.SSH_PASSPHRASE }}
             source: docker/docker-compose-deploy.yml
-            target: /root/codeforces/
+            target: /home/${{ secrets.SSH_USERNAME }}/devforces/
             strip_components: 1
 
         - name: Deploy to VM
@@ -147,9 +146,8 @@
             host: ${{ secrets.SSH_HOST }}
             username: ${{ secrets.SSH_USERNAME }}
             key: ${{ secrets.SSH_KEY }}
-            passphrase: ${{ secrets.SSH_PASSPHRASE }}
             script: |
-              cd /root/codeforces
+              cd /home/${{ secrets.SSH_USERNAME }}/devforces
 
               docker compose -f docker-compose-deploy.yml pull
 
